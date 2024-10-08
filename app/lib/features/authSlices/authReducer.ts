@@ -1,14 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login } from "./authAction";
 
-const authSlice = createSlice({
+interface AuthState {
+  status: string,
+  user: any,
+  loading: boolean,
+  error : string | null
+}
+
+const initialState: AuthState = {
+  status: 'idle',
+  user: null,
+  loading: false,
+  error: null
+}
+
+const authReducer = createSlice({
   name: "auth",
-  initialState: {
-    status: "idle",
-    user: null,
-    loading: false,
-    error: null,
-  },
+  initialState,
   reducers: {},
   extraReducers: (builder) => {
     builder
@@ -28,4 +37,4 @@ const authSlice = createSlice({
   },
 });
 
-export default authSlice;
+export default authReducer.reducer;

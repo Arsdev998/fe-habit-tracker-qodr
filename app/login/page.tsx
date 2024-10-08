@@ -21,14 +21,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useDispatch } from "react-redux";
 import { login } from "../lib/features/authSlices/authAction";
-import axios from "axios";
-import axiosInstance from "../lib/AxiosInstance";
 import { useRouter } from "next/navigation";
+import { useAppDispatch } from "../lib/hook";
 
 export default function Login() {
   const router = useRouter()
+  const dispatch = useAppDispatch()
   // const dispatch = useDispatch();
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -40,8 +39,7 @@ export default function Login() {
 
   const onSubmit = async (data: any) => {
     try {
-      await axiosInstance.post("/auth/login", data);
-      console.log("succes");
+      dispatch(login(data));
       router.push("/");
     } catch (error) {
       console.log("error");
