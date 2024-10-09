@@ -1,17 +1,18 @@
 import type { Metadata } from "next";
 import localFont from "next/font/local";
-import "../globals.css";
-import Header from "./_components/layout/Header";
-import Sidebar from "./_components/layout/Sidebar";
-import StoreProvider from "../StoreProvider";
+import "./globals.css";
+
+import StoreProvider from "./StoreProvider";
+import Header from "./components/layout/Header";
+import Sidebar from "./components/layout/Sidebar";
 
 const geistSans = localFont({
-  src: "../fonts/GeistVF.woff",
+  src: "./fonts/GeistVF.woff",
   variable: "--font-geist-sans",
   weight: "100 900",
 });
 const geistMono = localFont({
-  src: "../fonts/GeistMonoVF.woff",
+  src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
   weight: "100 900",
 });
@@ -32,8 +33,7 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <StoreProvider>
-          <Header />
-          <Sidebar>{children}</Sidebar>
+          {children}
         </StoreProvider>
       </body>
     </html>
