@@ -1,10 +1,10 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/authSlices/authReducer";
 
-export const store= () => {
+export const store = () => {
   return configureStore({
     reducer: {
-      auth: authReducer,
+      auth: authReducer, // tambahkan reducer Anda di sini
     },
   });
 };

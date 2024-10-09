@@ -2,15 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-import { loginSchema } from "../schema/loginSchema";
-import {
-  Card,
-  CardContent,
-  CardDescription,
-  CardFooter,
-  CardHeader,
-  CardTitle,
-} from "@/components/ui/card";
+
 import {
   Form,
   FormControl,
@@ -21,14 +13,24 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { login } from "../lib/features/authSlices/authAction";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { useAppDispatch } from "../lib/hook";
+import { login } from "@/app/lib/features/authSlices/authAction";
+import { useAppDispatch, useAppSelector } from "@/app/lib/hook";
+import { loginSchema } from "@/app/schema/loginSchema";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
 
 export default function Login() {
-  const router = useRouter()
-  const dispatch = useAppDispatch()
-  // const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+  const { user, error, loading } = useAppSelector((state) => state.auth);
+  const router = useRouter();
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -40,11 +42,17 @@ export default function Login() {
   const onSubmit = async (data: any) => {
     try {
       dispatch(login(data));
-      router.push("/");
     } catch (error) {
       console.log("error");
     }
   };
+
+  useEffect(() => {
+    if (user) {
+      router.push("/");
+    }
+  }, [user]);
+
   return (
     <div className="h-screen w-full flex justify-center items-center">
       <Card className="flex flex-col items-center p-3 min-w-[350px] min-h-[300px]">
@@ -87,8 +95,12 @@ export default function Login() {
                 )}
               />
             </CardContent>
-            <CardFooter>
-              <Button className="w-full">Login</Button>
+            <CardFooter className="flex flex-col items-center">
+              <p className="text-red-500 text-sm">{error ? error : ""}</p>
+
+              <Button className="w-full" disabled={loading}>
+                {loading ? "Loading..." : "Login"}
+              </Button>
             </CardFooter>
           </form>
         </Form>

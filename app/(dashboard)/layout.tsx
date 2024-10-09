@@ -33,9 +33,7 @@ export default function RootLayout({
       >
         <StoreProvider>
           <Header />
-          <Sidebar>
-            {children}
-            </Sidebar>
+          <Sidebar>{children}</Sidebar>
         </StoreProvider>
       </body>
     </html>

@@ -1,19 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { login } from "./authAction";
+import { act } from "react";
+import { string } from "zod";
 
 interface AuthState {
-  status: string,
-  user: any,
-  loading: boolean,
-  error : string | null
+  status: string;
+  user: any;
+  loading: boolean;
+  error: string | null;
 }
 
 const initialState: AuthState = {
-  status: 'idle',
+  status: "idle",
   user: null,
   loading: false,
-  error: null
-}
+  error: null,
+};
 
 const authReducer = createSlice({
   name: "auth",
@@ -29,9 +31,11 @@ const authReducer = createSlice({
         state.status = "succeeded";
         state.user = action.payload;
         state.loading = false;
+        console.log(action.payload);
       })
-      .addCase(login.rejected, (state) => {
+      .addCase(login.rejected, (state,action) => {
         state.status = "failed";
+        state.error  = action.payload as string;
         state.loading = false;
       });
   },
