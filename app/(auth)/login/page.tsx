@@ -15,8 +15,8 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useEffect } from "react";
 import { useRouter } from "next/navigation";
-import { login } from "@/app/lib/features/authSlices/authAction";
-import { useAppDispatch, useAppSelector } from "@/app/lib/hook";
+import { login } from "@/app/lib/redux/features/authSlices/authAction";
+import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hook";
 import { loginSchema } from "@/app/schema/loginSchema";
 import {
   Card,
