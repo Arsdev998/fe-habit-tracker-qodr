@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { useAppSelector } from "../lib/hook";
+import { useAppSelector } from "@/app/lib/hook"; 
 
 export default function Page() {
   const user = useAppSelector((state) => state.auth.user);

@@ -52,7 +52,6 @@ export default function Login() {
       router.push("/");
     }
   }, [user]);
-
   return (
     <div className="h-screen w-full flex justify-center items-center">
       <Card className="flex flex-col items-center p-3 min-w-[350px] min-h-[300px]">

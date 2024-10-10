@@ -14,7 +14,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
               <Link href="/">Home</Link>
             </li>
             <li>
-              <Link href="/dashboard/habit-tracker">Habit Tracker</Link>
+              <Link href="/habit-tracker">Habit Tracker</Link>
             </li>
             <li>Al-Quran</li>
             <li></li>
