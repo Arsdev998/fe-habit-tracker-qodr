@@ -10,9 +10,6 @@ function layout({ children }: { children: React.ReactNode }) {
       <Header />
       <section className="flex justify-between">
         <Sidebar>{children}</Sidebar>
-        <FaidahSidebar>
-          <FaidahSide />
-        </FaidahSidebar>
       </section>
     </>
   );

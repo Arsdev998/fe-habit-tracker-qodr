@@ -7,6 +7,9 @@ export const habitApi = createApi({
     credentials: "include",
   }),
   endpoints: (builder) => ({
+    getAllMonthHabits: builder.query<void,any>({
+      query: () => "months", 
+    }),
     getMonthHabits: builder.query({
       query: ({ monthId, userId }: { monthId: string; userId: string }) =>
         `months/${monthId}/monthWithHabitStatuses/${userId}`,
@@ -14,4 +17,4 @@ export const habitApi = createApi({
   }),
 });
 
-export const { useGetMonthHabitsQuery } = habitApi;
+export const { useGetAllMonthHabitsQuery, useGetMonthHabitsQuery } = habitApi;
