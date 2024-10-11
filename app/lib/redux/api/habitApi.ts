@@ -1,3 +1,4 @@
+import { Month } from "@/app/(root)/(dashboard)/habit-tracker/page";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 export const habitApi = createApi({
@@ -7,8 +8,8 @@ export const habitApi = createApi({
     credentials: "include",
   }),
   endpoints: (builder) => ({
-    getAllMonthHabits: builder.query({
-      query: () => "months", 
+    getAllMonthHabits: builder.query<Month[],void>({
+      query: () => "/months", 
     }),
     getMonthHabits: builder.query({
       query: ({ monthId, userId }: { monthId: string; userId: string }) =>

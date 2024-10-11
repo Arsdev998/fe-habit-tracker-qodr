@@ -9,7 +9,7 @@ import { useAppSelector } from "@/app/lib/redux/hook";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 // Tipe data untuk month
-interface Month {
+export interface Month {
   id: string;
   name: string;
   year: number;
@@ -19,7 +19,7 @@ export default function HabitTracker() {
   const user = useAppSelector((state) => state.auth.user);
   const [selectedMonthId, setSelectedMonthId] = useState<string>("");
   const userId = user?.sub || user?.id;
-  const { data: months = [] } = useGetAllMonthHabitsQuery(); 
+  const { data: months = [] } = useGetAllMonthHabitsQuery();
   const { data: monthHabits } = useGetMonthHabitsQuery(
     { monthId: selectedMonthId, userId },
     { skip: !selectedMonthId || !userId }
@@ -28,12 +28,11 @@ export default function HabitTracker() {
   const handleTabChange = (monthId: string) => {
     setSelectedMonthId(monthId);
   };
-
   return (
     <div>
-      <Tabs >
+      <Tabs>
         <TabsList>
-          {months.map((month: Month) => (
+          {months?.map((month: Month) => (
             <TabsTrigger
               key={month.id}
               value={month.name}
