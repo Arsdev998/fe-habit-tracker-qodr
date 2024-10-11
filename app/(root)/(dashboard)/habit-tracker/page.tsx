@@ -19,17 +19,13 @@ export default function HabitTracker() {
   const user = useAppSelector((state) => state.auth.user);
   const [selectedMonthId, setSelectedMonthId] = useState<string>("");
   const userId = user?.sub || user?.id;
-  // Fetch all months untuk menampilkan tab
-  const { data: months = [] } = useGetAllMonthHabitsQuery(); // Beri default value [] agar tidak undefined
-
-  // Fetch habit berdasarkan monthId dan userId, skip jika monthId atau userId belum ada
+  const { data: months = [] } = useGetAllMonthHabitsQuery(); 
   const { data: monthHabits } = useGetMonthHabitsQuery(
     { monthId: selectedMonthId, userId },
     { skip: !selectedMonthId || !userId }
   );
 
   const handleTabChange = (monthId: string) => {
-    // Set monthId berdasarkan tab yang dipilih
     setSelectedMonthId(monthId);
   };
 

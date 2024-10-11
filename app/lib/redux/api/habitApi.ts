@@ -7,7 +7,7 @@ export const habitApi = createApi({
     credentials: "include",
   }),
   endpoints: (builder) => ({
-    getAllMonthHabits: builder.query<void,any>({
+    getAllMonthHabits: builder.query({
       query: () => "months", 
     }),
     getMonthHabits: builder.query({

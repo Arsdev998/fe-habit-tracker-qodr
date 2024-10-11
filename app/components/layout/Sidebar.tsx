@@ -29,7 +29,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
   ];
   return (
     <div className="flex h-screen">
-      <aside className="fixed left-0 h-full min-w-[300px] border-r-2 border-slate-300 bg-white">
+      <aside className="fixed left-0 h-full min-w-[250px] border-r-2 border-slate-300 bg-white">
         <nav className="">
           <ul>
             {navData.map((item) => {
@@ -50,7 +50,7 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
           </ul>
         </nav>
       </aside>
-      <div className="ml-[300px] overflow-y-auto h-screen w-full p-2">
+      <div className="ml-[250px] overflow-y-auto h-screen w-full p-2">
         {children}
       </div>
     </div>
