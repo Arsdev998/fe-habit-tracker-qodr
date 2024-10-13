@@ -1,5 +1,5 @@
-import { Month } from "@/app/(root)/(dashboard)/habit-tracker/page";
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
+import { Month } from "../../types";
 
 export const habitApi = createApi({
   reducerPath: "habitApi",
@@ -15,7 +15,19 @@ export const habitApi = createApi({
       query: ({ monthId, userId }: { monthId: string; userId: string }) =>
         `months/${monthId}/monthWithHabitStatuses/${userId}`,
     }),
+    updateHabitStatus: builder.mutation({
+      query: ({dayId,habitId, userId,status}:{dayId:string; habitId:string; userId:string; status:boolean}) => ({
+        url: "/habit/update",
+        method: "PATCH",
+        body: {
+          dayId,
+          habitId,
+          userId,
+          status,
+        }
+      })
+    })
   }),
 });
 
-export const { useGetAllMonthHabitsQuery, useGetMonthHabitsQuery } = habitApi;
+export const { useGetAllMonthHabitsQuery, useGetMonthHabitsQuery ,useUpdateHabitStatusMutation} = habitApi;

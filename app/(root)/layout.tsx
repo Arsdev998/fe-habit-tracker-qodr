@@ -8,7 +8,7 @@ function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
       <Header />
-      <section className="flex justify-between">
+      <section className="flex w-full">
         <Sidebar>{children}</Sidebar>
       </section>
     </>
