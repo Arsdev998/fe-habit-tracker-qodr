@@ -3,7 +3,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { it } from "node:test";
 import { AiFillHome } from "react-icons/ai";
-import { FaBrain } from "react-icons/fa6";
+import { FaBrain, FaUser } from "react-icons/fa6";
 import ButtonLogout from "../dashboard/action/ButtonLogout";
 
 interface SidebarProps {
@@ -26,6 +26,12 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
       icon: <FaBrain />,
       acttive: pathname === "/habit-tracker",
     },
+    {
+      href: "/user-profile",
+      label: "Profile",
+      icon: <FaUser />,
+      acttive: pathname === "/user-profile",
+    }
   ];
   return (
     <div className="flex h-screen">

@@ -1,15 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/authSlices/authReducer";
 import { habitApi } from "./api/habitApi";
+import { userApi } from "./api/userApi";
 
 export const store = () => {
   return configureStore({
     reducer: {
       auth: authReducer, // tambahkan reducer Anda di sini
       [habitApi.reducerPath]: habitApi.reducer,
+      [userApi.reducerPath]: userApi.reducer,
     },
     middleware: (getDefaultMiddleware) => {
-      return getDefaultMiddleware().concat(habitApi.middleware);
+      return getDefaultMiddleware().concat([
+        habitApi.middleware,
+        userApi.middleware,
+      ]);
     },
   });
 };

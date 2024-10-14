@@ -30,7 +30,7 @@ function HabitPage() {
   };
 
   useEffect(() => {
-    if (months.length > 1) {
+    if (months.length > 0) {
       if (!selectedMonthId) {
         setSelectedMonthId(lastMonth?.id.toString());
       }
@@ -43,7 +43,8 @@ function HabitPage() {
   if (IsMonthLoading) {
     return <div>Loadingg.......</div>;
   }
-
+  console.log(defaultTab)
+  console.log(selectedMonthId)
   return (
     <div className="flex flex-col  min-w-[1200px]">
       <header className="w-full text-center border-b-2">
