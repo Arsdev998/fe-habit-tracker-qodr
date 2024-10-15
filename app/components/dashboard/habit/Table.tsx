@@ -32,7 +32,7 @@ const TableMontHabit: React.FC<TableProps> = ({ title, days }) => {
     return <div>Loading...</div>;
   }
 
-  const habits = days[0]?.habitStatuses?.map((hs: any) => hs.title);
+  const habits = days[0]?.habitStatuses?.map((hs: any) => hs.habit.title);
 
   const handleCheckBoxChange = async (
     dayId: string,
@@ -71,10 +71,10 @@ const TableMontHabit: React.FC<TableProps> = ({ title, days }) => {
             <TableCell className="">{habit}</TableCell>
             {days.map((day: any, dayIndex: number) => {
               const habitStatus = day.habitStatuses.find(
-                (hs: any) => hs.title === habit
+                (hs: any) => hs.habit.title === habit
               );
               // Unik key untuk setiap checkbox berdasarkan dayId dan habitId
-              const checkboxKey = `${day.id}-${habitStatus.id}`;
+              const checkboxKey = `${day.id}-${habitStatus.habit.id}`;
               // Tentukan status checkbox dari local state atau server
               const isChecked =
                 localStatus[checkboxKey] !== undefined
@@ -87,7 +87,7 @@ const TableMontHabit: React.FC<TableProps> = ({ title, days }) => {
                     onCheckedChange={() =>
                       handleCheckBoxChange(
                         day.id,
-                        habitStatus.id,
+                        habitStatus.habit.id,
                         habitStatus?.status
                       )
                     }
