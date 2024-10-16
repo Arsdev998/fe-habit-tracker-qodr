@@ -1,4 +1,4 @@
-import {z} from 'zod'
+import { z } from "zod";
 
 export const loginSchema = z.object({
   name: z
@@ -11,6 +11,4 @@ export const loginSchema = z.object({
     .max(15, { message: "Password is too long" }),
 });
 
-
-export type LoginSchema = z.infer<typeof loginSchema>
-
+export type LoginSchema = z.infer<typeof loginSchema>;

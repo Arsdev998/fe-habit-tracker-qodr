@@ -17,7 +17,7 @@ import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/app/lib/redux/features/authSlices/authAction";
 import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hook";
-import { loginSchema } from "@/app/schema/loginSchema";
+import { LoginSchema, loginSchema } from "@/app/schema/loginSchema";
 import {
   Card,
   CardContent,
@@ -39,7 +39,7 @@ export default function Login() {
     },
   });
 
-  const onSubmit = async (data: any) => {
+  const onSubmit = async (data: LoginSchema) => {
     try {
       dispatch(login(data));
     } catch (error) {

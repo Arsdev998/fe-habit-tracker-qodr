@@ -11,14 +11,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import ModalAddHabit from "./ModalAddHabit";
 
 interface TableProps {
   title: string;
   days: any[]; // Sesuaikan dengan tipe data dari API
+  selectMonthId:string;
+  refecthHabit: any;
 }
 
-const TableMontHabit: React.FC<TableProps> = ({ title, days }) => {
+const TableMontHabit: React.FC<TableProps> = ({ title, days, selectMonthId ,refecthHabit}) => {
   const [updateHabitStatus] = useUpdateHabitStatusMutation();
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.sub || user?.id;
@@ -47,6 +49,7 @@ const TableMontHabit: React.FC<TableProps> = ({ title, days }) => {
     await updateHabitStatus({ dayId, habitId, userId, status: !currentStatus });
   };
 
+
   return (
     <Table>
       <TableHeader>
@@ -57,7 +60,10 @@ const TableMontHabit: React.FC<TableProps> = ({ title, days }) => {
           {title}
         </TableHead>
         <TableRow>
-          <TableHead>Amalan</TableHead>
+          <TableHead className="flex items-center">
+            Amalan
+           <ModalAddHabit monthName={title} monthId={selectMonthId} userId={userId} onHabitAdded={refecthHabit}/>
+          </TableHead>
           {days.map((day: any, index: number) => (
             <TableHead key={index} className="text-[13px] px-3 font-bold">
               {day.date}

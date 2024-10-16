@@ -26,8 +26,17 @@ export const habitApi = createApi({
           status,
         }
       })
+    }),
+    postHabitUSer:builder.mutation({
+      query:({monthId,userId,title}:{monthId:string; userId:string; title:string})=>({
+        url:`/habit/post/${monthId}/habit/${userId}`,
+        method:"POST",
+        body:{
+          title
+        }
+      })
     })
   }),
 });
 
-export const { useGetAllMonthHabitsQuery, useGetMonthHabitsQuery ,useUpdateHabitStatusMutation} = habitApi;
+export const { useGetAllMonthHabitsQuery, useGetMonthHabitsQuery ,useUpdateHabitStatusMutation,usePostHabitUSerMutation} = habitApi;
