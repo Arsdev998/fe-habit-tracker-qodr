@@ -16,11 +16,16 @@ import ModalAddHabit from "./ModalAddHabit";
 interface TableProps {
   title: string;
   days: any[]; // Sesuaikan dengan tipe data dari API
-  selectMonthId:string;
-  refecthHabit: any;
+  selectMonthId: string;
+  refecthHabit: () => void;
 }
 
-const TableMontHabit: React.FC<TableProps> = ({ title, days, selectMonthId ,refecthHabit}) => {
+const TableMontHabit: React.FC<TableProps> = ({
+  title,
+  days,
+  selectMonthId,
+  refecthHabit,
+}) => {
   const [updateHabitStatus] = useUpdateHabitStatusMutation();
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.sub || user?.id;
@@ -49,7 +54,6 @@ const TableMontHabit: React.FC<TableProps> = ({ title, days, selectMonthId ,refe
     await updateHabitStatus({ dayId, habitId, userId, status: !currentStatus });
   };
 
-
   return (
     <Table>
       <TableHeader>
@@ -62,7 +66,12 @@ const TableMontHabit: React.FC<TableProps> = ({ title, days, selectMonthId ,refe
         <TableRow>
           <TableHead className="flex items-center">
             Amalan
-           <ModalAddHabit monthName={title} monthId={selectMonthId} userId={userId} onHabitAdded={refecthHabit}/>
+            <ModalAddHabit
+              monthName={title}
+              monthId={selectMonthId}
+              userId={userId}
+              onHabitAdded={refecthHabit}
+            />
           </TableHead>
           {days.map((day: any, index: number) => (
             <TableHead key={index} className="text-[13px] px-3 font-bold">
@@ -72,12 +81,15 @@ const TableMontHabit: React.FC<TableProps> = ({ title, days, selectMonthId ,refe
         </TableRow>
       </TableHeader>
       <TableBody>
-        {habits?.map((habit: string, habitIndex: number) => (
+        {days[0]?.habitStatuses?.map((habit: any, habitIndex: number) => (
           <TableRow key={habitIndex}>
-            <TableCell className="">{habit}</TableCell>
+            <TableCell className="flex items-center justify-between">
+              {habit.habit.title}{" "}
+              {habit.habit.userId === userId && <span>...</span>}
+            </TableCell>
             {days.map((day: any, dayIndex: number) => {
               const habitStatus = day.habitStatuses.find(
-                (hs: any) => hs.habit.title === habit
+                (hs: any) => hs.habit.title === habit.habit.title
               );
               // Unik key untuk setiap checkbox berdasarkan dayId dan habitId
               const checkboxKey = `${day.id}-${habitStatus.habit.id}`;
