@@ -1,5 +1,8 @@
 "use client";
-import { usePostHabitUSerMutation } from "@/app/lib/redux/api/habitApi";
+import {
+  useEditHabitUserMutation,
+  usePostHabitUSerMutation,
+} from "@/app/lib/redux/api/habitApi";
 import { AddHabitSchema, addHabitSchema } from "@/app/schema/addHabitSchema";
 import { Button } from "@/components/ui/button";
 import {
@@ -22,44 +25,42 @@ import { Input } from "@/components/ui/input";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { BsFillPlusSquareFill } from "react-icons/bs";
+import { MdEdit } from "react-icons/md";
 import { toast } from "sonner";
 interface ModalAddHabitProps {
-  monthName: string;
-  monthId: string;
-  userId: string;
-  onHabitAdded: () => void;
+  habitId: string;
+  currentHabit: string;
+  onHabitEdit: () => void;
 }
 
-const ModalAddHabit: React.FC<ModalAddHabitProps> = ({
-  monthName,
-  monthId,
-  userId,
-  onHabitAdded,
+const ModalEditHabit: React.FC<ModalAddHabitProps> = ({
+  habitId,
+  currentHabit,
+  onHabitEdit,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [postHabit, { isLoading, isError, isSuccess }] =
-    usePostHabitUSerMutation();
+  const [editHabitUser, { isLoading, isError, isSuccess }] =
+    useEditHabitUserMutation();
   const form = useForm({
     resolver: zodResolver(addHabitSchema),
     defaultValues: {
-      title: "",
+      title: currentHabit,
     },
   });
 
-  const handlePostHabit = async (data: AddHabitSchema) => {
+  const handleEditHabit = async (data: AddHabitSchema) => {
     const title = data.title;
-    await postHabit({ monthId, userId, title });
+    await editHabitUser({ habitId, title });
   };
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success("Berhasil menambahkan Habit");
-      onHabitAdded();
+      toast.success("Habit berhasil diedit");
+      onHabitEdit();
       setIsOpen(false);
     }
     if (isError) {
-      toast.success("Gagal Menambahkan Toast");
+      toast.warning("Gagal updateHabit");
       setIsOpen(false);
     }
   }, [isSuccess, isError]);
@@ -67,18 +68,18 @@ const ModalAddHabit: React.FC<ModalAddHabitProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button variant={"ghost"} size={"icon"}>
-          <BsFillPlusSquareFill />
+        <Button variant={"default"} className="w-full">
+          <MdEdit /> Edit Habit
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col justify-center items-center">
         <DialogHeader className="font-bold text-lg">
-          <DialogTitle>Tambahkan {monthName}</DialogTitle>
+          <DialogTitle>Habit</DialogTitle>
         </DialogHeader>
         <DialogDescription>
           <Form {...form}>
             <form
-              onSubmit={form.handleSubmit(handlePostHabit)}
+              onSubmit={form.handleSubmit(handleEditHabit)}
               className="flex flex-col gap-y-2 justify-center items-center"
             >
               <FormField
@@ -109,4 +110,4 @@ const ModalAddHabit: React.FC<ModalAddHabitProps> = ({
   );
 };
 
-export default ModalAddHabit;
+export default ModalEditHabit;

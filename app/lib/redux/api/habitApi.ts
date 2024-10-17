@@ -35,8 +35,23 @@ export const habitApi = createApi({
           title
         }
       })
+    }),
+    editHabitUser:builder.mutation({
+      query:({habitId,title}:{habitId:string; title:string})=>({
+        url:`/habit/update/${habitId}}`,
+        method:"PUT",
+        body:{
+          title
+        }
+      })
+    }),
+    deletehabit:builder.mutation({
+      query:({habitId}:{habitId:string})=>({
+        url:`/habit/delete/${habitId}`,
+        method:"DELETE"
+      })
     })
   }),
 });
 
-export const { useGetAllMonthHabitsQuery, useGetMonthHabitsQuery ,useUpdateHabitStatusMutation,usePostHabitUSerMutation} = habitApi;
+export const { useGetAllMonthHabitsQuery, useGetMonthHabitsQuery ,useUpdateHabitStatusMutation,usePostHabitUSerMutation,useEditHabitUserMutation, useDeletehabitMutation} = habitApi;

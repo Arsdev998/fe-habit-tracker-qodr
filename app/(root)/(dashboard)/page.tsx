@@ -10,7 +10,7 @@ export default function Page() {
       <h1>Dashboard</h1>
       <p className="font-semibold">
         Ahlan Wasahlan{" "}
-        <span className="font-bold text-green-600">{user?.name}</span>
+        <span className="font-bold text-green-600">{user?.fullname}</span>
       </p>
       Lorem ipsum dolor sit amet consectetur adipisicing elit. Excepturi earum
       fugit ullam ut libero corporis optio delectus nemo ex dolor perspiciatis

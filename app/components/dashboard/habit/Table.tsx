@@ -14,10 +14,16 @@ import {
 import ModalAddHabit from "./ModalAddHabit";
 import {
   DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
   DropdownMenuTrigger,
-} from "@radix-ui/react-dropdown-menu";
-import { DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+} from "@/components/ui/dropdown-menu";
 import { MdEdit, MdEditNote } from "react-icons/md";
+import ModalEditHabit from "./ModalEditHabit";
+import ModalDeleteHabit from "./ModalConfirmDeleteHabit";
 
 interface TableProps {
   title: string;
@@ -32,6 +38,8 @@ const TableMontHabit: React.FC<TableProps> = ({
   selectMonthId,
   refecthHabit,
 }) => {
+  const [isDropdownOpen, setDropdownOpen] = useState<{[habitId: string]: boolean; }>({});
+
   const [updateHabitStatus] = useUpdateHabitStatusMutation();
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.sub || user?.id;
@@ -57,6 +65,14 @@ const TableMontHabit: React.FC<TableProps> = ({
     }));
     await updateHabitStatus({ dayId, habitId, userId, status: !currentStatus });
   };
+
+  const handleDropdownToggle = (habitId: string, isOpen: boolean) => {
+    setDropdownOpen((prev) => ({
+      ...prev,
+      [habitId]: isOpen,
+    }));
+  };
+
 
   return (
     <Table>
@@ -87,19 +103,53 @@ const TableMontHabit: React.FC<TableProps> = ({
       <TableBody>
         {days[0]?.habitStatuses?.map((habit: any, habitIndex: number) => (
           <TableRow key={habitIndex}>
+            {/* habit title */}
             <TableCell className="flex items-center justify-between">
               {habit.habit.title}
               {habit.habit.userId === userId && (
-                <DropdownMenu>
-                  <DropdownMenuTrigger><MdEditNote/></DropdownMenuTrigger>
+                <DropdownMenu
+                  open={isDropdownOpen[habit.habit.id] || false}
+                  onOpenChange={(isOpen) =>
+                    handleDropdownToggle(habit.habit.id, isOpen)
+                  }
+                >
+                  <DropdownMenuTrigger>
+                    <MdEditNote />
+                  </DropdownMenuTrigger>
                   <DropdownMenuContent>
                     <DropdownMenuLabel>Action</DropdownMenuLabel>
-                    <DropdownMenuItem>Hapus</DropdownMenuItem>
-                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuGroup>
+                      <DropdownMenuItem>
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <ModalEditHabit
+                            currentHabit={habit.habit.title}
+                            habitId={habit.habit.id}
+                            onHabitEdit={() => {
+                              refecthHabit();
+                               handleDropdownToggle(habit.habit.id, false); // Tutup dropdown saat edit selesai
+                            }}
+                          />
+                        </div>
+                      </DropdownMenuItem>
+                      <DropdownMenuItem>
+                        <div onClick={(e) => e.stopPropagation()}>
+                          <ModalDeleteHabit
+                            habitId={habit.habit.id}
+                            currentHabit={habit.habit.title}
+                            onHabitDelete={() => {
+                              refecthHabit();
+                                handleDropdownToggle(habit.habit.id, false); // Tutup dropdown saat edit selesai
+                            }}
+                          />
+                        </div>
+                      </DropdownMenuItem>
+                    </DropdownMenuGroup>
                   </DropdownMenuContent>
                 </DropdownMenu>
               )}
             </TableCell>
+            {/* checkbox habit */}
             {days.map((day: any, dayIndex: number) => {
               const habitStatus = day.habitStatuses.find(
                 (hs: any) => hs.habit.title === habit.habit.title
