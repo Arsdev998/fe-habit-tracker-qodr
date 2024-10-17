@@ -12,6 +12,12 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import ModalAddHabit from "./ModalAddHabit";
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import { DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel } from "@/components/ui/dropdown-menu";
+import { MdEdit, MdEditNote } from "react-icons/md";
 
 interface TableProps {
   title: string;
@@ -38,8 +44,6 @@ const TableMontHabit: React.FC<TableProps> = ({
   if (!days || days.length === 0) {
     return <div>Loading...</div>;
   }
-
-  const habits = days[0]?.habitStatuses?.map((hs: any) => hs.habit.title);
 
   const handleCheckBoxChange = async (
     dayId: string,
@@ -84,8 +88,17 @@ const TableMontHabit: React.FC<TableProps> = ({
         {days[0]?.habitStatuses?.map((habit: any, habitIndex: number) => (
           <TableRow key={habitIndex}>
             <TableCell className="flex items-center justify-between">
-              {habit.habit.title}{" "}
-              {habit.habit.userId === userId && <span>...</span>}
+              {habit.habit.title}
+              {habit.habit.userId === userId && (
+                <DropdownMenu>
+                  <DropdownMenuTrigger><MdEditNote/></DropdownMenuTrigger>
+                  <DropdownMenuContent>
+                    <DropdownMenuLabel>Action</DropdownMenuLabel>
+                    <DropdownMenuItem>Hapus</DropdownMenuItem>
+                    <DropdownMenuItem>Edit</DropdownMenuItem>
+                  </DropdownMenuContent>
+                </DropdownMenu>
+              )}
             </TableCell>
             {days.map((day: any, dayIndex: number) => {
               const habitStatus = day.habitStatuses.find(
