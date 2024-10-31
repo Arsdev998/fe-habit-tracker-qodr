@@ -27,13 +27,16 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdEdit } from "react-icons/md";
 import { toast } from "sonner";
-interface ModalAddHabitProps {
+
+interface ModalEditHabitProps {
   habitId: string;
   currentHabit: string;
+  isOpen?: boolean;
+  onOpenChange?: (open: boolean) => void;
   onHabitEdit: () => void;
 }
 
-const ModalEditHabit: React.FC<ModalAddHabitProps> = ({
+const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
   habitId,
   currentHabit,
   onHabitEdit,
@@ -41,7 +44,8 @@ const ModalEditHabit: React.FC<ModalAddHabitProps> = ({
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [editHabitUser, { isLoading, isError, isSuccess }] =
     useEditHabitUserMutation();
-  const form = useForm({
+
+  const form = useForm<AddHabitSchema>({
     resolver: zodResolver(addHabitSchema),
     defaultValues: {
       title: currentHabit,
@@ -49,8 +53,11 @@ const ModalEditHabit: React.FC<ModalAddHabitProps> = ({
   });
 
   const handleEditHabit = async (data: AddHabitSchema) => {
-    const title = data.title;
-    await editHabitUser({ habitId, title });
+    try {
+      await editHabitUser({ habitId, title: data.title }).unwrap();
+    } catch (error) {
+      toast.error("Gagal update habit");
+    }
   };
 
   useEffect(() => {
@@ -58,49 +65,83 @@ const ModalEditHabit: React.FC<ModalAddHabitProps> = ({
       toast.success("Habit berhasil diedit");
       onHabitEdit();
       setIsOpen(false);
+      form.reset();
     }
-    if (isError) {
-      toast.warning("Gagal updateHabit");
-      setIsOpen(false);
+  }, [isSuccess, form]);
+
+  const handleOpenChange = (newOpen: boolean) => {
+    if (!isLoading) {
+      setIsOpen(newOpen);
+      if (!newOpen) {
+        form.reset();
+      }
     }
-  }, [isSuccess, isError]);
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+    <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
-        <Button variant={"default"} className="w-full">
-          <MdEdit /> Edit Habit
+        <Button
+          variant="default"
+          className="w-full"
+          onClick={(e) => {
+            e.preventDefault();
+            e.stopPropagation();
+            setIsOpen(true);
+          }}
+        >
+          <MdEdit className="mr-2" />
+          Edit Habit
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex flex-col justify-center items-center">
-        <DialogHeader className="font-bold text-lg">
-          <DialogTitle>Habit</DialogTitle>
+      <DialogContent
+        className="flex flex-col justify-center items-center"
+        onPointerDownOutside={(e) => {
+          if (isLoading) {
+            e.preventDefault();
+          }
+        }}
+        onInteractOutside={(e) => {
+          if (isLoading) {
+            e.preventDefault();
+          }
+        }}
+      >
+        <DialogHeader>
+          <DialogTitle className="font-bold text-lg">Edit Habit</DialogTitle>
         </DialogHeader>
-        <DialogDescription>
+        <DialogDescription className="w-full">
           <Form {...form}>
             <form
               onSubmit={form.handleSubmit(handleEditHabit)}
-              className="flex flex-col gap-y-2 justify-center items-center"
+              className="flex flex-col gap-y-4 justify-center items-center w-full"
             >
               <FormField
                 control={form.control}
                 name="title"
                 render={({ field }) => (
-                  <FormItem>
+                  <FormItem className="w-full">
                     <FormLabel>Nama Habit</FormLabel>
                     <FormControl>
                       <Input
-                        type="text"
                         {...field}
+                        type="text"
                         className="border-2 border-black outline-none"
+                        onKeyDown={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        disabled={isLoading}
                       />
                     </FormControl>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button disabled={isLoading}>
-                {isLoading ? "Menambahkan" : "Tambahkan"}
+              <Button type="submit" disabled={isLoading} className="w-full">
+                {isLoading ? "Menyimpan..." : "Simpan"}
               </Button>
             </form>
           </Form>

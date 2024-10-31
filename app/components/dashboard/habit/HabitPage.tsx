@@ -35,7 +35,6 @@ function HabitPage() {
   useEffect(() => {
     if (isSuccess) {
       refetch();
-      toast.success("refecthhhh")
     }
   }, [isSuccess]);
 
