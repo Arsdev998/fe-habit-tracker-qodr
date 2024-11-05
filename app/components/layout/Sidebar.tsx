@@ -5,12 +5,10 @@ import { it } from "node:test";
 import { AiFillHome } from "react-icons/ai";
 import { FaBrain, FaUser } from "react-icons/fa6";
 import ButtonLogout from "../dashboard/action/ButtonLogout";
+import { Sidebar, SidebarContent, SidebarFooter, SidebarGroup, SidebarGroupContent, SidebarGroupLabel, SidebarHeader, SidebarMenu, SidebarMenuItem } from "@/components/ui/sidebar";
 
-interface SidebarProps {
-  children: React.ReactNode;
-}
 
-const Sidebar: React.FC<SidebarProps> = ({ children }) => {
+const SidebarApp = () => {
   const pathname = usePathname();
 
   const navData = [
@@ -34,33 +32,28 @@ const Sidebar: React.FC<SidebarProps> = ({ children }) => {
     }
   ];
   return (
-    <div className="flex h-screen">
-      <aside className="fixed left-0 h-full min-w-[250px] border-r-2 border-slate-300 bg-white">
-        <nav className="">
-          <ul>
-            {navData.map((item) => {
-              return (
-                <li key={item.href}>
-                  <Link
-                    href={item.href}
-                    className={`flex items-center text-xl gap-x-2 font-bold p-2 ${
-                      item.acttive ? "bg-slate-300" : ""
-                    }`}
-                  >
-                    <span className="text-2xl">{item.icon}</span> {item.label}
+    <Sidebar className="mt-3">
+      <SidebarHeader />
+      <SidebarContent>
+        <SidebarGroup >
+          <SidebarGroupLabel>Navigation</SidebarGroupLabel>
+          <SidebarGroupContent>
+            <SidebarMenu>
+              {navData.map((item)=>(
+                <SidebarMenuItem key={item.label}>
+                  <Link href={item.href} className={`flex p-2 ${item.acttive ? "bg-primary text-primary-foreground" : ""}`}>
+                    {item.icon}
+                    {item.label}
                   </Link>
-                </li>
-              );
-            })}
-            <ButtonLogout/>
-          </ul>
-        </nav>
-      </aside>
-      <div className="ml-[250px] overflow-y-auto h-screen w-full p-2">
-        {children}
-      </div>
-    </div>
+                </SidebarMenuItem>
+              ))}
+            </SidebarMenu>
+          </SidebarGroupContent>
+        </SidebarGroup>
+      </SidebarContent>
+      <SidebarFooter />
+    </Sidebar>
   );
 };
 
-export default Sidebar;
+export default SidebarApp;

@@ -1,16 +1,21 @@
 import React from "react";
 import Header from "../components/layout/Header";
-import Sidebar from "../components/layout/Sidebar";
 import { Toaster } from "sonner";
+import { SidebarProvider, SidebarTrigger } from "@/components/ui/sidebar";
+import SidebarApp from "../components/layout/Sidebar";
 
 function layout({ children }: { children: React.ReactNode }) {
   return (
     <>
-      <Header />
-      <section className="flex w-full">
-        <Sidebar>{children}</Sidebar>
-      </section>
-      <Toaster position="top-center" richColors/>
+        <Header />
+      <SidebarProvider>
+        <SidebarApp/>
+        <section className="p-2">
+           <SidebarTrigger/>
+            {children}
+        </section>
+        <Toaster position="top-center" richColors />
+      </SidebarProvider>
     </>
   );
 }
