@@ -5,6 +5,12 @@ export const addHabitSchema = z.object({
     .string()
     .min(1, { message: "Minimal 1 Karakter" })
     .max(25, { message: "Maksimal 25 karakter" }),
+  maxDays: z
+    .union([
+      z.coerce.number().positive().int(), // untuk nilai angka positif
+      z.null(), 
+    ])
+    .optional(), 
 });
 
-export type AddHabitSchema = z.infer<typeof addHabitSchema>
+export type AddHabitSchema = z.infer<typeof addHabitSchema>;

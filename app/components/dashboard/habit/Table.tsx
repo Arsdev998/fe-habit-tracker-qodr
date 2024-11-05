@@ -67,10 +67,10 @@ const TableMontHabit: React.FC<TableProps> = ({
     return <div>Loading...</div>;
   }
 
-  // Fungsi untuk menghitung persentase kebiasaan yang sudah dilakukan
+  // Fungsi untuk menghitung persentase habit berdasarkan maxDays
   const calculateHabitPercentage = (habit: any) => {
     let completedCount = 0;
-    let totalDays = days.length;
+    const maxDays = habit.habit.maxDays || days.length; // Menggunakan maxDays atau default ke jumlah hari dalam bulan
 
     days.forEach((day) => {
       const habitStatus = day.habitStatuses.find(
@@ -82,10 +82,37 @@ const TableMontHabit: React.FC<TableProps> = ({
       }
     });
 
-    return totalDays > 0
-      ? ((completedCount / totalDays) * 100).toFixed(1)
+    return maxDays > 0
+      ? Math.min((completedCount / maxDays) * 100, 100).toFixed(1) // Membatasi hingga 100%
       : "0";
   };
+
+  // fungsi overall percentage
+const calculateOverallPercentage = () => {
+  let totalCompletedDays = 0;
+  let totalTargetDays = 0;
+
+  days.forEach((day) => {
+    day.habitStatuses.forEach((habitStatus: any) => {
+      const checkboxKey = `${day.id}-${habitStatus.habit.id}`;
+      const maxDays = habitStatus.habit.maxDays || days.length; // Menggunakan maxDays atau jumlah hari dalam bulan
+
+      if (localStatus[checkboxKey]) {
+        totalCompletedDays++; // Tambah jika checkbox dicentang
+      }
+
+      // Jumlahkan total target days hanya satu kali untuk setiap habit di bulan tersebut
+      if (day.date === days[0].date) {
+        totalTargetDays += maxDays;
+      }
+    });
+  });
+
+  // Hitung persentase keseluruhan dengan membatasi nilai hingga 100%
+  return totalTargetDays > 0
+    ? Math.min((totalCompletedDays / totalTargetDays) * 100, 100).toFixed(1)
+    : "0";
+};
 
   const handleCheckBoxChange = async (
     dayId: string,
@@ -131,22 +158,22 @@ const TableMontHabit: React.FC<TableProps> = ({
     }
   };
 
-   const handleDropdownToggle = (habitId: string, isOpen: boolean) => {
-     if (!activeModal) {
-       setDropdownOpen((prev) => ({
-         ...prev,
-         [habitId]: isOpen,
-       }));
-     }
-   };
+  const handleDropdownToggle = (habitId: string, isOpen: boolean) => {
+    if (!activeModal) {
+      setDropdownOpen((prev) => ({
+        ...prev,
+        [habitId]: isOpen,
+      }));
+    }
+  };
 
-   const handleModalOpen = (modalId: string) => {
-     setActiveModal(modalId);
-   };
+  const handleModalOpen = (modalId: string) => {
+    setActiveModal(modalId);
+  };
 
-   const handleModalClose = () => {
-     setActiveModal(null);
-   };
+  const handleModalClose = () => {
+    setActiveModal(null);
+  };
 
   return (
     <Table>
@@ -209,6 +236,7 @@ const TableMontHabit: React.FC<TableProps> = ({
                         >
                           <ModalEditHabit
                             currentHabit={habit.habit.title}
+                            dayCount={habit.habit.maxDays}
                             habitId={habit.habit.id}
                             isOpen={activeModal === `edit-${habit.habit.id}`}
                             onOpenChange={(open) => {
@@ -269,6 +297,15 @@ const TableMontHabit: React.FC<TableProps> = ({
             </TableCell>
           </TableRow>
         ))}
+        <TableRow>
+          <TableCell colSpan={days.length + 1} className="text-center">
+            Overal Persentage
+          </TableCell>
+          <TableCell className="text-center font-bold">
+            {" "}
+            {calculateOverallPercentage()}%
+          </TableCell>
+        </TableRow>
       </TableBody>
     </Table>
   );

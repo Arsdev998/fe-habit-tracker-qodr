@@ -28,20 +28,22 @@ export const habitApi = createApi({
       })
     }),
     postHabitUSer:builder.mutation({
-      query:({monthId,userId,title}:{monthId:string; userId:string; title:string})=>({
+    query:({monthId,userId,title,maxDays}:{monthId:string; userId:string; title:string; maxDays:number | null})=>({
         url:`/habit/post/${monthId}/habit/${userId}`,
         method:"POST",
         body:{
-          title
+          title,
+          maxDays: maxDays !== undefined ? maxDays : null,
         }
       })
     }),
     editHabitUser:builder.mutation({
-      query:({habitId,title}:{habitId:string; title:string})=>({
+      query:({habitId,title,maxDays}:{habitId:string; title:string; maxDays:number | null})=>({
         url:`/habit/update/${habitId}}`,
         method:"PUT",
         body:{
-          title
+          title,
+          maxDays: maxDays !== undefined ? maxDays : null,
         }
       })
     }),

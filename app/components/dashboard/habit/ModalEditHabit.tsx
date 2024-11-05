@@ -1,7 +1,6 @@
 "use client";
 import {
   useEditHabitUserMutation,
-  usePostHabitUSerMutation,
 } from "@/app/lib/redux/api/habitApi";
 import { AddHabitSchema, addHabitSchema } from "@/app/schema/addHabitSchema";
 import { Button } from "@/components/ui/button";
@@ -16,6 +15,7 @@ import {
 import {
   Form,
   FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
@@ -27,10 +27,12 @@ import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { MdEdit } from "react-icons/md";
 import { toast } from "sonner";
+import { RiErrorWarningLine } from "react-icons/ri";
 
 interface ModalEditHabitProps {
   habitId: string;
   currentHabit: string;
+  dayCount: number | null;
   isOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   onHabitEdit: () => void;
@@ -39,6 +41,7 @@ interface ModalEditHabitProps {
 const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
   habitId,
   currentHabit,
+  dayCount,
   onHabitEdit,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -49,12 +52,19 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
     resolver: zodResolver(addHabitSchema),
     defaultValues: {
       title: currentHabit,
+      maxDays: dayCount,
     },
   });
 
   const handleEditHabit = async (data: AddHabitSchema) => {
     try {
-      await editHabitUser({ habitId, title: data.title }).unwrap();
+      const maxDays = data.maxDays === undefined ? null : data.maxDays;
+
+      await editHabitUser({
+        habitId,
+        title: data.title,
+        maxDays,
+      }).unwrap();
     } catch (error) {
       toast.error("Gagal update habit");
     }
@@ -95,7 +105,7 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
         </Button>
       </DialogTrigger>
       <DialogContent
-        className="flex flex-col justify-center items-center"
+        className="flex flex-col  justify-center items-center w-full max-w-md"
         onPointerDownOutside={(e) => {
           if (isLoading) {
             e.preventDefault();
@@ -126,7 +136,7 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
                       <Input
                         {...field}
                         type="text"
-                        className="border-2 border-black outline-none"
+                        className="border-2 border-green-600 outline-none"
                         onKeyDown={(e) => {
                           e.stopPropagation();
                         }}
@@ -140,7 +150,45 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
                   </FormItem>
                 )}
               />
-              <Button type="submit" disabled={isLoading} className="w-full">
+              <FormField
+                control={form.control}
+                name="maxDays"
+                render={({ field: { value, onChange, ...field } }) => (
+                  <FormItem className="w-full">
+                    <FormLabel>Jumlah Hari</FormLabel>
+                    <FormControl>
+                      <Input
+                        {...field}
+                        type="number"
+                        value={value ?? ""} // Convert null to empty string
+                        onChange={(e) => {
+                          const val = e.target.value;
+                          onChange(val === "" ? null : Number(val));
+                        }}
+                        placeholder="0"
+                        className="border-2 border-green-600 outline-none"
+                        onKeyDown={(e) => {
+                          e.stopPropagation();
+                        }}
+                        onClick={(e) => {
+                          e.stopPropagation();
+                        }}
+                        disabled={isLoading}
+                      />
+                    </FormControl>
+                    <FormDescription className="flex items-center gap-x-[1px] text-xs text-yellow-500">
+                      <RiErrorWarningLine /> Kosongkan Jika ingin sesuai dengan
+                      bulan
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <Button
+                type="submit"
+                disabled={isLoading}
+                className="w-full bg-green-600 hover:bg-green-700"
+              >
                 {isLoading ? "Menyimpan..." : "Simpan"}
               </Button>
             </form>
