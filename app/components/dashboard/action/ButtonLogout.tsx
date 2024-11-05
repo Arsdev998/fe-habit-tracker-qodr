@@ -17,9 +17,9 @@ function ButtonLogout() {
       <Button
         onClick={handleLogout}
         variant={"ghost"}
-        className="flex  gap-x-2 text-xl outline-none font-bold text-red-500 hover:text-red-700 p-2"
+        className="flex  gap-x-2 text-lg outline-none font-bold text-red-500 hover:text-red-700 p-2"
       >
-        <RiLogoutBoxRFill className="text-2xl" />
+        <RiLogoutBoxRFill className="text-lg" />
         Logout
       </Button>
     </ul>
