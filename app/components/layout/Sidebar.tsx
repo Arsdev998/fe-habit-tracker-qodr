@@ -1,9 +1,9 @@
 "use client";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import { AiFillHome } from "react-icons/ai";
 import { FaBrain, FaUser } from "react-icons/fa6";
-import ButtonLogout from "../dashboard/action/ButtonLogout";
+import { FaQuran } from "react-icons/fa";
 import {
   Sidebar,
   SidebarContent,
@@ -14,15 +14,25 @@ import {
   SidebarHeader,
   SidebarMenu,
   SidebarMenuItem,
+  useSidebarCustom,
 } from "@/components/ui/sidebar";
 import { cn } from "@/lib/utils"; // Pastikan utils.ts sudah ada
-import { useState } from "react";
 import Image from "next/image";
 import logo from "@/app/public/images/logo-qodr.svg";
+import { Button } from "@/components/ui/button";
+import { RiLogoutBoxRFill } from "react-icons/ri";
+import { useAppDispatch } from "@/app/lib/redux/hook";
+import { logout } from "@/app/lib/redux/features/authSlices/authAction";
 
 export default function SidebarApp() {
   const pathname = usePathname();
-  const [isCollapsed, setIsCollapsed] = useState(false);
+  const { open } = useSidebarCustom();
+  const dispatch = useAppDispatch();
+  const router = useRouter();
+  const handleLogout = () => {
+    dispatch(logout());
+    router.push("/login");
+  };
 
   const navData = [
     {
@@ -38,6 +48,12 @@ export default function SidebarApp() {
       active: pathname === "/habit-tracker",
     },
     {
+      href: "/al-quran",
+      label: "Al-Qur'an",
+      icon: <FaQuran className="h-4 w-4"/>,
+      active: pathname === "/al-quran",
+    },
+    {
       href: "/user-profile",
       label: "Profile",
       icon: <FaUser className="h-4 w-4" />,
@@ -48,17 +64,17 @@ export default function SidebarApp() {
   return (
     <Sidebar collapsible="icon" className="border-r border-gray-200">
       <SidebarHeader>
-        <Image alt="Qodr Logo" src={logo} width={70} height={100} />
-        {isCollapsed ? (
-          <h1 className="text-xl font-extrabold">PPTI QODR</h1>
-        ) : null}
+        <div className="flex items-center space-x-2 w-full">
+          <Image alt="Qodr Logo" src={logo} width={70} height={100} />
+          {open ? <h1 className="text-xl font-extrabold">PPTI QODR</h1> : null}
+        </div>
       </SidebarHeader>
       <SidebarContent>
         <SidebarGroup>
           <SidebarGroupLabel
             className={cn(
               "transition-all duration-300",
-              isCollapsed && "opacity-0"
+              open ? "" : "opacity-0"
             )}
           >
             Navigation
@@ -74,13 +90,13 @@ export default function SidebarApp() {
                       item.active
                         ? "bg-primary text-primary-foreground"
                         : "hover:bg-accent",
-                      isCollapsed && "justify-center px-2"
+                      open ? "" : "justify-center px-2"
                     )}
                   >
                     <div
                       className={cn(
                         "transition-all duration-300",
-                        !isCollapsed && "min-w-4"
+                        !open && "min-w-4"
                       )}
                     >
                       {item.icon}
@@ -88,7 +104,7 @@ export default function SidebarApp() {
                     <span
                       className={cn(
                         "transition-all duration-300",
-                        isCollapsed && "hidden w-0"
+                        open ? "" : "hidden w-0"
                       )}
                     >
                       {item.label}
@@ -102,11 +118,18 @@ export default function SidebarApp() {
       </SidebarContent>
       <SidebarFooter
         className={cn(
-          "transition-all duration-300",
-          isCollapsed && "items-center"
+          "transition-all duration-300 shadow-md",
+          open ? "" : "items-center"
         )}
       >
-        <ButtonLogout />
+        <Button
+          onClick={handleLogout}
+          variant={"destructive"}
+          className="flex  gap-x-2  outline-none font-bold text-white hover:text-red-700 p-2"
+        >
+          <RiLogoutBoxRFill className="text-lg" />
+          <span className={`text-sm ${open ? "" : "hidden"}`}>Logout</span>
+        </Button>
       </SidebarFooter>
     </Sidebar>
   );
