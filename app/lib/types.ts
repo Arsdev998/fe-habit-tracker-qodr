@@ -9,3 +9,8 @@ export interface ZiyadahMurajaahType {
   surah: string;
   date: Date;
 }
+
+export interface ZiyadahMurajaahForm{
+  surah: string;
+  date:Date
+}

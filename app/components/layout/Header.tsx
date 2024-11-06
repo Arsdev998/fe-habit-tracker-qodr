@@ -26,7 +26,7 @@ const Header = () => {
     }
   }, [user]);
   return (
-    <header className="flex sticky top-0 z-[9999] items-center space-x-2 shadow-md w-full gap-3 p-3 mb-2">
+    <header className="flex sticky top-0 z-[9] bg-white items-center space-x-2 shadow-md w-full gap-3 p-3 mb-2">
       <SidebarTrigger />
       <div className="">
         <Breadcrumb>
