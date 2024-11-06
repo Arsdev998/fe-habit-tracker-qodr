@@ -4,7 +4,7 @@ export interface Month {
   year: number;
 }
 
-export interface Zidayah {
+export interface ZiyadahMurajaahType {
   id: string;
   surah: string;
   date: Date;

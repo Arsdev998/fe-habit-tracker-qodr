@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { Zidayah } from "../../types";
 export const murajaahApi = createApi({
   reducerPath: "murajaahApi",
   baseQuery: fetchBaseQuery({
