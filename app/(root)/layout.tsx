@@ -12,7 +12,7 @@ function layout({ children }: { children: React.ReactNode }) {
         <SidebarApp />
         <section className="w-full">
           <Header />
-          <main>{children}</main>
+          <main className="p-2">{children}</main>
         </section>
         <Toaster position="top-center" richColors />
       </SidebarProvider>

@@ -1,9 +1,10 @@
+import AlQuranPage from "@/app/components/dashboard/al-quran-page/AlQuranPage"
 
 const AlQuran = () => {
   return (
-    <div>
-      Quraan Al-Quran
-    </div>
+    <section>
+      <AlQuranPage/>
+    </section>
   )
 }
 
