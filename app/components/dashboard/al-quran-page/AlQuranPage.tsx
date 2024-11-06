@@ -1,26 +1,36 @@
+"use client"
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Murajaah from "./Murajaah";
 import Ziyadah from "./Ziyadah";
 import Tilawah from "./Tilawah";
+import { useGetAllMonthHabitsQuery } from "@/app/lib/redux/api/habitApi";
 
 const AlQuranPage = () => {
+  const { data: monthData, isLoading: monthLoading } =
+    useGetAllMonthHabitsQuery();
   return (
     <div>
-      <Tabs defaultValue="murajaah">
-        <TabsList>
-          <TabsTrigger value="murajaah">Murajaah</TabsTrigger>
-          <TabsTrigger value="ziyadah">Ziyadah</TabsTrigger>
-          <TabsTrigger value="tilawah">Tilawah</TabsTrigger>
+      <Tabs defaultValue="murajaah" className="border-2">
+        <TabsList >
+          <TabsTrigger value="murajaah" className="border-2">Murajaah</TabsTrigger>
+          <TabsTrigger value="ziyadah" className="border-2">Ziyadah</TabsTrigger>
+          <TabsTrigger value="tilawah" className="border-2">Tilawah</TabsTrigger>
         </TabsList>
-        <TabsContent value="murajaah">
-          <Murajaah />
-        </TabsContent>
-        <TabsContent value="ziyadah">
-          <Ziyadah />
-        </TabsContent>
-        <TabsContent value="tilawah">
-          <Tilawah />
-        </TabsContent>
+        {monthLoading ? (
+          <div>loadingg</div>
+        ) : (
+          <div>
+            <TabsContent value="murajaah">
+              <Murajaah monthData={monthData ?? []} />
+            </TabsContent>
+            <TabsContent value="ziyadah">
+              <Ziyadah />
+            </TabsContent>
+            <TabsContent value="tilawah">
+              <Tilawah />
+            </TabsContent>
+          </div>
+        )}
       </Tabs>
     </div>
   );

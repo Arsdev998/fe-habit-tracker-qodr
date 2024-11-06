@@ -1,6 +1,6 @@
 import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
-import { jwtVerify } from "jose"; // Edge-compatible JWT library
+import { jwtVerify } from "jose"; 
 
 async function verifyToken(token: string, secret: string) {
   try {
@@ -38,5 +38,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/habit-tracker"],
+  matcher: ["/", "/habit-tracker","/al-quran","/user-profile"],
 };
