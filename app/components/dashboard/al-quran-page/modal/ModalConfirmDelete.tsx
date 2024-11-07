@@ -9,55 +9,66 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 
-import { useEffect, useState } from "react";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 interface ModalConfirmDelteProps {
   onConfirmDelete: () => void;
-  isSuccess: boolean;
-  isError: boolean;
+  isDeletingSuccess: boolean;
+  isDeletingError: boolean;
   isLoading: boolean;
   icon: React.ReactNode;
 }
 
 const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
   onConfirmDelete,
-  isSuccess,
-  isError,
+  isDeletingSuccess,
+  isDeletingError,
   isLoading,
   icon
   
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const toastShownRef = useRef<boolean>(false);
 
   useEffect(() => {
-    if (isSuccess) {
+    if (isDeletingSuccess && !toastShownRef.current) {
       toast.success("Berhasil Menghapus");
+      toastShownRef.current = true;
       setIsOpen(false);
     }
-    if (isError) {
+    if (isDeletingError && !toastShownRef.current) {
       toast.warning("Gagal Dihapus");
+      toastShownRef.current = false;
       setIsOpen(false);
     }
-  }, [isSuccess, isError]);
+
+    return () => {
+      toastShownRef.current = false;
+    };
+  }, [isDeletingSuccess, isDeletingError]);
+
+   const handleConfirmDelete = () => {
+     toastShownRef.current = false; // Reset flag before delete
+     onConfirmDelete();
+   };
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild className="w-full">
-        <Button variant={"destructive"} className="w-full">
+      <DialogTrigger asChild >
+        <Button variant={"ghost"} size={"icon"}>
           {icon}
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col justify-center items-center">
         <DialogHeader className="font-bold text-lg">
-          <DialogTitle>Konfirmasi Hapus Habit</DialogTitle>
+          <DialogTitle>Konfirmasi Hapus</DialogTitle>
         </DialogHeader>
         <DialogDescription>
           <Button variant={"outline"} onClick={() => setIsOpen(false)}>
             Batal
           </Button>
           <Button
-            onClick={()=> onConfirmDelete()}
+            onClick={handleConfirmDelete}
             disabled={isLoading}
             variant={"destructive"}
           >

@@ -9,8 +9,10 @@ export interface ZiyadahMurajaahType {
   surah: string;
   date: Date;
 }
-
-export interface ZiyadahMurajaahForm{
+export interface TilawahType {
+  id: string;
   surah: string;
-  date:Date
+  lembar: number;
 }
+
+

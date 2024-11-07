@@ -10,6 +10,7 @@ import { Month, ZiyadahMurajaahType } from "@/app/lib/types";
 import {
   Table,
   TableBody,
+  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -19,6 +20,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { FaEdit, FaPlusSquare } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
+import { format, formatRFC3339 } from "date-fns";
 import ModalQuran from "./modal/ModalQuran";
 import ModalConfirmDelete from "./modal/ModalConfirmDelete";
 
@@ -43,6 +45,7 @@ export default function Murajaah({ monthData }: MurajaahProps) {
     {
       isLoading: isDeleting,
       isSuccess: IsDeletingSucces,
+      reset: deleteReset,
       isError: isDeletingError,
     },
   ] = useDeleteMurajaahMutation();
@@ -59,14 +62,15 @@ export default function Murajaah({ monthData }: MurajaahProps) {
   useEffect(() => {
     if (isPostSuccess || isEditingSucces || IsDeletingSucces) {
       refetch();
+      deleteReset();
     }
   }, [isPostSuccess, isEditingSucces, IsDeletingSucces]);
 
   const murajaahMonthData = murajaahData?.murajaah;
   return (
-    <div>
-      <Tabs>
-        <TabsList defaultValue={lastMonth.name}>
+    <div className="min-w-[400px] max-w-[700px]">
+      <Tabs defaultValue={lastMonth.name}>
+        <TabsList>
           {monthData?.map((item: Month) => (
             <TabsTrigger
               key={item.id}
@@ -79,14 +83,21 @@ export default function Murajaah({ monthData }: MurajaahProps) {
         </TabsList>
         {monthData?.map((item: Month) => (
           <TabsContent value={item.name} key={item.id}>
-            <Table className="w-[400px]">
+            <div className="border-2 p-2">
+              <h1 className="text-center font-bold">
+                Murajaah Bulan {item.name}
+              </h1>
+            </div>
+            <Table className="min-w-[400px] max-w-[700px]">
               <TableHeader className="border-2">
                 <TableHead className="w-[5%] border-2 text-center">
                   No
                 </TableHead>
-                <TableHead className="border-2">Nama Surah/Ayat</TableHead>
-                <TableHead className="border-2">Tanggal</TableHead>
-                <TableHead className="border-2" colSpan={2}>
+                <TableHead className="border-2 w-[25%]">
+                  Nama Surah/Ayat
+                </TableHead>
+                <TableHead className="border-2 w-[20%]">Tanggal</TableHead>
+                <TableHead className="border-2 w-[5%] text-center" colSpan={2}>
                   Action
                 </TableHead>
               </TableHeader>
@@ -101,8 +112,23 @@ export default function Murajaah({ monthData }: MurajaahProps) {
                           {index + 1}
                         </TableCell>
                         <TableCell>{murajaah.surah}</TableCell>
-                        <TableCell>{murajaah.date}</TableCell>
-                        <TableCell className="mx-auto">
+                        <TableCell>
+                          {format(new Date(murajaah.date), "dd MMM yyyy")}
+                        </TableCell>
+                        <TableCell className="text-center">
+                          <ModalConfirmDelete
+                            isLoading={isDeleting}
+                            isDeletingError={isDeletingError}
+                            isDeletingSuccess={IsDeletingSucces}
+                            icon={
+                              <MdDelete className="mx-auto text-red-600 cursor-pointer" />
+                            }
+                            onConfirmDelete={() => {
+                              deleteMurajaah({ murajaahId: murajaah.id });
+                            }}
+                          />
+                        </TableCell>
+                        <TableCell className="text-center">
                           <ModalQuran
                             icon={
                               <FaEdit className="mx-auto text-green-600 cursor-pointer" />
@@ -119,19 +145,6 @@ export default function Murajaah({ monthData }: MurajaahProps) {
                                 date: data.date,
                               });
                               console.log(data);
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell>
-                          <ModalConfirmDelete
-                            isLoading={isDeleting}
-                            isError={isDeletingError}
-                            isSuccess={IsDeletingSucces}
-                            icon={
-                              <MdDelete className="mx-auto text-red-600 cursor-pointer" />
-                            }
-                            onConfirmDelete={() => {
-                              deleteMurajaah({ murajaahId: murajaah.id });
                             }}
                           />
                         </TableCell>
@@ -156,6 +169,7 @@ export default function Murajaah({ monthData }: MurajaahProps) {
                     date={new Date()} // You can replace this with a timestamp or the appropriate date format
                     isSuccess={isPostSuccess}
                     handleSubmitQuran={(data) => {
+                      console.log(data);
                       postMurajaah({
                         monthId: selectedMonthId,
                         userId: user.id,

@@ -24,10 +24,10 @@ const AlQuranPage = () => {
               <Murajaah monthData={monthData ?? []} />
             </TabsContent>
             <TabsContent value="ziyadah">
-              <Ziyadah />
+              <Ziyadah monthData={monthData ?? []}/>
             </TabsContent>
             <TabsContent value="tilawah">
-              <Tilawah />
+              <Tilawah monthData={monthData ?? []}/>
             </TabsContent>
           </div>
         )}
