@@ -53,7 +53,7 @@ function ModalQuran({
     defaultValues: {
       surah: surah || "",
       ...(isTilawah
-        ? { lembar: date || 1 }
+        ? { lembar: date || "1" }
         : { date: initialDate || new Date() }),
     },
   });

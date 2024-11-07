@@ -4,6 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { AiFillHome } from "react-icons/ai";
 import { FaBrain, FaUser } from "react-icons/fa6";
 import { FaQuran } from "react-icons/fa";
+import { MdNotificationsActive } from "react-icons/md";
 import {
   Sidebar,
   SidebarContent,
@@ -50,8 +51,14 @@ export default function SidebarApp() {
     {
       href: "/al-quran",
       label: "Al-Qur'an",
-      icon: <FaQuran className="h-4 w-4"/>,
+      icon: <FaQuran className="h-4 w-4" />,
       active: pathname === "/al-quran",
+    },
+    {
+      href: "/notifikasi",
+      label: "Notifikasi",
+      icon: <MdNotificationsActive className="h-4 w-4" />,
+      active: pathname === "/notifikasi",
     },
     {
       href: "/user-profile",
