@@ -113,7 +113,14 @@ function ModalQuran({
                       <FormControl>
                         <Input
                           type="number"
-                          {...field}
+                          {...{
+                            ...field,
+                            value: field.value?.toString() ?? "", 
+                          }}
+                          onChange={(e) => {
+                            const value = e.target.value; 
+                            field.onChange(value === "" ? "" : value); 
+                          }}
                           className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
                         />
                       </FormControl>
