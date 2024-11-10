@@ -4,7 +4,7 @@ import { usePathname, useRouter } from "next/navigation";
 import { AiFillHome } from "react-icons/ai";
 import { FaBrain, FaUser } from "react-icons/fa6";
 import { FaQuran } from "react-icons/fa";
-import { MdNotificationsActive } from "react-icons/md";
+
 import {
   Sidebar,
   SidebarContent,
@@ -24,6 +24,7 @@ import { Button } from "@/components/ui/button";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { useAppDispatch } from "@/app/lib/redux/hook";
 import { logout } from "@/app/lib/redux/features/authSlices/authAction";
+import NotifIconDot from "../dashboard/notification/NotifIconDot";
 
 export default function SidebarApp() {
   const pathname = usePathname();
@@ -57,7 +58,7 @@ export default function SidebarApp() {
     {
       href: "/notifikasi",
       label: "Notifikasi",
-      icon: <MdNotificationsActive className="h-4 w-4" />,
+      icon: <NotifIconDot/>,
       active: pathname === "/notifikasi",
     },
     {

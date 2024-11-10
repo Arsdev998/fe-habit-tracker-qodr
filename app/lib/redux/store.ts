@@ -7,6 +7,7 @@ import { myquranApi } from "./api/myquranApi";
 import { unsplashApi } from "./api/unsplashApi";
 import { ziyadahApi } from "./api/ziyadahApi";
 import { tilawahApi } from "./api/tilawahApi";
+import { notificationApi } from "./api/notification";
 
 export const store = () => {
   return configureStore({
@@ -17,6 +18,7 @@ export const store = () => {
       [murajaahApi.reducerPath]: murajaahApi.reducer,
       [ziyadahApi.reducerPath]:ziyadahApi.reducer,
       [tilawahApi.reducerPath]: tilawahApi.reducer,
+      [notificationApi.reducerPath]: notificationApi.reducer,
       [myquranApi.reducerPath]:myquranApi.reducer,
       [unsplashApi.reducerPath]: unsplashApi.reducer
     },
@@ -27,6 +29,7 @@ export const store = () => {
         murajaahApi.middleware,
         ziyadahApi.middleware,
         tilawahApi.middleware,
+        notificationApi.middleware,
         myquranApi.middleware,
         unsplashApi.middleware
       ]);

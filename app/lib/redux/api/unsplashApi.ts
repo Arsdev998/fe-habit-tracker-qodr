@@ -10,7 +10,7 @@ export const unsplashApi = createApi({
   }),
   endpoints: (builder) => ({
     getRandomFoto: builder.query<any, void>({
-      query: () => `/photos/random?query=islamic`,
+      query: () => `/photos/random?query=madinah`,
     }),
   }),
 });
