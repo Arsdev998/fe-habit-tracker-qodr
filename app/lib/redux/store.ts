@@ -7,7 +7,7 @@ import { myquranApi } from "./api/myquranApi";
 import { unsplashApi } from "./api/unsplashApi";
 import { ziyadahApi } from "./api/ziyadahApi";
 import { tilawahApi } from "./api/tilawahApi";
-import { notificationApi } from "./api/notification";
+import { notificationApi } from "./api/notificationApi";
 
 export const store = () => {
   return configureStore({
@@ -16,11 +16,11 @@ export const store = () => {
       [habitApi.reducerPath]: habitApi.reducer,
       [userApi.reducerPath]: userApi.reducer,
       [murajaahApi.reducerPath]: murajaahApi.reducer,
-      [ziyadahApi.reducerPath]:ziyadahApi.reducer,
+      [ziyadahApi.reducerPath]: ziyadahApi.reducer,
       [tilawahApi.reducerPath]: tilawahApi.reducer,
       [notificationApi.reducerPath]: notificationApi.reducer,
-      [myquranApi.reducerPath]:myquranApi.reducer,
-      [unsplashApi.reducerPath]: unsplashApi.reducer
+      [myquranApi.reducerPath]: myquranApi.reducer,
+      [unsplashApi.reducerPath]: unsplashApi.reducer,
     },
     middleware: (getDefaultMiddleware) => {
       return getDefaultMiddleware().concat([
@@ -31,7 +31,7 @@ export const store = () => {
         tilawahApi.middleware,
         notificationApi.middleware,
         myquranApi.middleware,
-        unsplashApi.middleware
+        unsplashApi.middleware,
       ]);
     },
   });

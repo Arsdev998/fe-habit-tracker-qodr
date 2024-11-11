@@ -10,27 +10,32 @@ const useNotificationSocket = (
   const connectSocket = useCallback(() => {
     if (!userId) return;
 
-    // Membersihkan koneksi yang ada jika ada
+    // Clean up existing connection if any
     if (socketRef.current) {
       socketRef.current.disconnect();
+      socketRef.current.removeAllListeners();
     }
 
-    // Membuat koneksi baru dengan namespace yang sesuai
-    const socket = io(`${process.env.NEXT_PUBLIC_DB_HOST}/notifications`, {
+    // Create new connection matching backend configuration
+    const socket = io(process.env.NEXT_PUBLIC_SOCKET_HOST, {
+      transports: ["polling", "websocket"],
       withCredentials: true,
       reconnection: true,
       reconnectionAttempts: 5,
-      reconnectionDelay: 1000,
-      query: { userId }, // Menambahkan userId sebagai query parameter
+      reconnectionDelay: 5000,
+      query: { userId },
+      autoConnect: true,
     });
 
     socketRef.current = socket;
 
-    // Event handlers
+    // Event handlers matching backend events
     socket.on("connect", () => {
       console.log("Socket connected with ID:", socket.id);
-      // Mengirim event joinRoom setelah koneksi berhasil
-      socket.emit("joinRoom", userId);
+    });
+
+    socket.on("connect_success", (data) => {
+      console.log("Connection successful:", data);
     });
 
     socket.on("joinedRoom", (data) => {
@@ -39,13 +44,10 @@ const useNotificationSocket = (
 
     socket.on("disconnect", (reason) => {
       console.log("Socket disconnected:", reason);
-      if (reason === "io server disconnect") {
-        socket.connect();
-      }
     });
 
     socket.on("connect_error", (error) => {
-      console.error("Socket connection error:", error);
+      console.error("Socket connection error:", error.message);
     });
 
     socket.on("notification", (notification) => {
@@ -53,17 +55,27 @@ const useNotificationSocket = (
       onNewNotification(notification);
     });
 
+    // Cleanup function
     return () => {
-      socket.disconnect();
+      if (socket) {
+        socket.removeAllListeners();
+        socket.disconnect();
+      }
     };
   }, [userId, onNewNotification]);
 
+  // Initialize socket connection
   useEffect(() => {
     const cleanup = connectSocket();
     return () => {
       if (cleanup) cleanup();
     };
   }, [connectSocket]);
+
+  return {
+    socket: socketRef.current,
+    isConnected: socketRef.current?.connected || false,
+  };
 };
 
 export default useNotificationSocket;

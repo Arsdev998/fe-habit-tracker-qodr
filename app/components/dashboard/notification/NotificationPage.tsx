@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAppSelector } from "@/app/lib/redux/hook";
 import useNotificationSocket from "../hook/useNotification";
-import { useGetNotificationQuery } from "@/app/lib/redux/api/notification";
+import { useGetNotificationQuery } from "@/app/lib/redux/api/notificationApi";
 
 type Notification = {
   id: string;
@@ -15,7 +15,6 @@ type Notification = {
 function NotificationPage() {
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.id;
-
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const { data: initialNotifications, isLoading } = useGetNotificationQuery(
@@ -48,8 +47,6 @@ function NotificationPage() {
       return [newNotification, ...prevNotifications];
     });
   }, []);
-
-  // Socket connection dengan callback untuk notifikasi baru
   useNotificationSocket(userId, handleNewNotification);
 
   // Loading state
