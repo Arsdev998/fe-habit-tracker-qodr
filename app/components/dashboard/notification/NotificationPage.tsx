@@ -3,7 +3,12 @@
 import { useState, useEffect, useCallback } from "react";
 import { useAppSelector } from "@/app/lib/redux/hook";
 import useNotificationSocket from "../hook/useNotification";
-import { useGetNotificationQuery } from "@/app/lib/redux/api/notificationApi";
+import {
+  useGetNotificationQuery,
+  useMarkAllNotificationsMutation,
+} from "@/app/lib/redux/api/notificationApi";
+import { toast } from "sonner";
+import { Button } from "@/components/ui/button";
 
 type Notification = {
   id: string;
@@ -15,14 +20,18 @@ type Notification = {
 function NotificationPage() {
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.id;
+
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const { data: initialNotifications, isLoading } = useGetNotificationQuery(
     { userId },
     {
       skip: !userId,
+      refetchOnMountOrArgChange: true,
     }
   );
+
+  const [markAllNotif] = useMarkAllNotificationsMutation();
 
   // Initialize notifications with data from API
   useEffect(() => {
@@ -47,6 +56,26 @@ function NotificationPage() {
       return [newNotification, ...prevNotifications];
     });
   }, []);
+
+  const handleMarkAllNotification = async () => {
+    try {
+      await markAllNotif({ userId }).unwrap();
+
+      // Perbarui state notifications untuk mengubah status semua notifikasi menjadi read
+      setNotifications((prevNotifications) =>
+        prevNotifications.map((notification) => ({
+          ...notification,
+          status: true,
+        }))
+      );
+
+      toast.success("Semua notifikasi berhasil ditandai sudah dibaca");
+    } catch (error) {
+      toast.error("Internal Server Error");
+    }
+  };
+
+  // Socket connection dengan callback untuk notifikasi baru
   useNotificationSocket(userId, handleNewNotification);
 
   // Loading state
@@ -60,7 +89,10 @@ function NotificationPage() {
 
   return (
     <div className="p-4 max-w-md mx-auto bg-white shadow-md rounded-md">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Notifikasi</h2>
+      <div className="">
+        <h2 className="text-2xl font-semibold mb-4 text-center">Notifikasi</h2>
+        <Button onClick={handleMarkAllNotification}>Tandai Telah dibaca</Button>
+      </div>
       {notifications && notifications.length > 0 ? (
         <div className="space-y-3">
           {notifications.map((item) => (
