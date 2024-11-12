@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/app/lib/redux/features/authSlices/authAction";
 import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hook";
@@ -30,6 +30,7 @@ import {
 export default function Login() {
   const dispatch = useAppDispatch();
   const {error, loading ,status} = useAppSelector((state) => state.auth);
+  const [isRedirect,setIsRedirect] = useState<boolean>(false)
   const router = useRouter();
   const form = useForm({
     resolver: zodResolver(loginSchema),
@@ -49,9 +50,11 @@ export default function Login() {
 
   useEffect(() => {
     if (status === "succeeded") {
-      router.push("/");
+      setIsRedirect(true)
+      router.push("/")
+      setIsRedirect(false)
     }
-  }, [status]);
+  }, [status,router]);
   return (
     <div className="h-screen w-full flex justify-center items-center">
       <Card className="flex flex-col items-center p-3 min-w-[350px] min-h-[300px]">
@@ -75,7 +78,6 @@ export default function Login() {
                   </FormItem>
                 )}
               />
-
               <FormField
                 control={form.control}
                 name="password"
@@ -97,8 +99,15 @@ export default function Login() {
             <CardFooter className="flex flex-col items-center">
               <p className="text-red-500 text-sm">{error ? error : ""}</p>
 
-              <Button className="w-full" disabled={loading}>
-                {loading ? "Loading..." : "Login"}
+              <Button
+                className="w-full"
+                disabled={loading || status === "succeeded"}
+              >
+                {loading
+                  ? "Loading..."
+                  : status === "succeeded"
+                  ? "Redirect..."
+                  : "Login"}
               </Button>
             </CardFooter>
           </form>

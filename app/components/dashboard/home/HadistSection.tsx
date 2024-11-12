@@ -7,21 +7,22 @@ function HadistSection() {
 
   if (isLoading || !data) {
     return (
-      <div className="p-4 bg-white shadow-md rounded-md">
-        <Skeleton className="bg-green-300 w-full h-48 sm:h-64 rounded-md" />
+      <div className="rounded-md">
+        <Skeleton className="bg-green-300 w-[300px] sm:min-w-[750px] md:min-w-[850px] h-50 sm:min-h-[350px] rounded-md" />
       </div>
     );
   }
 
   return (
-    <div className="p-6 bg-white shadow-md rounded-md mb-4 sm:mb-0 max-w-lg">
+    <div className="mb-4 sm:mb-0 w-[300px] sm:min-w-[750px] md:min-w-[850px] h-50 sm:min-h-[350px]">
+      <div className="mb-2">
+        <p className="font-semibold">{data.data.judul}</p>
+        <p className="font-semibold">No:{data.data.no}</p>
+      </div>
       <p className="text-right text-2xl font-semibold text-gray-800 mb-4 leading-snug">
         {data.data.arab}
       </p>
-      <p className="text-base text-gray-600 italic mb-2">{data.data.id}</p>
-      <p className="text-sm text-gray-500 mt-4">
-        (HR: {data.info.perawi.name})
-      </p>
+      <p className="text-base text-gray-600 italic mb-2">{data.data.indo}</p>
     </div>
   );
 }

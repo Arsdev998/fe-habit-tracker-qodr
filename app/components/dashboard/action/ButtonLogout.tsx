@@ -10,7 +10,7 @@ function ButtonLogout() {
   const router = useRouter();
   const handleLogout = () => {
     dispatch(logout());
-    router.push("/login");
+    // router.push("/login");
   };
   return (
     <ul>

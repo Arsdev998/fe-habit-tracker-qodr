@@ -14,7 +14,7 @@ export const myquranApi = createApi({
       query: () => `/cal/hijr?adj=-1`,
     }),
     getHadistRandom: builder.query<any, void>({
-      query: () => `/hadits/perawi/acak`,
+      query: () => `/hadits/arbain/acak`
     }),
   }),
 });
