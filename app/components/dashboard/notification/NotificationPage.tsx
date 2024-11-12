@@ -4,6 +4,7 @@ import { useState, useEffect, useCallback } from "react";
 import { useAppSelector } from "@/app/lib/redux/hook";
 import useNotificationSocket from "../hook/useNotification";
 import {
+  useDeleteManyNotificationMutation,
   useGetNotificationQuery,
   useMarkAllNotificationsMutation,
 } from "@/app/lib/redux/api/notificationApi";
@@ -20,7 +21,6 @@ type Notification = {
 function NotificationPage() {
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.id;
-
   const [notifications, setNotifications] = useState<Notification[]>([]);
 
   const { data: initialNotifications, isLoading } = useGetNotificationQuery(
@@ -30,8 +30,10 @@ function NotificationPage() {
       refetchOnMountOrArgChange: true,
     }
   );
-
-  const [markAllNotif] = useMarkAllNotificationsMutation();
+  const [markAllNotif, { isLoading: markLoading }] =
+    useMarkAllNotificationsMutation();
+  const [deleteAllNotif, { isLoading: deletedLoading }] =
+    useDeleteManyNotificationMutation();
 
   // Initialize notifications with data from API
   useEffect(() => {
@@ -51,8 +53,6 @@ function NotificationPage() {
       if (notificationExists) {
         return prevNotifications;
       }
-
-      // Tambahkan notifikasi baru ke awal array
       return [newNotification, ...prevNotifications];
     });
   }, []);
@@ -60,21 +60,24 @@ function NotificationPage() {
   const handleMarkAllNotification = async () => {
     try {
       await markAllNotif({ userId }).unwrap();
-
-      // Perbarui state notifications untuk mengubah status semua notifikasi menjadi read
-      setNotifications((prevNotifications) =>
-        prevNotifications.map((notification) => ({
-          ...notification,
-          status: true,
-        }))
-      );
-
       toast.success("Semua notifikasi berhasil ditandai sudah dibaca");
     } catch (error) {
       toast.error("Internal Server Error");
     }
   };
 
+  const handleDeleteAllNotification = async () => {
+    try {
+      await deleteAllNotif({ userId }).unwrap();
+      toast.success("Semua notif dihapus");
+    } catch (error) {
+      toast.error("Internal Server Error");
+    }
+  };
+
+  const allNotificationsRead = notifications.every(
+    (notif: Notification) => notif.status
+  );
   // Socket connection dengan callback untuk notifikasi baru
   useNotificationSocket(userId, handleNewNotification);
 
@@ -91,7 +94,23 @@ function NotificationPage() {
     <div className="p-4 max-w-md mx-auto bg-white shadow-md rounded-md">
       <div className="">
         <h2 className="text-2xl font-semibold mb-4 text-center">Notifikasi</h2>
-        <Button onClick={handleMarkAllNotification}>Tandai Telah dibaca</Button>
+        {notifications.length > 0 && (
+          <div className="flex justify-between my-2">
+            <Button
+              onClick={handleDeleteAllNotification}
+              variant={"destructive"}
+              disabled={deletedLoading}
+            >
+              Hapus Semua Notif
+            </Button>
+            <Button
+              onClick={handleMarkAllNotification}
+              disabled={markLoading || allNotificationsRead}
+            >
+              Tandai Telah dibaca
+            </Button>
+          </div>
+        )}
       </div>
       {notifications && notifications.length > 0 ? (
         <div className="space-y-3">

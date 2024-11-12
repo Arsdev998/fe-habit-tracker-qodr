@@ -10,10 +10,13 @@ export const myquranApi = createApi({
       query: ({ cityId, dateToday }: { cityId: string; dateToday: string }) =>
         `/sholat/jadwal/${cityId}/${dateToday}`,
     }),
-    getDateHijriah: builder.query<any,void>({
+    getDateHijriah: builder.query<any, void>({
       query: () => `/cal/hijr?adj=-1`,
+    }),
+    getHadistRandom: builder.query<any, void>({
+      query: () => `/hadits/perawi/acak`,
     }),
   }),
 });
 
-export const { useGetJadwalSholatQuery ,useGetDateHijriahQuery} = myquranApi;
+export const { useGetJadwalSholatQuery ,useGetDateHijriahQuery,useGetHadistRandomQuery} = myquranApi;

@@ -61,6 +61,13 @@ export const notificationApi = createApi({
       }),
       invalidatesTags: [{ type: "Notification", id: "LIST" }],
     }),
+    deleteManyNotification: builder.mutation({
+      query:({userId}:{userId:string})=>({
+        url:`/notifications/deletemany/${userId}`,
+        method:'DELETE'
+      }),
+      invalidatesTags:[{type:"Notification",id:"LIST"}]
+    }),
   }),
 });
 
@@ -70,4 +77,5 @@ export const {
   usePostNotificationMutation,
   useMarkAllNotificationsMutation,
   useDeleteNotificationsMutation,
+  useDeleteManyNotificationMutation
 } = notificationApi;
