@@ -1,12 +1,22 @@
 "use client";
-import { useGetDateHijriahQuery, useGetJadwalSholatQuery } from "@/app/lib/redux/api/myquranApi";
+import {
+  useGetDateHijriahQuery,
+  useGetJadwalSholatQuery,
+  useGetTimeStampQuery,
+} from "@/app/lib/redux/api/myquranApi";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IoLocation } from "react-icons/io5";
 import { ImSpinner3 } from "react-icons/im";
 import { useGetRandomFotoQuery } from "@/app/lib/redux/api/unsplashApi";
 import { FaCalendarAlt } from "react-icons/fa";
+import { useEffect, useState } from "react";
 
-function JadwalSholat() {
+interface Props {
+  unsplashFoto: {
+    urls: { regular: string };
+  };
+}
+function JadwalSholat({ unsplashFoto }: Props) {
   const date = new Date();
   let year = date.getFullYear();
   let month = date.getMonth() + 1;
@@ -14,22 +24,40 @@ function JadwalSholat() {
   let currentDate = `${year}-${month}-${day}`;
   let bantulCityId = "1501";
 
-  const { data: unsplashFoto } = useGetRandomFotoQuery();
   const { data, isLoading } = useGetJadwalSholatQuery({
     cityId: bantulCityId,
     dateToday: currentDate,
   });
-  const {data:hijriahDate} = useGetDateHijriahQuery()
-  const hijriah = hijriahDate?.data.date
+  const { data: timeStamp } = useGetTimeStampQuery();
+  const { data: hijriahDate } = useGetDateHijriahQuery();
+  const hijriah = hijriahDate?.data.date;
   const formattedDate = hijriah ? hijriah.join(", ") : "";
+  const [currentTime, setCurrentTime] = useState<Date | null>(null);
+
+  useEffect(() => {
+    if (timeStamp) {
+      const serverTime = new Date(timeStamp.data.timestamp);
+      setCurrentTime(serverTime);
+    }
+  }, [timeStamp]);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime((prevTime) => {
+        if (prevTime) {
+          return new Date(prevTime.getTime() + 1000); // Menambah 1 detik
+        }
+        return prevTime;
+      });
+    }, 1000);
+
+    return () => clearInterval(interval);
+  }, []);
 
   if (isLoading || !data) {
     return (
-      <div className="relative">
+      <div>
         <Skeleton className="bg-green-300 w-[350px] h-[400px]" />
-        <p className="absolute flex items-center gap-2 top-[50%] left-[5%] font-bold text-sm">
-          Memuat Jadwal Sholat <ImSpinner3 className="animate-spin text-lg" />
-        </p>
       </div>
     );
   }
@@ -60,6 +88,11 @@ function JadwalSholat() {
           <IoLocation /> {data.data.daerah}, {data.data.lokasi}
         </p>
         <p className="italic text-[10px]">Jadwal Sholat Untuk Hari Ini</p>
+      </div>
+      <div className="flex justify-center items-center gap-1 bg-black bg-opacity-60 p-2 rounded mb-2 twxt-xl">
+        <p>{currentTime?.getHours()}:</p>
+        <p>{currentTime?.getMinutes()}:</p>
+        <p>{currentTime?.getSeconds()}</p>
       </div>
       <div className="bg-black bg-opacity-60 p-4 rounded">
         {JadwalSholatData.map((item, index) => (

@@ -14,9 +14,12 @@ export const myquranApi = createApi({
       query: () => `/cal/hijr?adj=-1`,
     }),
     getHadistRandom: builder.query<any, void>({
-      query: () => `/hadits/arbain/acak`
+      query: () => `/hadits/arbain/acak`,
+    }),
+    getTimeStamp: builder.query<any, void>({
+      query: () => `/tools/time`,
     }),
   }),
 });
 
-export const { useGetJadwalSholatQuery ,useGetDateHijriahQuery,useGetHadistRandomQuery} = myquranApi;
+export const { useGetJadwalSholatQuery ,useGetDateHijriahQuery,useGetHadistRandomQuery,useGetTimeStampQuery} = myquranApi;

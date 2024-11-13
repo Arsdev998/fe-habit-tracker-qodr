@@ -11,6 +11,7 @@ export const notificationApi = createApi({
   reducerPath: "notificationApi",
   baseQuery: fetchBaseQuery({
     baseUrl: process.env.NEXT_PUBLIC_DB_HOST,
+    credentials: "include",
   }),
   tagTypes: ["Notification"], // Pastikan tagTypes sesuai dengan endpoint yang digunakan
   endpoints: (builder) => ({

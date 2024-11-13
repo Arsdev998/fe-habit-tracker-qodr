@@ -77,16 +77,8 @@ export default function SidebarApp() {
           {open ? <h1 className="text-xl font-extrabold">PPTI QODR</h1> : null}
         </div>
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="mt-1">
         <SidebarGroup>
-          <SidebarGroupLabel
-            className={cn(
-              "transition-all duration-300",
-              open ? "" : "opacity-0"
-            )}
-          >
-            Navigation
-          </SidebarGroupLabel>
           <SidebarGroupContent>
             <SidebarMenu>
               {navData.map((item) => (

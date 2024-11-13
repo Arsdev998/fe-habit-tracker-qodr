@@ -20,6 +20,8 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const pathname = usePathname();
 
+  const breadcrumb = pathname === '/' ? 'Home' : pathname;
+
   useEffect(() => {
     if (!user) {
       dispatch(getStatus());
