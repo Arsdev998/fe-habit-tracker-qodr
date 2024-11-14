@@ -92,7 +92,7 @@ export const habitApi = createApi({
         title: string;
         maxDays: number | null;
       }) => ({
-        url: `/habit/post`,
+        url: `/habit/postByAdmin`,
         method: "POST",
         body: {
           title,
@@ -111,4 +111,5 @@ export const {
   usePostHabitUSerMutation,
   useEditHabitUserMutation,
   useDeletehabitMutation,
+  usePosthabitAdminMutation
 } = habitApi;

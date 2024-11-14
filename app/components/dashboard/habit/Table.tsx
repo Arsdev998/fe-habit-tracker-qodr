@@ -281,7 +281,7 @@ const TableMontHabit: React.FC<TableProps> = ({
               const habitStatus = day.habitStatuses.find(
                 (hs: any) => hs.habit.title === habit.habit.title
               );
-              const checkboxKey = `${day.id}-${habitStatus.habit.id}`;
+              const checkboxKey = `${day.id}-${habitStatus?.habit?.id}`;
               return (
                 <TableCell key={dayIndex} className="text-center text-sm px-1">
                   <Checkbox

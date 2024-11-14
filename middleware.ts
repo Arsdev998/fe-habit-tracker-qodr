@@ -38,5 +38,5 @@ export async function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/", "/habit-tracker","/al-quran","/notifikasi","/user-profile"],
+  matcher: ["/", "/habit-tracker","/al-quran","/notifikasi","/user-profile","/habitcontroll"],
 };

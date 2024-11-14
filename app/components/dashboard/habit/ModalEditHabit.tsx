@@ -1,13 +1,10 @@
 "use client";
-import {
-  useEditHabitUserMutation,
-} from "@/app/lib/redux/api/habitApi";
+import { useEditHabitUserMutation } from "@/app/lib/redux/api/habitApi";
 import { AddHabitSchema, addHabitSchema } from "@/app/schema/addHabitSchema";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -92,16 +89,15 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
     <Dialog open={isOpen} onOpenChange={handleOpenChange}>
       <DialogTrigger asChild>
         <Button
-          variant="default"
-          className="w-full"
+          variant="ghost"
+          size={"icon"}
           onClick={(e) => {
             e.preventDefault();
             e.stopPropagation();
             setIsOpen(true);
           }}
         >
-          <MdEdit className="mr-2" />
-          Edit Habit
+          <MdEdit className="text-green-600" />
         </Button>
       </DialogTrigger>
       <DialogContent
@@ -120,80 +116,78 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
         <DialogHeader>
           <DialogTitle className="font-bold text-lg">Edit Habit</DialogTitle>
         </DialogHeader>
-        <DialogDescription className="w-full">
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(handleEditHabit)}
-              className="flex flex-col gap-y-4 justify-center items-center w-full"
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handleEditHabit)}
+            className="flex flex-col gap-y-4 justify-center items-center w-full"
+          >
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Nama Habit</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="text"
+                      className="border-2 border-green-600 outline-none"
+                      onKeyDown={(e) => {
+                        e.stopPropagation();
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="maxDays"
+              render={({ field: { value, onChange, ...field } }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Jumlah Hari</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      value={value ?? ""} // Convert null to empty string
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        onChange(val === "" ? null : Number(val));
+                      }}
+                      placeholder="0"
+                      className="border-2 border-green-600 outline-none"
+                      onKeyDown={(e) => {
+                        e.stopPropagation();
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormDescription className="flex items-center gap-x-[1px] text-xs text-yellow-500">
+                    <RiErrorWarningLine /> Kosongkan Jika ingin sesuai dengan
+                    bulan
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <Button
+              type="submit"
+              disabled={isLoading}
+              className="w-full bg-green-600 hover:bg-green-700"
             >
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Nama Habit</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="text"
-                        className="border-2 border-green-600 outline-none"
-                        onKeyDown={(e) => {
-                          e.stopPropagation();
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="maxDays"
-                render={({ field: { value, onChange, ...field } }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Jumlah Hari</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="number"
-                        value={value ?? ""} // Convert null to empty string
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          onChange(val === "" ? null : Number(val));
-                        }}
-                        placeholder="0"
-                        className="border-2 border-green-600 outline-none"
-                        onKeyDown={(e) => {
-                          e.stopPropagation();
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormDescription className="flex items-center gap-x-[1px] text-xs text-yellow-500">
-                      <RiErrorWarningLine /> Kosongkan Jika ingin sesuai dengan
-                      bulan
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <Button
-                type="submit"
-                disabled={isLoading}
-                className="w-full bg-green-600 hover:bg-green-700"
-              >
-                {isLoading ? "Menyimpan..." : "Simpan"}
-              </Button>
-            </form>
-          </Form>
-        </DialogDescription>
+              {isLoading ? "Menyimpan..." : "Simpan"}
+            </Button>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

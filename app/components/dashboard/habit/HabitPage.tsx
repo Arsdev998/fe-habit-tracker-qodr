@@ -10,7 +10,6 @@ import {
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppSelector } from "@/app/lib/redux/hook";
 import { Month } from "@/app/lib/types";
-import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function HabitPage() {

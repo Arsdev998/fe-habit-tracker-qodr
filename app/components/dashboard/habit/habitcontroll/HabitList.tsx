@@ -9,10 +9,18 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import React, { useState } from "react";
+import ModalAddHabit from "../ModalAddHabit";
+import ModalEditHabit from "../ModalEditHabit";
+import ModalDeleteHabit from "../ModalConfirmDeleteHabit";
 
 function HabitList() {
-  const { data, isLoading } = useGetAllHabitQuery();
+  const { data, isLoading, refetch } = useGetAllHabitQuery();
+  const [activeModal, setActiveModal] = useState<string | null>(null);
+
+  const handleModalClose = () => {
+    setActiveModal(null);
+  };
 
   return (
     <div className="w-[300px] md:w-[400px] border-2 p-2">
@@ -22,11 +30,25 @@ function HabitList() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-center font-semibold" colSpan={2}>List Habit</TableHead>
+              <TableHead className="text-center font-semibold">
+                List Habit
+              </TableHead>
+              <TableHead className="text-center font-semibold">
+                Tambahkan{" "}
+                <ModalAddHabit
+                  monthId=""
+                  monthName=""
+                  onHabitAdded={refetch}
+                  userId=""
+                />
+              </TableHead>
             </TableRow>
             <TableRow>
-              <TableHead className="border-r-2 text-center">Nama Habit</TableHead>
+              <TableHead className="border-r-2 text-center">
+                Nama Habit
+              </TableHead>
               <TableHead className="text-center">Jumlah Hari</TableHead>
+              <TableHead className="text-center">Action</TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -35,6 +57,27 @@ function HabitList() {
                 <TableCell>{item.title}</TableCell>
                 <TableCell>
                   {item.maxDays === null ? "Setiap Hari" : item.maxDays}
+                </TableCell>
+                <TableCell>
+                  <ModalDeleteHabit
+                    habitId={item.id}
+                    currentHabit={item.title}
+                    onHabitDelete={() => {
+                      refetch();
+                    }}
+                  />
+                </TableCell>
+                <TableCell>
+                  <ModalEditHabit
+                    currentHabit={item.title}
+                    dayCount={item.maxDays}
+                    habitId={item.id}
+                    onHabitEdit={refetch}
+                    isOpen={activeModal === `edit-${item.id}`}
+                    onOpenChange={(open) => {
+                      if (!open) handleModalClose();
+                    }}
+                  />
                 </TableCell>
               </TableRow>
             ))}

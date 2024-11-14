@@ -4,6 +4,11 @@ export interface Month {
   year: number;
 }
 
+export interface MonthReq {
+  name: string;
+  year: number;
+}
+
 export interface Habit {
   id: string;
   title: string;
