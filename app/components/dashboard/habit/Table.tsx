@@ -25,6 +25,7 @@ import { MdEditNote } from "react-icons/md";
 import ModalEditHabit from "./ModalEditHabit";
 import ModalDeleteHabit from "./ModalConfirmDeleteHabit";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface TableProps {
   title: string;
@@ -64,7 +65,11 @@ const TableMontHabit: React.FC<TableProps> = ({
   }, [days]);
 
   if (!days || days.length === 0) {
-    return <div>Loading...</div>;
+    return (
+      <div>
+        <Skeleton className="w-full min-w-[1200px] h-80 bg-black/10" />
+      </div>
+    );
   }
 
   // Fungsi untuk menghitung persentase habit berdasarkan maxDays
@@ -88,31 +93,31 @@ const TableMontHabit: React.FC<TableProps> = ({
   };
 
   // fungsi overall percentage
-const calculateOverallPercentage = () => {
-  let totalCompletedDays = 0;
-  let totalTargetDays = 0;
+  const calculateOverallPercentage = () => {
+    let totalCompletedDays = 0;
+    let totalTargetDays = 0;
 
-  days.forEach((day) => {
-    day.habitStatuses.forEach((habitStatus: any) => {
-      const checkboxKey = `${day.id}-${habitStatus.habit.id}`;
-      const maxDays = habitStatus.habit.maxDays || days.length; // Menggunakan maxDays atau jumlah hari dalam bulan
+    days.forEach((day) => {
+      day.habitStatuses.forEach((habitStatus: any) => {
+        const checkboxKey = `${day.id}-${habitStatus.habit.id}`;
+        const maxDays = habitStatus.habit.maxDays || days.length; // Menggunakan maxDays atau jumlah hari dalam bulan
 
-      if (localStatus[checkboxKey]) {
-        totalCompletedDays++; // Tambah jika checkbox dicentang
-      }
+        if (localStatus[checkboxKey]) {
+          totalCompletedDays++; // Tambah jika checkbox dicentang
+        }
 
-      // Jumlahkan total target days hanya satu kali untuk setiap habit di bulan tersebut
-      if (day.date === days[0].date) {
-        totalTargetDays += maxDays;
-      }
+        // Jumlahkan total target days hanya satu kali untuk setiap habit di bulan tersebut
+        if (day.date === days[0].date) {
+          totalTargetDays += maxDays;
+        }
+      });
     });
-  });
 
-  // Hitung persentase keseluruhan dengan membatasi nilai hingga 100%
-  return totalTargetDays > 0
-    ? Math.min((totalCompletedDays / totalTargetDays) * 100, 100).toFixed(1)
-    : "0";
-};
+    // Hitung persentase keseluruhan dengan membatasi nilai hingga 100%
+    return totalTargetDays > 0
+      ? Math.min((totalCompletedDays / totalTargetDays) * 100, 100).toFixed(1)
+      : "0";
+  };
 
   const handleCheckBoxChange = async (
     dayId: string,
@@ -178,12 +183,14 @@ const calculateOverallPercentage = () => {
   return (
     <Table>
       <TableHeader>
-        <TableHead
-          colSpan={days.length + 2} // Tambah 2 untuk kolom Amalan dan Persentase
-          className="text-center font-bold text-black text-[20px]"
-        >
-          {title}
-        </TableHead>
+        <TableRow>
+          <TableHead
+            colSpan={days.length + 2} // Tambah 2 untuk kolom Amalan dan Persentase
+            className="text-center font-bold text-black text-[20px]"
+          >
+            {title}
+          </TableHead>
+        </TableRow>
         <TableRow>
           <TableHead className="flex items-center">
             Amalan

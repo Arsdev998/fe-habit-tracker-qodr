@@ -22,6 +22,7 @@ import {
   useEditTilawahMutation,
   usePostTilawahMutation,
 } from "@/app/lib/redux/api/tilawahApi";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface TilawahProps {
   monthData: Month[];
@@ -89,67 +90,66 @@ export default function Tilawah({ monthData }: TilawahProps) {
             </div>
             <Table className="min-w-[400px] max-w-[700px]">
               <TableHeader className="border-2">
-                <TableHead className="w-[5%] border-2 text-center">
-                  No
-                </TableHead>
-                <TableHead className="border-2 w-[25%]">
-                  Nama Surah/Ayat
-                </TableHead>
-                <TableHead className="border-2 w-[20%]">Jumlah Lembar</TableHead>
-                <TableHead className="border-2 w-[5%] text-center" colSpan={2}>
-                  Action
-                </TableHead>
+                <TableRow>
+                  <TableHead className="w-[5%] border-2 text-center">
+                    No
+                  </TableHead>
+                  <TableHead className="border-2 w-[25%]">
+                    Nama Surah/Ayat
+                  </TableHead>
+                  <TableHead className="border-2 w-[20%]">
+                    Jumlah Lembar
+                  </TableHead>
+                  <TableHead
+                    className="border-2 w-[5%] text-center"
+                    colSpan={2}
+                  >
+                    Action
+                  </TableHead>
+                </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
-                  <div>Loading...</div>
+                  <TableRow>
+                    <TableCell>Memuat Data</TableCell>
+                  </TableRow>
                 ) : murajaahMonthData?.length > 0 ? (
-                  murajaahMonthData.map(
-                    (tilawah: TilawahType, index: any) => (
-                      <TableRow key={index}>
-                        <TableCell className="text-center">
-                          {index + 1}
-                        </TableCell>
-                        <TableCell>{tilawah.surah}</TableCell>
-                        <TableCell>
-                          {tilawah.lembar}
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <ModalConfirmDelete
-                            isLoading={isDeleting}
-                            isDeletingError={isDeletingError}
-                            isDeletingSuccess={IsDeletingSucces}
-                            icon={
-                              <MdDelete className="mx-auto text-red-600 cursor-pointer" />
-                            }
-                            onConfirmDelete={() => {
-                              deleteZiyadah({ tilawahId: tilawah.id });
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <ModalQuran
-                            icon={
-                              <FaEdit className="mx-auto text-green-600 cursor-pointer" />
-                            }
-                            date={tilawah.lembar}
-                            surah={tilawah.surah}
-                            isLoading={isEditing}
-                            isSuccess={isEditingSucces}
-                            title="Edit Tilawah"
-                            handleSubmitQuran={(data) => {
-                              editZiyadah({
-                                tilawahId: tilawah.id,
-                                surah: data.surah,
-                                lembar: data.lembar,
-                              });
-                              console.log(data);
-                            }}
-                          />
-                        </TableCell>
-                      </TableRow>
-                    )
-                  )
+                  murajaahMonthData.map((tilawah: TilawahType, index: any) => (
+                    <TableRow key={index}>
+                      <TableCell className="text-center">{index + 1}</TableCell>
+                      <TableCell>{tilawah.surah}</TableCell>
+                      <TableCell>{tilawah.lembar}</TableCell>
+                      <ModalConfirmDelete
+                        isLoading={isDeleting}
+                        isDeletingError={isDeletingError}
+                        isDeletingSuccess={IsDeletingSucces}
+                        icon={
+                          <MdDelete className="mx-auto text-red-600 cursor-pointer" />
+                        }
+                        onConfirmDelete={() => {
+                          deleteZiyadah({ tilawahId: tilawah.id });
+                        }}
+                      />
+                      <ModalQuran
+                        icon={
+                          <FaEdit className="mx-auto text-green-600 cursor-pointer" />
+                        }
+                        date={tilawah.lembar}
+                        surah={tilawah.surah}
+                        isLoading={isEditing}
+                        isSuccess={isEditingSucces}
+                        title="Edit Tilawah"
+                        handleSubmitQuran={(data) => {
+                          editZiyadah({
+                            tilawahId: tilawah.id,
+                            surah: data.surah,
+                            lembar: data.lembar,
+                          });
+                          console.log(data);
+                        }}
+                      />
+                    </TableRow>
+                  ))
                 ) : (
                   <TableRow>
                     <TableCell colSpan={4} className="text-center">

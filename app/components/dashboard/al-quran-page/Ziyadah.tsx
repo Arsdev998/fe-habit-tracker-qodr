@@ -23,6 +23,7 @@ import {
   useEditZiyadahMutation,
   useDeleteZiyadahMutation,
 } from "@/app/lib/redux/api/ziyadahApi";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface ZiyadahProps {
   monthData: Month[];
@@ -84,24 +85,33 @@ export default function Ziyadah({ monthData }: ZiyadahProps) {
         {monthData?.map((item: Month) => (
           <TabsContent value={item.name} key={item.id}>
             <div className="border-2 p-2">
-              <h1 className="text-center font-bold">Ziyadah Bulan {item.name}</h1>
+              <h1 className="text-center font-bold">
+                Ziyadah Bulan {item.name}
+              </h1>
             </div>
             <Table className="min-w-[400px] max-w-[700px]">
               <TableHeader className="border-2">
-                <TableHead className="w-[5%] border-2 text-center">
-                  No
-                </TableHead>
-                <TableHead className="border-2 w-[25%]">
-                  Nama Surah/Ayat
-                </TableHead>
-                <TableHead className="border-2 w-[20%]">Tanggal</TableHead>
-                <TableHead className="border-2 w-[5%] text-center" colSpan={2}>
-                  Action
-                </TableHead>
+                <TableRow>
+                  <TableHead className="w-[5%] border-2 text-center">
+                    No
+                  </TableHead>
+                  <TableHead className="border-2 w-[25%]">
+                    Nama Surah/Ayat
+                  </TableHead>
+                  <TableHead className="border-2 w-[20%]">Tanggal</TableHead>
+                  <TableHead
+                    className="border-2 w-[5%] text-center"
+                    colSpan={2}
+                  >
+                    Action
+                  </TableHead>
+                </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
-                  <div>Loading...</div>
+                  <TableRow>
+                    <TableCell>Memuat Data</TableCell>
+                  </TableRow>
                 ) : murajaahMonthData?.length > 0 ? (
                   murajaahMonthData.map(
                     (ziyadah: ZiyadahMurajaahType, index: any) => (
@@ -113,39 +123,35 @@ export default function Ziyadah({ monthData }: ZiyadahProps) {
                         <TableCell>
                           {format(new Date(ziyadah.date), "dd MMM yyyy")}
                         </TableCell>
-                        <TableCell className="text-center">
-                          <ModalConfirmDelete
-                            isLoading={isDeleting}
-                            isDeletingError={isDeletingError}
-                            isDeletingSuccess={IsDeletingSucces}
-                            icon={
-                              <MdDelete className="mx-auto text-red-600 cursor-pointer" />
-                            }
-                            onConfirmDelete={() => {
-                              deleteZiyadah({ ziyadahId: ziyadah.id });
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <ModalQuran
-                            icon={
-                              <FaEdit className="mx-auto text-green-600 cursor-pointer" />
-                            }
-                            date={ziyadah.date}
-                            surah={ziyadah.surah}
-                            isLoading={isEditing}
-                            isSuccess={isEditingSucces}
-                            title="Edit Ziyadah"
-                            handleSubmitQuran={(data) => {
-                              editZiyadah({
-                                ziyadahId: ziyadah.id,
-                                surah: data.surah,
-                                date: data.date,
-                              });
-                              console.log(data);
-                            }}
-                          />
-                        </TableCell>
+                        <ModalConfirmDelete
+                          isLoading={isDeleting}
+                          isDeletingError={isDeletingError}
+                          isDeletingSuccess={IsDeletingSucces}
+                          icon={
+                            <MdDelete className="mx-auto text-red-600 cursor-pointer" />
+                          }
+                          onConfirmDelete={() => {
+                            deleteZiyadah({ ziyadahId: ziyadah.id });
+                          }}
+                        />
+                        <ModalQuran
+                          icon={
+                            <FaEdit className="mx-auto text-green-600 cursor-pointer" />
+                          }
+                          date={ziyadah.date}
+                          surah={ziyadah.surah}
+                          isLoading={isEditing}
+                          isSuccess={isEditingSucces}
+                          title="Edit Ziyadah"
+                          handleSubmitQuran={(data) => {
+                            editZiyadah({
+                              ziyadahId: ziyadah.id,
+                              surah: data.surah,
+                              date: data.date,
+                            });
+                            console.log(data);
+                          }}
+                        />
                       </TableRow>
                     )
                   )

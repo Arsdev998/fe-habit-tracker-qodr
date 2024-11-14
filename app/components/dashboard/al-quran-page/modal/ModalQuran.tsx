@@ -21,6 +21,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { format, parseISO } from "date-fns";
+import { TableCell } from "@/components/ui/table";
 
 interface ModalQuranProps {
   title: string;
@@ -67,32 +68,62 @@ function ModalQuran({
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant={"ghost"} size={"icon"} onClick={() => setOpen(true)}>
+        <TableCell
+          className="border-none text-center"
+          onClick={() => setOpen(true)}
+        >
           {icon}
-        </Button>
+        </TableCell>
       </DialogTrigger>
       <DialogContent>
         <DialogTitle>{title}</DialogTitle>
-        <DialogDescription>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit((data) => {
-                handleSubmitQuran(data);
-              })}
-              className="space-y-4"
-            >
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit((data) => {
+              handleSubmitQuran(data);
+            })}
+            className="space-y-4"
+          >
+            <FormField
+              control={form.control}
+              name="surah"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm font-medium text-gray-700">
+                    Nama Surah/Ayat
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      {...field}
+                      className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs text-red-600" />
+                </FormItem>
+              )}
+            />
+
+            {isTilawah ? (
               <FormField
                 control={form.control}
-                name="surah"
+                name="lembar"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel className="text-sm font-medium text-gray-700">
-                      Nama Surah/Ayat
+                      Jumlah Lembar
                     </FormLabel>
                     <FormControl>
                       <Input
-                        type="text"
-                        {...field}
+                        type="number"
+                        {...{
+                          ...field,
+                          value: field.value?.toString() ?? "",
+                        }}
+                        onChange={(e) => {
+                          const value = e.target.value;
+                          field.onChange(value === "" ? "" : value);
+                        }}
                         className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
                       />
                     </FormControl>
@@ -100,73 +131,44 @@ function ModalQuran({
                   </FormItem>
                 )}
               />
+            ) : (
+              <FormField
+                control={form.control}
+                name="date"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tanggal</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="date"
+                        value={
+                          field.value instanceof Date
+                            ? format(field.value, "yyyy-MM-dd")
+                            : ""
+                        }
+                        onChange={(e) => {
+                          const selectedDate = new Date(e.target.value);
+                          field.onChange(selectedDate);
+                        }}
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+            )}
 
-              {isTilawah ? (
-                <FormField
-                  control={form.control}
-                  name="lembar"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel className="text-sm font-medium text-gray-700">
-                        Jumlah Lembar
-                      </FormLabel>
-                      <FormControl>
-                        <Input
-                          type="number"
-                          {...{
-                            ...field,
-                            value: field.value?.toString() ?? "", 
-                          }}
-                          onChange={(e) => {
-                            const value = e.target.value; 
-                            field.onChange(value === "" ? "" : value); 
-                          }}
-                          className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs text-red-600" />
-                    </FormItem>
-                  )}
-                />
-              ) : (
-                <FormField
-                  control={form.control}
-                  name="date"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Tanggal</FormLabel>
-                      <FormControl>
-                        <Input
-                          type="date"
-                          value={
-                            field.value instanceof Date
-                              ? format(field.value, "yyyy-MM-dd")
-                              : ""
-                          }
-                          onChange={(e) => {
-                            const selectedDate = new Date(e.target.value);
-                            field.onChange(selectedDate);
-                          }}
-                          className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              )}
-
-              <div className="flex justify-center mt-6">
-                <Button
-                  disabled={isLoading}
-                  className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
-                >
-                  {isLoading ? "Loading..." : "Konfirmasi"}
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </DialogDescription>
+            <div className="flex justify-center mt-6">
+              <Button
+                disabled={isLoading}
+                className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+              >
+                {isLoading ? "Loading..." : "Konfirmasi"}
+              </Button>
+            </div>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

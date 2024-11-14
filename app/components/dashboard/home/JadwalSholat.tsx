@@ -57,7 +57,7 @@ function JadwalSholat({ unsplashFoto }: Props) {
   if (isLoading || !data) {
     return (
       <div>
-        <Skeleton className="bg-green-300 w-[350px] h-[400px]" />
+        <Skeleton className="bg-black/20 w-[350px] h-[400px]" />
       </div>
     );
   }

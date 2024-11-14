@@ -17,7 +17,7 @@ function HadistSection({ unsplashFoto }: Props) {
   if (isLoading || !data) {
     return (
       <div className="rounded-md">
-        <Skeleton className="bg-green-300 w-[300px] sm:min-w-[650px] md:min-w-[800px] h-50 sm:min-h-[350px] rounded-md" />
+        <Skeleton className="bg-black/20 w-[300px] sm:min-w-[650px] md:min-w-[800px] h-50 sm:min-h-[350px] rounded-md" />
       </div>
     );
   }

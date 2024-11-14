@@ -16,7 +16,7 @@ export default function HomePage() {
       <div className="p-2 sm:p-3 bg-zinc-800/10 h-full">
         <div className="mb-3 text-center sm:text-left bg-black bg-opacity-60  p-2 rounded-md text-white">
           <h1 className="text-2xl font-semibold ">
-            Ahlan Wasahlan, Akhi <span className="font-bold">{user?.name}</span>
+            Ahlan Wasahlan, Akhi <span className="font-bold">{user?.fullname}</span>
           </h1>
           <p className="text-lg italic">
             Semoga Antum selalu dalam perlindungan Allah

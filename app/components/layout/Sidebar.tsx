@@ -2,9 +2,10 @@
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { AiFillHome } from "react-icons/ai";
-import { FaBrain, FaUser } from "react-icons/fa6";
+import { FaBrain, FaUser, FaUsers } from "react-icons/fa6";
 import { FaQuran } from "react-icons/fa";
-
+import { AiOutlineFileSearch } from "react-icons/ai";
+import { MdEditNotifications } from "react-icons/md";
 import {
   Sidebar,
   SidebarContent,
@@ -22,11 +23,12 @@ import Image from "next/image";
 import logo from "@/app/public/images/logo-qodr.svg";
 import { Button } from "@/components/ui/button";
 import { RiLogoutBoxRFill } from "react-icons/ri";
-import { useAppDispatch } from "@/app/lib/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hook";
 import { logout } from "@/app/lib/redux/features/authSlices/authAction";
 import NotifIconDot from "../dashboard/notification/NotifIconDot";
 
 export default function SidebarApp() {
+  const user = useAppSelector((state) => state.auth.user);
   const pathname = usePathname();
   const { open } = useSidebarCustom();
   const dispatch = useAppDispatch();
@@ -58,7 +60,7 @@ export default function SidebarApp() {
     {
       href: "/notifikasi",
       label: "Notifikasi",
-      icon: <NotifIconDot/>,
+      icon: <NotifIconDot />,
       active: pathname === "/notifikasi",
     },
     {
@@ -66,6 +68,32 @@ export default function SidebarApp() {
       label: "Profile",
       icon: <FaUser className="h-4 w-4" />,
       active: pathname === "/user-profile",
+    },
+  ];
+  const adminNavData = [
+    {
+      href: "/habitcontroll",
+      label: "Habit Controll",
+      icon: <FaBrain className="h-4 w-4" />,
+      active: pathname === "/habitcontroll",
+    },
+    {
+      href: "/usercontroll",
+      label: "User Controll",
+      icon: <FaUsers className="h-4 w-4" />,
+      active: pathname === "/usercontroll",
+    },
+    {
+      href: "/notifikasicontroll",
+      label: "Notifikasi Controll",
+      icon: <MdEditNotifications className="h-4 w-4" />,
+      active: pathname === "/notifikasicontroll",
+    },
+    {
+      href: "/evaluasi",
+      label: "Evaluasi",
+      icon: <AiOutlineFileSearch className="h-4 w-4" />,
+      active: pathname === "/evaluasi",
     },
   ];
 
@@ -115,6 +143,47 @@ export default function SidebarApp() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
+        {user?.role === "ADMIN" ||
+          (user?.role === "SUPERADMIN" && (
+            <SidebarGroup>
+              <SidebarGroupContent>
+                <SidebarGroupLabel>Admin Controller</SidebarGroupLabel>
+                <SidebarMenu>
+                  {adminNavData.map((item) => (
+                    <SidebarMenuItem key={item.label}>
+                      <Link
+                        href={item.href}
+                        className={cn(
+                          "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-300",
+                          item.active
+                            ? "bg-primary text-primary-foreground"
+                            : "hover:bg-accent",
+                          open ? "" : "justify-center px-2"
+                        )}
+                      >
+                        <div
+                          className={cn(
+                            "transition-all duration-300",
+                            !open && "min-w-4"
+                          )}
+                        >
+                          {item.icon}
+                        </div>
+                        <span
+                          className={cn(
+                            "transition-all duration-300",
+                            open ? "" : "hidden w-0"
+                          )}
+                        >
+                          {item.label}
+                        </span>
+                      </Link>
+                    </SidebarMenuItem>
+                  ))}
+                </SidebarMenu>
+              </SidebarGroupContent>
+            </SidebarGroup>
+          ))}
       </SidebarContent>
       <SidebarFooter
         className={cn(

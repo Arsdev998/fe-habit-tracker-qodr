@@ -8,6 +8,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
+import { TableCell } from "@/components/ui/table";
 
 import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
@@ -55,9 +56,9 @@ const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild >
-        <Button variant={"ghost"} size={"icon"}>
+        <TableCell className="border-none text-center">
           {icon}
-        </Button>
+        </TableCell>
       </DialogTrigger>
       <DialogContent className="flex flex-col justify-center items-center">
         <DialogHeader className="font-bold text-lg">

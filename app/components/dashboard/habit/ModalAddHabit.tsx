@@ -88,76 +88,75 @@ const ModalAddHabit: React.FC<ModalAddHabitProps> = ({
             Tambahkan Habit di {monthName}
           </DialogTitle>
         </DialogHeader>
-        <DialogDescription>
-          <Form {...form}>
-            <form
-              onSubmit={form.handleSubmit(handlePostHabit)}
-              className="space-y-4"
-            >
-              <FormField
-                control={form.control}
-                name="title"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel className="text-sm font-medium text-gray-700">
-                      Nama Habit
-                    </FormLabel>
-                    <FormControl>
-                      <Input
-                        type="text"
-                        {...field}
-                        className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
-                      />
-                    </FormControl>
-                    <FormMessage className="text-xs text-red-600" />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="maxDays"
-                render={({ field: { value, onChange, ...field } }) => (
-                  <FormItem className="w-full">
-                    <FormLabel>Jumlah Hari</FormLabel>
-                    <FormControl>
-                      <Input
-                        {...field}
-                        type="number"
-                        value={value ?? ""} // Convert null to empty string
-                        onChange={(e) => {
-                          const val = e.target.value;
-                          onChange(val === "" ? null : Number(val));
-                        }}
-                        placeholder="0"
-                        className="border-2 border-green-600 outline-none"
-                        onKeyDown={(e) => {
-                          e.stopPropagation();
-                        }}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                        }}
-                        disabled={isLoading}
-                      />
-                    </FormControl>
-                    <FormDescription className="flex items-center gap-x-[1px] text-xs text-yellow-500">
-                      <RiErrorWarningLine /> Kosongkan Jika
-                      ingin sesuai dengan bulan
-                    </FormDescription>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <div className="flex justify-center mt-6">
-                <Button
-                  disabled={isLoading}
-                  className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
-                >
-                  {isLoading ? "Menambahkan..." : "Tambahkan"}
-                </Button>
-              </div>
-            </form>
-          </Form>
-        </DialogDescription>
+
+        <Form {...form}>
+          <form
+            onSubmit={form.handleSubmit(handlePostHabit)}
+            className="space-y-4"
+          >
+            <FormField
+              control={form.control}
+              name="title"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm font-medium text-gray-700">
+                    Nama Habit
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="text"
+                      {...field}
+                      className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs text-red-600" />
+                </FormItem>
+              )}
+            />
+            <FormField
+              control={form.control}
+              name="maxDays"
+              render={({ field: { value, onChange, ...field } }) => (
+                <FormItem className="w-full">
+                  <FormLabel>Jumlah Hari</FormLabel>
+                  <FormControl>
+                    <Input
+                      {...field}
+                      type="number"
+                      value={value ?? ""} // Convert null to empty string
+                      onChange={(e) => {
+                        const val = e.target.value;
+                        onChange(val === "" ? null : Number(val));
+                      }}
+                      placeholder="0"
+                      className="border-2 border-green-600 outline-none"
+                      onKeyDown={(e) => {
+                        e.stopPropagation();
+                      }}
+                      onClick={(e) => {
+                        e.stopPropagation();
+                      }}
+                      disabled={isLoading}
+                    />
+                  </FormControl>
+                  <FormDescription className="flex items-center gap-x-[1px] text-xs text-yellow-500">
+                    <RiErrorWarningLine /> Kosongkan Jika ingin sesuai dengan
+                    bulan
+                  </FormDescription>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
+            <div className="flex justify-center mt-6">
+              <Button
+                disabled={isLoading}
+                className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+              >
+                {isLoading ? "Menambahkan..." : "Tambahkan"}
+              </Button>
+            </div>
+          </form>
+        </Form>
       </DialogContent>
     </Dialog>
   );

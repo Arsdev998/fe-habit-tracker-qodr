@@ -4,6 +4,12 @@ export interface Month {
   year: number;
 }
 
+export interface Habit {
+  id: string;
+  title: string;
+  maxDays: number | null;
+}
+
 export interface ZiyadahMurajaahType {
   id: string;
   surah: string;

@@ -23,13 +23,16 @@ import { MdDelete } from "react-icons/md";
 import { format, formatRFC3339 } from "date-fns";
 import ModalQuran from "./modal/ModalQuran";
 import ModalConfirmDelete from "./modal/ModalConfirmDelete";
+import { Skeleton } from "@/components/ui/skeleton";
 
 interface MurajaahProps {
   monthData: Month[];
 }
 
 export default function Murajaah({ monthData }: MurajaahProps) {
+  const [isClient, setIsClient] = useState(false);
   const user = useAppSelector((state) => state.auth.user);
+
   const currentMonth = monthData?.slice();
   const lastMonth = currentMonth?.[currentMonth.length - 1];
   const [selectedMonthId, setSelectedMonthId] = useState<string>(
@@ -67,6 +70,15 @@ export default function Murajaah({ monthData }: MurajaahProps) {
   }, [isPostSuccess, isEditingSucces, IsDeletingSucces]);
 
   const murajaahMonthData = murajaahData?.murajaah;
+
+  useEffect(() => {
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) {
+    return null;
+  }
+
   return (
     <div className="min-w-[400px] max-w-[700px]">
       <Tabs defaultValue={lastMonth.name}>
@@ -89,21 +101,28 @@ export default function Murajaah({ monthData }: MurajaahProps) {
               </h1>
             </div>
             <Table className="min-w-[400px] max-w-[700px]">
-              <TableHeader className="border-2">
-                <TableHead className="w-[5%] border-2 text-center">
-                  No
-                </TableHead>
-                <TableHead className="border-2 w-[25%]">
-                  Nama Surah/Ayat
-                </TableHead>
-                <TableHead className="border-2 w-[20%]">Tanggal</TableHead>
-                <TableHead className="border-2 w-[5%] text-center" colSpan={2}>
-                  Action
-                </TableHead>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-[5%] border-2 text-center">
+                    No
+                  </TableHead>
+                  <TableHead className="border-2 w-[25%]">
+                    Nama Surah/Ayat
+                  </TableHead>
+                  <TableHead className="border-2 w-[20%]">Tanggal</TableHead>
+                  <TableHead
+                    className="border-2 w-[5%] text-center"
+                    colSpan={2}
+                  >
+                    Action
+                  </TableHead>
+                </TableRow>
               </TableHeader>
               <TableBody>
                 {isLoading ? (
-                  <div>Loading...</div>
+                  <TableRow>
+                    <TableCell>Memuat Data</TableCell>
+                  </TableRow>
                 ) : murajaahMonthData?.length > 0 ? (
                   murajaahMonthData.map(
                     (murajaah: ZiyadahMurajaahType, index: any) => (
@@ -115,46 +134,42 @@ export default function Murajaah({ monthData }: MurajaahProps) {
                         <TableCell>
                           {format(new Date(murajaah.date), "dd MMM yyyy")}
                         </TableCell>
-                        <TableCell className="text-center">
-                          <ModalConfirmDelete
-                            isLoading={isDeleting}
-                            isDeletingError={isDeletingError}
-                            isDeletingSuccess={IsDeletingSucces}
-                            icon={
-                              <MdDelete className="mx-auto text-red-600 cursor-pointer" />
-                            }
-                            onConfirmDelete={() => {
-                              deleteMurajaah({ murajaahId: murajaah.id });
-                            }}
-                          />
-                        </TableCell>
-                        <TableCell className="text-center">
-                          <ModalQuran
-                            icon={
-                              <FaEdit className="mx-auto text-green-600 cursor-pointer" />
-                            }
-                            date={murajaah.date}
-                            surah={murajaah.surah}
-                            isLoading={isEditing}
-                            isSuccess={isEditingSucces}
-                            title="Edit Murajaah"
-                            handleSubmitQuran={(data) => {
-                              editMurajaah({
-                                murajaahId: murajaah.id,
-                                surah: data.surah,
-                                date: data.date,
-                              });
-                              console.log(data);
-                            }}
-                          />
-                        </TableCell>
+                        <ModalConfirmDelete
+                          isLoading={isDeleting}
+                          isDeletingError={isDeletingError}
+                          isDeletingSuccess={IsDeletingSucces}
+                          icon={
+                            <MdDelete className="mx-auto text-red-600 cursor-pointer" />
+                          }
+                          onConfirmDelete={() => {
+                            deleteMurajaah({ murajaahId: murajaah.id });
+                          }}
+                        />
+                        <ModalQuran
+                          icon={
+                            <FaEdit className="mx-auto text-green-600 cursor-pointer" />
+                          }
+                          date={murajaah.date}
+                          surah={murajaah.surah}
+                          isLoading={isEditing}
+                          isSuccess={isEditingSucces}
+                          title="Edit Murajaah"
+                          handleSubmitQuran={(data) => {
+                            editMurajaah({
+                              murajaahId: murajaah.id,
+                              surah: data.surah,
+                              date: data.date,
+                            });
+                            console.log(data);
+                          }}
+                        />
                       </TableRow>
                     )
                   )
                 ) : (
                   <TableRow>
                     <TableCell colSpan={4} className="text-center">
-                      No Data Available
+                      Belum ada data
                     </TableCell>
                   </TableRow>
                 )}

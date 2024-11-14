@@ -11,6 +11,7 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppSelector } from "@/app/lib/redux/hook";
 import { Month } from "@/app/lib/types";
 import { toast } from "sonner";
+import { Skeleton } from "@/components/ui/skeleton";
 
 function HabitPage() {
   const { data: months = [], isLoading: IsMonthLoading } =
@@ -50,7 +51,11 @@ function HabitPage() {
   }, [months]);
 
   if (IsMonthLoading) {
-    return <div>Loadingg.......</div>;
+    return (
+      <div>
+        <Skeleton className="w-full h-full min-w-[1000px] bg-black/15" />
+      </div>
+    );
   }
   return (
     <div className="flex flex-col  min-w-[1200px]">
@@ -81,7 +86,7 @@ function HabitPage() {
             <TabsContent key={month.id} value={month.name}>
               <TableMontHabit
                 days={monthHabits?.days}
-                title={`Habits in ${month.name} ${month.year}`}
+                title={`${month.name} ${month.year}`}
                 selectMonthId={selectedMonthId}
                 refecthHabit={refetch}
               />
@@ -89,7 +94,9 @@ function HabitPage() {
           ))}
         </Tabs>
       ) : (
-        <div className="w-full">loadingggg</div>
+        <div className="w-full">
+          <Skeleton className="w-full h-full min-h-[500px] min-w-[1000px] bg-black/15" />
+        </div>
       )}
     </div>
   );
