@@ -23,7 +23,7 @@ const MonthList = () => {
       <Table>
         <TableHeader>
           <TableRow>
-            <TableHead>
+            <TableHead className="text-center flex items-center">
               Tambahkan{" "}
               <ModalMonth
                 title="Tambahkan Bulan"

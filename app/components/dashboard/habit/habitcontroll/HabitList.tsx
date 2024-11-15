@@ -30,10 +30,10 @@ function HabitList() {
         <Table>
           <TableHeader>
             <TableRow>
-              <TableHead className="text-center font-semibold">
+              <TableHead className="text-center font-semibold border-r-2">
                 List Habit
               </TableHead>
-              <TableHead className="text-center font-semibold">
+              <TableHead className="text-center font-semibold flex items-center">
                 Tambahkan{" "}
                 <ModalAddHabit
                   monthId=""

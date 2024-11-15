@@ -124,6 +124,7 @@ export default function Ziyadah({ monthData }: ZiyadahProps) {
                           {format(new Date(ziyadah.date), "dd MMM yyyy")}
                         </TableCell>
                         <ModalConfirmDelete
+                          resetState={deleteReset}
                           isLoading={isDeleting}
                           isDeletingError={isDeletingError}
                           isDeletingSuccess={IsDeletingSucces}

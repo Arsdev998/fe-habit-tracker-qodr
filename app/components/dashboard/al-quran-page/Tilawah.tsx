@@ -120,6 +120,7 @@ export default function Tilawah({ monthData }: TilawahProps) {
                       <TableCell>{tilawah.surah}</TableCell>
                       <TableCell>{tilawah.lembar}</TableCell>
                       <ModalConfirmDelete
+                        resetState={deleteReset}
                         isLoading={isDeleting}
                         isDeletingError={isDeletingError}
                         isDeletingSuccess={IsDeletingSucces}

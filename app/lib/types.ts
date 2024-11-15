@@ -26,4 +26,12 @@ export interface TilawahType {
   lembar: number;
 }
 
+export interface UserType {
+  name:string,
+  email: string,
+  password: string,
+  fullName: string,
+  joinDate: string,
+  role: string
+}
 
