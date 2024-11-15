@@ -17,11 +17,32 @@ export const userApi = createApi({
       query: (userId: string) => `/user/getById/${userId}`,
       providesTags: (result, error, userId) => [{ type: "User", id: userId }],
     }),
-    postUser: builder.mutation<any, UserType>({
-      query: (body) => ({
-        url: "/user/post",
+    postUser: builder.mutation({
+      query: ({
+        name,
+        email,
+        password,
+        fullname,
+        joinDate,
+        role,
+      }: {
+        name: string;
+        email: string;
+        password: string;
+        fullname: string;
+        joinDate: string;
+        role: string;
+      }) => ({
+        url: "/user/create",
         method: "POST",
-        body,
+        body: {
+          name,
+          password,
+          email,
+          fullname,
+          joinDate,
+          role,
+        },
       }),
       invalidatesTags: ["User"], // Invalidasi cache saat data diubah
     }),

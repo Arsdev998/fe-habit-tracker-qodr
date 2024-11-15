@@ -28,30 +28,41 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useState } from "react";
 import { useForm } from "react-hook-form";
 
 const ModalAddUser = () => {
   const [postUser, { isLoading }] = usePostUserMutation();
+  const [isOpen, setIsOpen] = useState<boolean>(false);
   const form = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: {
       name: "",
       password: "",
       fullname: "",
-      joinDate: "",
       email: "",
+      joinDate: "",
       role: "SANTRI",
     },
   });
 
-  const handleSubmitUser = async (data: any) => {
-    console.log(data);
+
+  const handleSubmitUser = async (data: {
+    name: string;
+    password: string;
+    fullname: string;
+    joinDate: string;
+    email: string;
+    role: string;
+  }) => {
+    console.log("Calling postUser with data:", data);
     await postUser(data).unwrap();
   };
+
   return (
-    <Dialog>
-      <DialogTrigger>
-        <Button>Tambahkan User</Button>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogTrigger className="w-full p-2 bg-green-400 rounded-md" asChild>
+        <Button onClick={() => setIsOpen(true)}>Tambah User</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
@@ -117,6 +128,25 @@ const ModalAddUser = () => {
                 </FormItem>
               )}
             />
+            <FormField
+              control={form.control}
+              name="email"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel className="text-sm font-medium text-gray-700">
+                   Email
+                  </FormLabel>
+                  <FormControl>
+                    <Input
+                      type="email"
+                      {...field}
+                      className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                    />
+                  </FormControl>
+                  <FormMessage className="text-xs text-red-600" />
+                </FormItem>
+              )}
+            />
 
             <FormField
               control={form.control}
@@ -166,6 +196,7 @@ const ModalAddUser = () => {
             />
             <DialogFooter>
               <Button
+                type="submit"
                 disabled={isLoading}
                 className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
               >

@@ -40,6 +40,10 @@ interface Props {
 
 const ModalMonth = ({ title, description }: Props) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
+  const [
+    postMonth,
+    { isLoading: isPostMonthLoading, isSuccess: isPostMonthSuccess },
+  ] = usePostMonthMutation();
   const form = useForm({
     resolver: zodResolver(monthSchema),
     defaultValues: {
@@ -47,10 +51,6 @@ const ModalMonth = ({ title, description }: Props) => {
       year: 2024,
     },
   });
-  const [
-    postMonth,
-    { isLoading: isPostMonthLoading, isSuccess: isPostMonthSuccess },
-  ] = usePostMonthMutation();
   const handleSubmit = async (data: { name: string; year: number }) => {
     await postMonth(data).unwrap();
   };
