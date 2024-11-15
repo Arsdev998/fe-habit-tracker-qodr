@@ -11,7 +11,7 @@ export const monthApi = createApi({
   endpoints: (builder) => ({
     getAllMonth: builder.query<Month[], void>({
       query: () => "/months",
-      providesTags: ["Month"],
+      providesTags: [{ type: "Month", id: "LIST" }],
     }),
     postMonth: builder.mutation<MonthReq, MonthReq>({
       query: ({ name, year }: { name: string; year: number }) => ({
@@ -22,8 +22,20 @@ export const monthApi = createApi({
           year: year,
         },
       }),
+      invalidatesTags: [{ type: "Month", id: "LIST" }],
+    }),
+    deleteMonth: builder.mutation({
+      query: ({ monthId }: { monthId: string }) => ({
+        url: `/months/delete/${monthId}`,
+        method: "DELETE",
+      }),
+      invalidatesTags: [{ type: "Month", id: "LIST" }],
     }),
   }),
 });
 
-export const { usePostMonthMutation, useGetAllMonthQuery } = monthApi;
+export const {
+  usePostMonthMutation,
+  useGetAllMonthQuery,
+  useDeleteMonthMutation,
+} = monthApi;

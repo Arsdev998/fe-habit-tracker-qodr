@@ -1,8 +1,8 @@
+// app/_components/loginpage.tsx
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm } from "react-hook-form";
-
 import {
   Form,
   FormControl,
@@ -27,11 +27,12 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 
-export default function Login() {
+export default function LoginForm() {
   const dispatch = useAppDispatch();
-  const {error, loading ,status} = useAppSelector((state) => state.auth);
-  const [isRedirect,setIsRedirect] = useState<boolean>(false)
+  const { error, loading, status } = useAppSelector((state) => state.auth);
+  const [isRedirect, setIsRedirect] = useState<boolean>(false);
   const router = useRouter();
+
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -50,13 +51,14 @@ export default function Login() {
 
   useEffect(() => {
     if (status === "succeeded") {
-      setIsRedirect(true)
-      router.push("/")
-      setIsRedirect(false)
+      setIsRedirect(true);
+      router.push("/");
+      setIsRedirect(false);
     }
-  }, [status,router]);
+  }, [status, router]);
+
   return (
-    <div className="h-screen w-full flex justify-center items-center">
+    <div className="min-h-screen w-full flex justify-center items-center">
       <Card className="flex flex-col items-center p-3 min-w-[350px] min-h-[300px]">
         <Form {...form}>
           <form onSubmit={form.handleSubmit(onSubmit)}>
@@ -97,8 +99,7 @@ export default function Login() {
               />
             </CardContent>
             <CardFooter className="flex flex-col items-center">
-              <p className="text-red-500 text-sm">{error ? error : ""}</p>
-
+              {error && <p className="text-red-500 text-sm">{error}</p>}
               <Button
                 className="w-full"
                 disabled={loading || status === "succeeded"}

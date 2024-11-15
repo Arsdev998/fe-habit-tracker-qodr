@@ -5,10 +5,12 @@ export const tilawahApi = createApi({
     baseUrl: process.env.NEXT_PUBLIC_DB_HOST,
     credentials: "include",
   }),
+  tagTypes: ["Tilawah"],
   endpoints: (builder) => ({
     getTilawah: builder.query({
       query: ({ monthId, userId }: { monthId: string; userId: string }) =>
         `/months/${monthId}/monthWithTilawah/${userId}`,
+      providesTags: [{ type: "Tilawah", id: "LIST" }],
     }),
     postTilawah: builder.mutation({
       query: ({

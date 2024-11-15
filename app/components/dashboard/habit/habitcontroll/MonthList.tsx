@@ -1,5 +1,5 @@
 "use client";
-import { useGetAllMonthHabitsQuery } from "@/app/lib/redux/api/habitApi";
+import { useGetAllMonthQuery } from "@/app/lib/redux/api/monthAPi";
 import {
   Table,
   TableBody,
@@ -8,11 +8,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React from "react";
+import React, { useState } from "react";
 import ModalMonth from "./modal/ModalMonth";
+import ModalConfirmDelete from "../../al-quran-page/modal/ModalConfirmDelete";
+import { MdDelete } from "react-icons/md";
+import { useDeleteMonthMutation } from "@/app/lib/redux/api/monthAPi";
 
 const MonthList = () => {
-  const { data: monthData } = useGetAllMonthHabitsQuery();
+  const { data: monthData } = useGetAllMonthQuery();
+  const [deleteMonth, { isLoading, isSuccess, isError ,reset}] =
+    useDeleteMonthMutation();
   return (
     <div>
       <Table>
@@ -28,6 +33,7 @@ const MonthList = () => {
           </TableRow>
           <TableRow>
             <TableHead>List Bulan</TableHead>
+            <TableHead>Tahun</TableHead>
             <TableHead colSpan={2}>Action</TableHead>
           </TableRow>
         </TableHeader>
@@ -35,6 +41,15 @@ const MonthList = () => {
           {monthData?.map((month) => (
             <TableRow key={month.id}>
               <TableCell>{month.name}</TableCell>
+              <TableCell>{month.year}</TableCell>
+              <ModalConfirmDelete
+                icon={<MdDelete />}
+                isDeletingError={isError}
+                isDeletingSuccess={isSuccess}
+                isLoading={isLoading}
+                onConfirmDelete={() => deleteMonth({ monthId: month.id })}
+                resetState={reset}
+              />
             </TableRow>
           ))}
         </TableBody>

@@ -5,10 +5,12 @@ export const murajaahApi = createApi({
     baseUrl: process.env.NEXT_PUBLIC_DB_HOST,
     credentials: "include",
   }),
+  tagTypes: ["Murajaah"],
   endpoints: (builder) => ({
     getMurajaah: builder.query({
       query: ({ monthId, userId }: { monthId: string; userId: string }) =>
         `/months/${monthId}/monthWithMurajaah/${userId}`,
+      providesTags: [{ type: "Murajaah", id: "LIST" }],
     }),
     postMurajaah: builder.mutation({
       query: ({
@@ -29,6 +31,7 @@ export const murajaahApi = createApi({
           date,
         },
       }),
+      invalidatesTags: [{ type: "Murajaah", id: "LIST" }],
     }),
     editMurajaah: builder.mutation({
       query: ({
@@ -47,15 +50,21 @@ export const murajaahApi = createApi({
           date,
         },
       }),
+      invalidatesTags: [{ type: "Murajaah", id: "LIST" }],
     }),
     deleteMurajaah: builder.mutation({
       query: ({ murajaahId }: { murajaahId: string }) => ({
         url: `/murajaah/delete/${murajaahId}`,
         method: "DELETE",
       }),
+      invalidatesTags: [{ type: "Murajaah", id: "LIST" }],
     }),
   }),
 });
 
-
-export const {useGetMurajaahQuery, usePostMurajaahMutation, useEditMurajaahMutation,useDeleteMurajaahMutation} = murajaahApi;
+export const {
+  useGetMurajaahQuery,
+  usePostMurajaahMutation,
+  useEditMurajaahMutation,
+  useDeleteMurajaahMutation,
+} = murajaahApi;

@@ -14,6 +14,7 @@ import { useEffect, useRef, useState } from "react";
 import { toast } from "sonner";
 interface ModalConfirmDelteProps {
   onConfirmDelete: () => void;
+  resetState: () => void;
   isDeletingSuccess: boolean;
   isDeletingError: boolean;
   isLoading: boolean;
@@ -25,7 +26,8 @@ const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
   isDeletingSuccess,
   isDeletingError,
   isLoading,
-  icon
+  icon,
+  resetState
   
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -36,6 +38,7 @@ const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
       toast.success("Berhasil Menghapus");
       toastShownRef.current = true;
       setIsOpen(false);
+      resetState();
     }
     if (isDeletingError && !toastShownRef.current) {
       toast.warning("Gagal Dihapus");

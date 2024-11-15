@@ -62,13 +62,6 @@ export default function Murajaah({ monthData }: MurajaahProps) {
     userId: user?.id,
   });
 
-  useEffect(() => {
-    if (isPostSuccess || isEditingSucces || IsDeletingSucces) {
-      refetch();
-      deleteReset();
-    }
-  }, [isPostSuccess, isEditingSucces, IsDeletingSucces]);
-
   const murajaahMonthData = murajaahData?.murajaah;
 
   useEffect(() => {
@@ -138,6 +131,7 @@ export default function Murajaah({ monthData }: MurajaahProps) {
                           isLoading={isDeleting}
                           isDeletingError={isDeletingError}
                           isDeletingSuccess={IsDeletingSucces}
+                          resetState={deleteReset}
                           icon={
                             <MdDelete className="mx-auto text-red-600 cursor-pointer" />
                           }

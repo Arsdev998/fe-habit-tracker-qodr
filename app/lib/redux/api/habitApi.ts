@@ -7,9 +7,11 @@ export const habitApi = createApi({
     baseUrl: process.env.NEXT_PUBLIC_DB_HOST,
     credentials: "include",
   }),
+  tagTypes: ["Habit"],
   endpoints: (builder) => ({
     getAllHabit: builder.query<Habit[], void>({
       query: () => "/habit/get",
+      providesTags: [{ type: "Habit", id: "LIST" }],
     }),
     getAllMonthHabits: builder.query<Month[], void>({
       query: () => "/months",
@@ -17,6 +19,7 @@ export const habitApi = createApi({
     getMonthHabits: builder.query({
       query: ({ monthId, userId }: { monthId: string; userId: string }) =>
         `months/${monthId}/monthWithHabitStatuses/${userId}`,
+      providesTags: [{ type: "Habit", id: "LIST" }],
     }),
     updateHabitStatus: builder.mutation({
       query: ({
@@ -39,6 +42,7 @@ export const habitApi = createApi({
           status,
         },
       }),
+      invalidatesTags: [{ type: "Habit", id: "LIST" }],
     }),
     postHabitUSer: builder.mutation({
       query: ({
@@ -59,6 +63,7 @@ export const habitApi = createApi({
           maxDays: maxDays !== undefined ? maxDays : null,
         },
       }),
+      invalidatesTags: [{ type: "Habit", id: "LIST" }],
     }),
     editHabitUser: builder.mutation({
       query: ({
@@ -77,12 +82,14 @@ export const habitApi = createApi({
           maxDays: maxDays !== undefined ? maxDays : null,
         },
       }),
+      invalidatesTags: [{ type: "Habit", id: "LIST" }],
     }),
     deletehabit: builder.mutation({
       query: ({ habitId }: { habitId: string }) => ({
         url: `/habit/delete/${habitId}`,
         method: "DELETE",
       }),
+      invalidatesTags: [{ type: "Habit", id: "LIST" }],
     }),
     posthabitAdmin: builder.mutation({
       query: ({
@@ -99,6 +106,7 @@ export const habitApi = createApi({
           maxDays: maxDays !== undefined ? maxDays : null,
         },
       }),
+      invalidatesTags: [{ type: "Habit", id: "LIST" }],
     }),
   }),
 });
@@ -111,5 +119,5 @@ export const {
   usePostHabitUSerMutation,
   useEditHabitUserMutation,
   useDeletehabitMutation,
-  usePosthabitAdminMutation
+  usePosthabitAdminMutation,
 } = habitApi;
