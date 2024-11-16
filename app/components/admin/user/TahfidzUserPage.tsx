@@ -1,27 +1,18 @@
 "use client";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import Murajaah from "./Murajaah";
-import Ziyadah from "./Ziyadah";
-import Tilawah from "./Tilawah";
-import { useGetAllMonthHabitsQuery } from "@/app/lib/redux/api/habitApi";
 import { Skeleton } from "@/components/ui/skeleton";
-import { useEffect, useState } from "react";
-import { useAppSelector } from "@/app/lib/redux/hook";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { useParams } from "next/navigation";
+import Murajaah from "../../dashboard/al-quran-page/Murajaah";
+import Ziyadah from "../../dashboard/al-quran-page/Ziyadah";
+import Tilawah from "../../dashboard/al-quran-page/Tilawah";
+import { useGetAllMonthHabitsQuery } from "@/app/lib/redux/api/habitApi";
 
-const AlQuranPage = () => {
-  const [isClient, setIsClient] = useState(false);
-  const user = useAppSelector((state) => state.auth.user);
-
-  useEffect(() => {
-    setIsClient(true);
-  }, []);
+const TahfidzUserPage = () => {
+  const { userId } = useParams();
+  const isValidId = typeof userId === "string" ? userId : "";
 
   const { data: monthData, isLoading: monthLoading } =
     useGetAllMonthHabitsQuery();
-
-  if (!isClient) {
-    return null;
-  }
   return (
     <div>
       <Tabs defaultValue="murajaah" className="border-2">
@@ -41,13 +32,13 @@ const AlQuranPage = () => {
         ) : (
           <div>
             <TabsContent value="murajaah">
-              <Murajaah monthData={monthData ?? []} userId={user.id} />
+              <Murajaah monthData={monthData ?? []} userId={isValidId} />
             </TabsContent>
             <TabsContent value="ziyadah">
-              <Ziyadah monthData={monthData ?? []} userId={user.id}/>
+              <Ziyadah monthData={monthData ?? []} userId={isValidId} />
             </TabsContent>
             <TabsContent value="tilawah">
-              <Tilawah monthData={monthData ?? []} userId={user.id}/>
+              <Tilawah monthData={monthData ?? []} userId={isValidId} />
             </TabsContent>
           </div>
         )}
@@ -56,4 +47,4 @@ const AlQuranPage = () => {
   );
 };
 
-export default AlQuranPage;
+export default TahfidzUserPage;

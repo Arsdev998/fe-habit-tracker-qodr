@@ -30,6 +30,7 @@ import {
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 
 const ModalAddUser = () => {
   const [postUser, { isLoading }] = usePostUserMutation();
@@ -46,7 +47,6 @@ const ModalAddUser = () => {
     },
   });
 
-
   const handleSubmitUser = async (data: {
     name: string;
     password: string;
@@ -55,8 +55,13 @@ const ModalAddUser = () => {
     email: string;
     role: string;
   }) => {
-    console.log("Calling postUser with data:", data);
-    await postUser(data).unwrap();
+    try {
+      await postUser(data).unwrap();
+      toast.success("User berhasil ditambahkan");
+      setIsOpen(false);
+    } catch (error) {
+      toast.error("User gagal ditambahkan");
+    }
   };
 
   return (
@@ -134,7 +139,7 @@ const ModalAddUser = () => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel className="text-sm font-medium text-gray-700">
-                   Email
+                    Email
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -198,7 +203,7 @@ const ModalAddUser = () => {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition"
+                className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition mt-4"
               >
                 {isLoading ? "Menambahkan..." : "Tambahkan"}
               </Button>

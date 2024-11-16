@@ -14,7 +14,7 @@ function layout({ children }: { children: React.ReactNode }) {
           <Header />
           <main className="">{children}</main>
         </section>
-        <Toaster position="top-center" richColors />
+        <Toaster position="top-right" richColors />
       </SidebarProvider>
     </>
   );

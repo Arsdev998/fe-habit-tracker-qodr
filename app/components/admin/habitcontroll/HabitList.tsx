@@ -10,9 +10,9 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import React, { useState } from "react";
-import ModalAddHabit from "../ModalAddHabit";
-import ModalEditHabit from "../ModalEditHabit";
-import ModalDeleteHabit from "../ModalConfirmDeleteHabit";
+import ModalAddHabit from "@/app/components/organism/modal/ModalAddHabit";
+import ModalEditHabit from "@/app/components/organism/modal/ModalEditHabit";
+import ModalDeleteHabit from "@/app/components/organism/modal/ModalConfirmDeleteHabit";
 
 function HabitList() {
   const { data, isLoading, refetch } = useGetAllHabitQuery();

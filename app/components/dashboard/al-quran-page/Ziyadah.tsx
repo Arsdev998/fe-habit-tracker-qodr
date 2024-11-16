@@ -15,21 +15,21 @@ import { useEffect, useState } from "react";
 import { FaEdit, FaPlusSquare } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
 import { format } from "date-fns";
-import ModalQuran from "./modal/ModalQuran";
-import ModalConfirmDelete from "./modal/ModalConfirmDelete";
+import ModalQuran from "../../organism/modal/ModalQuran";
+import ModalConfirmDelete from "../../organism/modal/ModalConfirmDelete";
 import {
   useGetZiyadahQuery,
   usePostZiyadahMutation,
   useEditZiyadahMutation,
   useDeleteZiyadahMutation,
 } from "@/app/lib/redux/api/ziyadahApi";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface ZiyadahProps {
   monthData: Month[];
+  userId: string;
 }
 
-export default function Ziyadah({ monthData }: ZiyadahProps) {
+export default function Ziyadah({ monthData, userId }: ZiyadahProps) {
   const user = useAppSelector((state) => state.auth.user);
   const currentMonth = monthData?.slice();
   const lastMonth = currentMonth?.[currentMonth.length - 1];
@@ -57,7 +57,7 @@ export default function Ziyadah({ monthData }: ZiyadahProps) {
     refetch,
   } = useGetZiyadahQuery({
     monthId: selectedMonthId,
-    userId: user?.id,
+    userId: userId,
   });
 
   useEffect(() => {
@@ -68,6 +68,8 @@ export default function Ziyadah({ monthData }: ZiyadahProps) {
   }, [isPostSuccess, isEditingSucces, IsDeletingSucces]);
 
   const murajaahMonthData = murajaahData?.ziyadah;
+
+  const isUser = user?.id === userId;
   return (
     <div className="w-full min-w-[400px] max-w-[700px]">
       <Tabs defaultValue={lastMonth.name}>
@@ -99,12 +101,14 @@ export default function Ziyadah({ monthData }: ZiyadahProps) {
                     Nama Surah/Ayat
                   </TableHead>
                   <TableHead className="border-2 w-[20%]">Tanggal</TableHead>
-                  <TableHead
-                    className="border-2 w-[5%] text-center"
-                    colSpan={2}
-                  >
-                    Action
-                  </TableHead>
+                  {isUser && (
+                    <TableHead
+                      className="border-2 w-[5%] text-center"
+                      colSpan={2}
+                    >
+                      Action
+                    </TableHead>
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -123,36 +127,40 @@ export default function Ziyadah({ monthData }: ZiyadahProps) {
                         <TableCell>
                           {format(new Date(ziyadah.date), "dd MMM yyyy")}
                         </TableCell>
-                        <ModalConfirmDelete
-                          resetState={deleteReset}
-                          isLoading={isDeleting}
-                          isDeletingError={isDeletingError}
-                          isDeletingSuccess={IsDeletingSucces}
-                          icon={
-                            <MdDelete className="mx-auto text-red-600 cursor-pointer" />
-                          }
-                          onConfirmDelete={() => {
-                            deleteZiyadah({ ziyadahId: ziyadah.id });
-                          }}
-                        />
-                        <ModalQuran
-                          icon={
-                            <FaEdit className="mx-auto text-green-600 cursor-pointer" />
-                          }
-                          date={ziyadah.date}
-                          surah={ziyadah.surah}
-                          isLoading={isEditing}
-                          isSuccess={isEditingSucces}
-                          title="Edit Ziyadah"
-                          handleSubmitQuran={(data) => {
-                            editZiyadah({
-                              ziyadahId: ziyadah.id,
-                              surah: data.surah,
-                              date: data.date,
-                            });
-                            console.log(data);
-                          }}
-                        />
+                        {isUser && (
+                          <ModalConfirmDelete
+                            resetState={deleteReset}
+                            isLoading={isDeleting}
+                            isDeletingError={isDeletingError}
+                            isDeletingSuccess={IsDeletingSucces}
+                            icon={
+                              <MdDelete className="mx-auto text-red-600 cursor-pointer" />
+                            }
+                            onConfirmDelete={() => {
+                              deleteZiyadah({ ziyadahId: ziyadah.id });
+                            }}
+                          />
+                        )}
+
+                        {isUser && (
+                          <ModalQuran
+                            icon={
+                              <FaEdit className="mx-auto text-green-600 cursor-pointer" />
+                            }
+                            date={ziyadah.date}
+                            surah={ziyadah.surah}
+                            isLoading={isEditing}
+                            isSuccess={isEditingSucces}
+                            title="Edit Ziyadah"
+                            handleSubmitQuran={(data) => {
+                              editZiyadah({
+                                ziyadahId: ziyadah.id,
+                                surah: data.surah,
+                                date: data.date,
+                              });
+                            }}
+                          />
+                        )}
                       </TableRow>
                     )
                   )
@@ -163,27 +171,29 @@ export default function Ziyadah({ monthData }: ZiyadahProps) {
                     </TableCell>
                   </TableRow>
                 )}
-                <TableRow className="text-right">
-                  <ModalQuran
-                    icon={
-                      <FaPlusSquare className="mx-auto text-green-400 text-lg" />
-                    }
-                    title="Tambahkan Ziyadah"
-                    isLoading={isPosting}
-                    surah="" // Set surah to an empty string or an appropriate value
-                    date={new Date()} // You can replace this with a timestamp or the appropriate date format
-                    isSuccess={isPostSuccess}
-                    handleSubmitQuran={(data) => {
-                      console.log(data);
-                      postZiyadah({
-                        monthId: selectedMonthId,
-                        userId: user.id,
-                        surah: data.surah,
-                        date: data.date,
-                      });
-                    }}
-                  />
-                </TableRow>
+                {isUser && (
+                  <TableRow className="text-right">
+                    <ModalQuran
+                      icon={
+                        <FaPlusSquare className="mx-auto text-green-400 text-lg" />
+                      }
+                      title="Tambahkan Ziyadah"
+                      isLoading={isPosting}
+                      surah="" // Set surah to an empty string or an appropriate value
+                      date={new Date()} // You can replace this with a timestamp or the appropriate date format
+                      isSuccess={isPostSuccess}
+                      handleSubmitQuran={(data) => {
+                        console.log(data);
+                        postZiyadah({
+                          monthId: selectedMonthId,
+                          userId: user.id,
+                          surah: data.surah,
+                          date: data.date,
+                        });
+                      }}
+                    />
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TabsContent>

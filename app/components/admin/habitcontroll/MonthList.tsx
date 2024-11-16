@@ -8,15 +8,14 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import React, { useState } from "react";
 import ModalMonth from "./modal/ModalMonth";
-import ModalConfirmDelete from "../../al-quran-page/modal/ModalConfirmDelete";
+import ModalConfirmDelete from "@/app/components/organism/modal/ModalConfirmDelete";
 import { MdDelete } from "react-icons/md";
 import { useDeleteMonthMutation } from "@/app/lib/redux/api/monthAPi";
 
 const MonthList = () => {
   const { data: monthData } = useGetAllMonthQuery();
-  const [deleteMonth, { isLoading, isSuccess, isError ,reset}] =
+  const [deleteMonth, { isLoading, isSuccess, isError, reset }] =
     useDeleteMonthMutation();
   return (
     <div>

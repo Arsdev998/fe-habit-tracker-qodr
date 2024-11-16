@@ -4,6 +4,7 @@ import {
   Dialog,
   DialogContent,
   DialogDescription,
+  DialogFooter,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -27,8 +28,7 @@ const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
   isDeletingError,
   isLoading,
   icon,
-  resetState
-  
+  resetState,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const toastShownRef = useRef<boolean>(false);
@@ -51,24 +51,25 @@ const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
     };
   }, [isDeletingSuccess, isDeletingError]);
 
-   const handleConfirmDelete = () => {
-     toastShownRef.current = false; // Reset flag before delete
-     onConfirmDelete();
-   };
+  const handleConfirmDelete = () => {
+    toastShownRef.current = false; // Reset flag before delete
+    onConfirmDelete();
+  };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild >
-        <TableCell className="border-none text-center">
-          {icon}
-        </TableCell>
+    <Dialog open={isOpen} onOpenChange={setIsOpen} >
+      <DialogTrigger asChild>
+        <TableCell className="border-none text-center">{icon}</TableCell>
       </DialogTrigger>
-      <DialogContent className="flex flex-col justify-center items-center">
+      <DialogContent className="flex flex-col justify-center items-center w-[400px]">
         <DialogHeader className="font-bold text-lg">
           <DialogTitle>Konfirmasi Hapus</DialogTitle>
         </DialogHeader>
         <DialogDescription>
-          <Button variant={"outline"} onClick={() => setIsOpen(false)}>
+          Apakah Kamu Yakin Ingin Menghapus Data Ini?
+        </DialogDescription>
+        <DialogFooter className="flex gap-4">
+          <Button variant={"default"} onClick={() => setIsOpen(false)} className="bg-green-500 hover:bg-green-600">
             Batal
           </Button>
           <Button
@@ -78,7 +79,7 @@ const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
           >
             {isLoading ? "Menghapus" : "Hapus"}
           </Button>
-        </DialogDescription>
+        </DialogFooter>
       </DialogContent>
     </Dialog>
   );

@@ -14,21 +14,21 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { FaEdit, FaPlusSquare } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import ModalQuran from "./modal/ModalQuran";
-import ModalConfirmDelete from "./modal/ModalConfirmDelete";
+import ModalQuran from "../../organism/modal/ModalQuran";
+import ModalConfirmDelete from "../../organism/modal/ModalConfirmDelete";
 import {
   useGetTilawahQuery,
   useDeleteTilawahMutation,
   useEditTilawahMutation,
   usePostTilawahMutation,
 } from "@/app/lib/redux/api/tilawahApi";
-import { Skeleton } from "@/components/ui/skeleton";
 
 interface TilawahProps {
   monthData: Month[];
+  userId: string;
 }
 
-export default function Tilawah({ monthData }: TilawahProps) {
+export default function Tilawah({ monthData, userId }: TilawahProps) {
   const user = useAppSelector((state) => state.auth.user);
   const currentMonth = monthData?.slice();
   const lastMonth = currentMonth?.[currentMonth.length - 1];
@@ -56,7 +56,7 @@ export default function Tilawah({ monthData }: TilawahProps) {
     refetch,
   } = useGetTilawahQuery({
     monthId: selectedMonthId,
-    userId: user?.id,
+    userId: userId,
   });
 
   useEffect(() => {
@@ -67,6 +67,7 @@ export default function Tilawah({ monthData }: TilawahProps) {
   }, [isPostSuccess, isEditingSucces, IsDeletingSucces]);
 
   const murajaahMonthData = murajaahData?.tilawah;
+  const isLogin = user?.id === userId;
   return (
     <div className="w-full min-w-[400px] max-w-[700px]">
       <Tabs defaultValue={lastMonth.name}>
@@ -100,12 +101,14 @@ export default function Tilawah({ monthData }: TilawahProps) {
                   <TableHead className="border-2 w-[20%]">
                     Jumlah Lembar
                   </TableHead>
-                  <TableHead
-                    className="border-2 w-[5%] text-center"
-                    colSpan={2}
-                  >
-                    Action
-                  </TableHead>
+                  {isLogin && (
+                    <TableHead
+                      className="border-2 w-[5%] text-center"
+                      colSpan={2}
+                    >
+                      Action
+                    </TableHead>
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -119,36 +122,41 @@ export default function Tilawah({ monthData }: TilawahProps) {
                       <TableCell className="text-center">{index + 1}</TableCell>
                       <TableCell>{tilawah.surah}</TableCell>
                       <TableCell>{tilawah.lembar}</TableCell>
-                      <ModalConfirmDelete
-                        resetState={deleteReset}
-                        isLoading={isDeleting}
-                        isDeletingError={isDeletingError}
-                        isDeletingSuccess={IsDeletingSucces}
-                        icon={
-                          <MdDelete className="mx-auto text-red-600 cursor-pointer" />
-                        }
-                        onConfirmDelete={() => {
-                          deleteZiyadah({ tilawahId: tilawah.id });
-                        }}
-                      />
-                      <ModalQuran
-                        icon={
-                          <FaEdit className="mx-auto text-green-600 cursor-pointer" />
-                        }
-                        date={tilawah.lembar}
-                        surah={tilawah.surah}
-                        isLoading={isEditing}
-                        isSuccess={isEditingSucces}
-                        title="Edit Tilawah"
-                        handleSubmitQuran={(data) => {
-                          editZiyadah({
-                            tilawahId: tilawah.id,
-                            surah: data.surah,
-                            lembar: data.lembar,
-                          });
-                          console.log(data);
-                        }}
-                      />
+                      {isLogin && (
+                        <ModalConfirmDelete
+                          resetState={deleteReset}
+                          isLoading={isDeleting}
+                          isDeletingError={isDeletingError}
+                          isDeletingSuccess={IsDeletingSucces}
+                          icon={
+                            <MdDelete className="mx-auto text-red-600 cursor-pointer" />
+                          }
+                          onConfirmDelete={() => {
+                            deleteZiyadah({ tilawahId: tilawah.id });
+                          }}
+                        />
+                      )}
+
+                      {isLogin && (
+                        <ModalQuran
+                          icon={
+                            <FaEdit className="mx-auto text-green-600 cursor-pointer" />
+                          }
+                          date={tilawah.lembar}
+                          surah={tilawah.surah}
+                          isLoading={isEditing}
+                          isSuccess={isEditingSucces}
+                          title="Edit Tilawah"
+                          handleSubmitQuran={(data) => {
+                            editZiyadah({
+                              tilawahId: tilawah.id,
+                              surah: data.surah,
+                              lembar: data.lembar,
+                            });
+                            console.log(data);
+                          }}
+                        />
+                      )}
                     </TableRow>
                   ))
                 ) : (
@@ -158,27 +166,29 @@ export default function Tilawah({ monthData }: TilawahProps) {
                     </TableCell>
                   </TableRow>
                 )}
-                <TableRow className="text-right">
-                  <ModalQuran
-                    icon={
-                      <FaPlusSquare className="mx-auto text-green-400 text-lg" />
-                    }
-                    title="Tambahkan Tilawah"
-                    isLoading={isPosting}
-                    surah="" // Set surah to an empty string or an appropriate value
-                    date={0} // You can replace this with a timestamp or the appropriate date format
-                    isSuccess={isPostSuccess}
-                    handleSubmitQuran={(data) => {
-                      console.log(data);
-                      postZiyadah({
-                        monthId: selectedMonthId,
-                        userId: user.id,
-                        surah: data.surah,
-                        lembar: data.lembar,
-                      });
-                    }}
-                  />
-                </TableRow>
+                {isLogin && (
+                  <TableRow className="text-right">
+                    <ModalQuran
+                      icon={
+                        <FaPlusSquare className="mx-auto text-green-400 text-lg" />
+                      }
+                      title="Tambahkan Tilawah"
+                      isLoading={isPosting}
+                      surah="" // Set surah to an empty string or an appropriate value
+                      date={0} // You can replace this with a timestamp or the appropriate date format
+                      isSuccess={isPostSuccess}
+                      handleSubmitQuran={(data) => {
+                        console.log(data);
+                        postZiyadah({
+                          monthId: selectedMonthId,
+                          userId: user.id,
+                          surah: data.surah,
+                          lembar: data.lembar,
+                        });
+                      }}
+                    />
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TabsContent>

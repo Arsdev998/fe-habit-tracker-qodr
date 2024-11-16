@@ -10,7 +10,6 @@ import { Month, ZiyadahMurajaahType } from "@/app/lib/types";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -20,19 +19,17 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useEffect, useState } from "react";
 import { FaEdit, FaPlusSquare } from "react-icons/fa";
 import { MdDelete } from "react-icons/md";
-import { format, formatRFC3339 } from "date-fns";
-import ModalQuran from "./modal/ModalQuran";
-import ModalConfirmDelete from "./modal/ModalConfirmDelete";
-import { Skeleton } from "@/components/ui/skeleton";
-
+import { format } from "date-fns";
+import ModalQuran from "../../organism/modal/ModalQuran";
+import ModalConfirmDelete from "../../organism/modal/ModalConfirmDelete";
 interface MurajaahProps {
   monthData: Month[];
+  userId: string;
 }
 
-export default function Murajaah({ monthData }: MurajaahProps) {
+export default function Murajaah({ monthData, userId }: MurajaahProps) {
   const [isClient, setIsClient] = useState(false);
   const user = useAppSelector((state) => state.auth.user);
-
   const currentMonth = monthData?.slice();
   const lastMonth = currentMonth?.[currentMonth.length - 1];
   const [selectedMonthId, setSelectedMonthId] = useState<string>(
@@ -53,13 +50,9 @@ export default function Murajaah({ monthData }: MurajaahProps) {
     },
   ] = useDeleteMurajaahMutation();
   // FECTH
-  const {
-    data: murajaahData,
-    isLoading,
-    refetch,
-  } = useGetMurajaahQuery({
+  const { data: murajaahData, isLoading } = useGetMurajaahQuery({
     monthId: selectedMonthId,
-    userId: user?.id,
+    userId: userId,
   });
 
   const murajaahMonthData = murajaahData?.murajaah;
@@ -67,6 +60,8 @@ export default function Murajaah({ monthData }: MurajaahProps) {
   useEffect(() => {
     setIsClient(true);
   }, []);
+
+  const isUser = user?.id === userId;
 
   if (!isClient) {
     return null;
@@ -103,12 +98,14 @@ export default function Murajaah({ monthData }: MurajaahProps) {
                     Nama Surah/Ayat
                   </TableHead>
                   <TableHead className="border-2 w-[20%]">Tanggal</TableHead>
-                  <TableHead
-                    className="border-2 w-[5%] text-center"
-                    colSpan={2}
-                  >
-                    Action
-                  </TableHead>
+                  {isUser && (
+                    <TableHead
+                      className="border-2 w-[5%] text-center"
+                      colSpan={2}
+                    >
+                      Action
+                    </TableHead>
+                  )}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -127,36 +124,40 @@ export default function Murajaah({ monthData }: MurajaahProps) {
                         <TableCell>
                           {format(new Date(murajaah.date), "dd MMM yyyy")}
                         </TableCell>
-                        <ModalConfirmDelete
-                          isLoading={isDeleting}
-                          isDeletingError={isDeletingError}
-                          isDeletingSuccess={IsDeletingSucces}
-                          resetState={deleteReset}
-                          icon={
-                            <MdDelete className="mx-auto text-red-600 cursor-pointer" />
-                          }
-                          onConfirmDelete={() => {
-                            deleteMurajaah({ murajaahId: murajaah.id });
-                          }}
-                        />
-                        <ModalQuran
-                          icon={
-                            <FaEdit className="mx-auto text-green-600 cursor-pointer" />
-                          }
-                          date={murajaah.date}
-                          surah={murajaah.surah}
-                          isLoading={isEditing}
-                          isSuccess={isEditingSucces}
-                          title="Edit Murajaah"
-                          handleSubmitQuran={(data) => {
-                            editMurajaah({
-                              murajaahId: murajaah.id,
-                              surah: data.surah,
-                              date: data.date,
-                            });
-                            console.log(data);
-                          }}
-                        />
+                        {isUser && (
+                          <ModalConfirmDelete
+                            isLoading={isDeleting}
+                            isDeletingError={isDeletingError}
+                            isDeletingSuccess={IsDeletingSucces}
+                            resetState={deleteReset}
+                            icon={
+                              <MdDelete className="mx-auto text-red-600 cursor-pointer" />
+                            }
+                            onConfirmDelete={() => {
+                              deleteMurajaah({ murajaahId: murajaah.id });
+                            }}
+                          />
+                        )}
+                        {isUser && (
+                          <ModalQuran
+                            icon={
+                              <FaEdit className="mx-auto text-green-600 cursor-pointer" />
+                            }
+                            date={murajaah.date}
+                            surah={murajaah.surah}
+                            isLoading={isEditing}
+                            isSuccess={isEditingSucces}
+                            title="Edit Murajaah"
+                            handleSubmitQuran={(data) => {
+                              editMurajaah({
+                                murajaahId: murajaah.id,
+                                surah: data.surah,
+                                date: data.date,
+                              });
+                              console.log(data);
+                            }}
+                          />
+                        )}
                       </TableRow>
                     )
                   )
@@ -167,27 +168,29 @@ export default function Murajaah({ monthData }: MurajaahProps) {
                     </TableCell>
                   </TableRow>
                 )}
-                <TableRow className="text-right">
-                  <ModalQuran
-                    icon={
-                      <FaPlusSquare className="mx-auto text-green-400 text-lg" />
-                    }
-                    title="Tambahkan Murajaah"
-                    isLoading={isPosting}
-                    surah="" // Set surah to an empty string or an appropriate value
-                    date={new Date()} // You can replace this with a timestamp or the appropriate date format
-                    isSuccess={isPostSuccess}
-                    handleSubmitQuran={(data) => {
-                      console.log(data);
-                      postMurajaah({
-                        monthId: selectedMonthId,
-                        userId: user.id,
-                        surah: data.surah,
-                        date: data.date,
-                      });
-                    }}
-                  />
-                </TableRow>
+                {isUser && (
+                  <TableRow className="text-right">
+                    <ModalQuran
+                      icon={
+                        <FaPlusSquare className="mx-auto text-green-400 text-lg" />
+                      }
+                      title="Tambahkan Murajaah"
+                      isLoading={isPosting}
+                      surah="" // Set surah to an empty string or an appropriate value
+                      date={new Date()} // You can replace this with a timestamp or the appropriate date format
+                      isSuccess={isPostSuccess}
+                      handleSubmitQuran={(data) => {
+                        console.log(data);
+                        postMurajaah({
+                          monthId: selectedMonthId,
+                          userId: userId,
+                          surah: data.surah,
+                          date: data.date,
+                        });
+                      }}
+                    />
+                  </TableRow>
+                )}
               </TableBody>
             </Table>
           </TabsContent>

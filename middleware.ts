@@ -44,7 +44,7 @@ export const config = {
     "/al-quran",
     "/notifikasi",
     "/user-profile",
-    "/habitcontroll",
-    "/usercontroll",
+    "/admindashboard/habitcontroll",
+    "/admindashboard/usercontroll",
   ],
 };

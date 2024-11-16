@@ -46,8 +46,14 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"], // Invalidasi cache saat data diubah
     }),
+    deletedUser: builder.mutation({
+      query: (userId: string) =>({
+        url: `/user/delete/${userId}`,
+        method: "DELETE",
+      })
+    })
   }),
 });
 
-export const { useGetAllUserQuery, useGetProfileQuery, usePostUserMutation } =
+export const { useGetAllUserQuery, useGetProfileQuery, usePostUserMutation , useDeletedUserMutation} =
   userApi;

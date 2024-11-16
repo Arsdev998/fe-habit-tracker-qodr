@@ -72,28 +72,28 @@ export default function SidebarApp() {
   ];
   const adminNavData = [
     {
-      href: "/habitcontroll",
+      href: "/admindashboard/habitcontroll",
       label: "Habit Controll",
       icon: <FaBrain className="h-4 w-4" />,
-      active: pathname === "/habitcontroll",
+      active: pathname === "/admindashboard/habitcontroll",
     },
     {
-      href: "/usercontroll",
+      href: "/admindashboard/usercontroll",
       label: "User Controll",
       icon: <FaUsers className="h-4 w-4" />,
-      active: pathname === "/usercontroll",
+      active: pathname === "/admindashboard/usercontroll",
     },
     {
-      href: "/notifikasicontroll",
+      href: "/admindashboard/notifikasicontroll",
       label: "Notifikasi Controll",
       icon: <MdEditNotifications className="h-4 w-4" />,
-      active: pathname === "/notifikasicontroll",
+      active: pathname === "/admindashboard/notifikasicontroll",
     },
     {
-      href: "/evaluasi",
+      href: "/admindashboard/evaluasi",
       label: "Evaluasi",
       icon: <AiOutlineFileSearch className="h-4 w-4" />,
-      active: pathname === "/evaluasi",
+      active: pathname === "/admindashboard/evaluasi",
     },
   ];
 

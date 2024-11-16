@@ -11,7 +11,7 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import ModalAddHabit from "./ModalAddHabit";
+import ModalAddHabit from "../../organism/modal/ModalAddHabit";
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -22,8 +22,8 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { MdEditNote } from "react-icons/md";
-import ModalEditHabit from "./ModalEditHabit";
-import ModalDeleteHabit from "./ModalConfirmDeleteHabit";
+import ModalEditHabit from "../../organism/modal/ModalEditHabit";
+import ModalDeleteHabit from "../../organism/modal/ModalConfirmDeleteHabit";
 import { toast } from "sonner";
 import { Skeleton } from "@/components/ui/skeleton";
 
