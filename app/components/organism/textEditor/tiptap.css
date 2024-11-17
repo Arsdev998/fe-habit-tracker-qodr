@@ -1,0 +1,8 @@
+.tiptap a{
+    color: blueviolet;
+    cursor: pointer;
+  }
+
+.tiptap a:hover {
+    color: rgb(190, 136, 241);
+}

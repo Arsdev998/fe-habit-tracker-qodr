@@ -66,8 +66,10 @@ const ModalAddUser = () => {
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger className="w-full p-2 bg-green-400 rounded-md" asChild>
-        <Button onClick={() => setIsOpen(true)}>Tambah User</Button>
+      <DialogTrigger asChild>
+        <Button onClick={() => setIsOpen(true)} className="bg-green-400">
+          Tambah User
+        </Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

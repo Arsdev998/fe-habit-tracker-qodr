@@ -31,7 +31,7 @@ const UserList = () => {
   ] = useDeletedUserMutation();
 
   return (
-    <div className="min-w-[300px] md:min-w-[700px] max-w-[1200px]">
+    <div className="min-w-[300px] md:min-w-[800px] max-w-[1200px]">
       <Table>
         <TableHeader>
           <TableRow>

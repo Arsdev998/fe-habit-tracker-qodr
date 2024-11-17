@@ -84,10 +84,10 @@ export default function SidebarApp() {
       active: pathname === "/admindashboard/usercontroll",
     },
     {
-      href: "/admindashboard/notifikasicontroll",
+      href: "/admindashboard/notificationcontroll",
       label: "Notifikasi Controll",
       icon: <MdEditNotifications className="h-4 w-4" />,
-      active: pathname === "/admindashboard/notifikasicontroll",
+      active: pathname === "/admindashboard/notificationcontroll",
     },
     {
       href: "/admindashboard/evaluasi",

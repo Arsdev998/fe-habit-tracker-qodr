@@ -46,5 +46,6 @@ export const config = {
     "/user-profile",
     "/admindashboard/habitcontroll",
     "/admindashboard/usercontroll",
+    "/admindashboard/notificationcontroll",
   ],
 };

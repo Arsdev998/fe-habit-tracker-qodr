@@ -7,9 +7,9 @@ import ModalAddUser from "./ModalAddUser";
 const UserControllPage = () => {
   
   return (
-    <section className="flex justify-center flex-col items-center">
-      <div className="">
-        <h1 className="text-center font-bold text-xl">User Control</h1>
+    <section className="p-2">
+      <div className="mb-2">
+        <h1 className="font-bold text-xl">Daftar User</h1>
         <ModalAddUser/>
       </div>
       <UserList />

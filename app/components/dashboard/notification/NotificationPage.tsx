@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import { useAppSelector } from "@/app/lib/redux/hook";
-import useNotificationSocket from "../hook/useNotification";
+import useNotificationSocket from "@/app/components/hook/useNotification";
 import {
   useDeleteManyNotificationMutation,
   useGetNotificationQuery,
@@ -91,7 +91,7 @@ function NotificationPage() {
   }
 
   return (
-    <div className="p-4 max-w-md mx-auto bg-white shadow-md rounded-md">
+    <div className="p-4 max-w-2xl mx-auto bg-white shadow-md rounded-md">
       <div className="">
         <h2 className="text-2xl font-semibold mb-4 text-center">Notifikasi</h2>
         {notifications.length > 0 && (
