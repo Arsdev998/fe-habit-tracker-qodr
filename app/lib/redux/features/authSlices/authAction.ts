@@ -9,6 +9,7 @@ export const login = createAsyncThunk(
       const response = await axiosInstance.post("/auth/login",
         credentials
       );
+      localStorage.setItem("token", response.data.token);
       return response.data;
     } catch (err:any) {
       if(!err?.response){
@@ -42,6 +43,7 @@ export const logout = createAsyncThunk(
       if(!err?.response){
         throw err
       }
+      localStorage.removeItem("token");
       return rejectWithValue(err?.response?.data?.message);
     }
   }

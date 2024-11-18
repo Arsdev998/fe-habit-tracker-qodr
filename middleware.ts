@@ -15,9 +15,7 @@ async function verifyToken(token: string, secret: string) {
 }
 
 export async function middleware(req: NextRequest) {
-  const token = req.cookies.get("jwt")?.value;
-
-  console.log(token);
+  const token = localStorage.getItem("token");
 
   if (!token) {
     return NextResponse.redirect(new URL("/login", req.url));
