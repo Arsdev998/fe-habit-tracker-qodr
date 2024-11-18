@@ -1,4 +1,3 @@
-// app/_components/loginpage.tsx
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -30,7 +29,6 @@ import {
 export default function LoginForm() {
   const dispatch = useAppDispatch();
   const { error, loading, status } = useAppSelector((state) => state.auth);
-  const [isRedirect, setIsRedirect] = useState<boolean>(false);
   const router = useRouter();
 
   const form = useForm({
@@ -51,9 +49,7 @@ export default function LoginForm() {
 
   useEffect(() => {
     if (status === "succeeded") {
-      setIsRedirect(true);
       router.push("/");
-      setIsRedirect(false);
     }
   }, [status, router]);
 

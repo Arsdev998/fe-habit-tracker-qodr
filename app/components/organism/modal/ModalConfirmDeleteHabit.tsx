@@ -1,10 +1,7 @@
 "use client";
 import {
     useDeletehabitMutation,
-  useEditHabitUserMutation,
-  usePostHabitUSerMutation,
 } from "@/app/lib/redux/api/habitApi";
-import { AddHabitSchema, addHabitSchema } from "@/app/schema/addHabitSchema";
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -16,7 +13,7 @@ import {
 } from "@/components/ui/dialog";
 
 import { useEffect, useState } from "react";
-import { MdDelete, MdEdit } from "react-icons/md";
+import { MdDelete} from "react-icons/md";
 import { toast } from "sonner";
 interface ModalDelteeHabitProps {
   habitId: string;
@@ -27,7 +24,7 @@ interface ModalDelteeHabitProps {
 const ModalDeleteHabit: React.FC<ModalDelteeHabitProps> = ({
   habitId,
   currentHabit,
-  onHabitDelete,
+  onHabitDelete
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const [deleteHabitUser, { isLoading, isError, isSuccess }] =
@@ -58,7 +55,7 @@ const ModalDeleteHabit: React.FC<ModalDelteeHabitProps> = ({
       </DialogTrigger>
       <DialogContent className="flex flex-col justify-center items-center">
         <DialogHeader className="font-bold text-lg">
-          <DialogTitle>Konfirmasi Hapus Habit</DialogTitle>
+          <DialogTitle>Konfirmasi Hapus Habit {currentHabit}</DialogTitle>
         </DialogHeader>
         <DialogDescription>
           <Button variant={"outline"} onClick={() => setIsOpen(false)}>

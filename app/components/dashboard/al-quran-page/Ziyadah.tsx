@@ -4,7 +4,6 @@ import { Month, ZiyadahMurajaahType } from "@/app/lib/types";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -65,7 +64,7 @@ export default function Ziyadah({ monthData, userId }: ZiyadahProps) {
       refetch();
       deleteReset();
     }
-  }, [isPostSuccess, isEditingSucces, IsDeletingSucces]);
+  }, [isPostSuccess, isEditingSucces, IsDeletingSucces,deleteReset, refetch]);
 
   const murajaahMonthData = murajaahData?.ziyadah;
 

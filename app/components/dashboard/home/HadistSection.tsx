@@ -1,6 +1,5 @@
 "use client";
 import { useGetHadistRandomQuery } from "@/app/lib/redux/api/myquranApi";
-import { useGetRandomFotoQuery } from "@/app/lib/redux/api/unsplashApi";
 import { Skeleton } from "@/components/ui/skeleton";
 
 interface Props {

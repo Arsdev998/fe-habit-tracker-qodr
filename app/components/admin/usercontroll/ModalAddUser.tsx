@@ -61,6 +61,7 @@ const ModalAddUser = () => {
       setIsOpen(false);
     } catch (error) {
       toast.error("User gagal ditambahkan");
+      console.log(error);
     }
   };
 

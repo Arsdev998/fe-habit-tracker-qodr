@@ -30,13 +30,6 @@ function HabitPage() {
     setSelectedMonthId(monthId);
   };
 
-  const [postHabit, { isSuccess }] = usePostHabitUSerMutation();
-
-  useEffect(() => {
-    if (isSuccess) {
-      refetch();
-    }
-  }, [isSuccess]);
 
   useEffect(() => {
     if (months.length > 0) {
@@ -47,7 +40,7 @@ function HabitPage() {
         setDefaultTab(lastMonth?.name);
       }
     }
-  }, [months]);
+  }, [months,refetch, defaultTab, selectedMonthId]);
 
   if (IsMonthLoading) {
     return (

@@ -115,7 +115,7 @@ export default function Murajaah({ monthData, userId }: MurajaahProps) {
                   </TableRow>
                 ) : murajaahMonthData?.length > 0 ? (
                   murajaahMonthData.map(
-                    (murajaah: ZiyadahMurajaahType, index: any) => (
+                    (murajaah: ZiyadahMurajaahType, index: number) => (
                       <TableRow key={index}>
                         <TableCell className="text-center">
                           {index + 1}

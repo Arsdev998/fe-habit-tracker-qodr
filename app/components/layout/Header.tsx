@@ -1,6 +1,4 @@
 "use client";
-import Image from "next/image";
-import logo from "@/app/public/images/logo-qodr.svg";
 import { useEffect } from "react";
 import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hook";
 import { getStatus } from "@/app/lib/redux/features/authSlices/authAction";
@@ -20,7 +18,6 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const pathname = usePathname();
 
-  const breadcrumb = pathname === '/' ? 'Home' : pathname;
 
   useEffect(() => {
     if (!user) {

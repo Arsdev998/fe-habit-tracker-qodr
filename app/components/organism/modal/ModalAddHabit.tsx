@@ -9,7 +9,6 @@ import { Button } from "@/components/ui/button";
 import {
   Dialog,
   DialogContent,
-  DialogDescription,
   DialogHeader,
   DialogTitle,
   DialogTrigger,
@@ -57,7 +56,6 @@ const ModalAddHabit: React.FC<ModalAddHabitProps> = ({
   const [
     postHabitByAdmin,
     {
-      isLoading: postAdminIsLoading,
       isSuccess: postAdminIsSuccess,
       isError: postAdminIsError,
     },

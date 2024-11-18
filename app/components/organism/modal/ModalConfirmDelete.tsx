@@ -49,7 +49,7 @@ const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
     return () => {
       toastShownRef.current = false;
     };
-  }, [isDeletingSuccess, isDeletingError]);
+  }, [isDeletingSuccess, isDeletingError,resetState]);
 
   const handleConfirmDelete = () => {
     toastShownRef.current = false; // Reset flag before delete

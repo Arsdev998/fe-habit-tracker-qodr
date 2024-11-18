@@ -19,7 +19,9 @@ export interface ZiyadahMurajaahType {
   id: string;
   surah: string;
   date: Date;
+  lembar: number;
 }
+
 export interface TilawahType {
   id: string;
   surah: string;
@@ -31,7 +33,7 @@ export interface UserType {
   name:string,
   email: string,
   password: string,
-  fullName: string,
+  fullname: string,
   joinDate: string,
   role: string,
   value:string

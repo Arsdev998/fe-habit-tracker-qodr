@@ -6,8 +6,6 @@ import {
 } from "@/app/lib/redux/api/myquranApi";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IoLocation } from "react-icons/io5";
-import { ImSpinner3 } from "react-icons/im";
-import { useGetRandomFotoQuery } from "@/app/lib/redux/api/unsplashApi";
 import { FaCalendarAlt } from "react-icons/fa";
 import { useEffect, useState } from "react";
 

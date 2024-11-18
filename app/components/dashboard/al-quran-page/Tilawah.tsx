@@ -1,10 +1,9 @@
 "use client";
 import { useAppSelector } from "@/app/lib/redux/hook";
-import { Month, TilawahType, ZiyadahMurajaahType } from "@/app/lib/types";
+import { Month, TilawahType } from "@/app/lib/types";
 import {
   Table,
   TableBody,
-  TableCaption,
   TableCell,
   TableHead,
   TableHeader,
@@ -64,7 +63,7 @@ export default function Tilawah({ monthData, userId }: TilawahProps) {
       refetch();
       deleteReset();
     }
-  }, [isPostSuccess, isEditingSucces, IsDeletingSucces]);
+  }, [isPostSuccess, isEditingSucces, IsDeletingSucces, deleteReset, refetch]);
 
   const murajaahMonthData = murajaahData?.tilawah;
   const isLogin = user?.id === userId;

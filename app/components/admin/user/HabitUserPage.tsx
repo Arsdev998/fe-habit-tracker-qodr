@@ -47,7 +47,7 @@ const HabitUserPage = () => {
         setDefaultTab(lastMonth?.name);
       }
     }
-  }, [months]);
+  }, [months,defaultTab, selectedMonthId]);
 
   // Fungsi untuk menghitung persentase habit
   const calculateHabitPercentage = (habit: any, days: any[]) => {

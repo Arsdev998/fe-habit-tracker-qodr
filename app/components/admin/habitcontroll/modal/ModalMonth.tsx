@@ -80,7 +80,7 @@ const ModalMonth = ({ title, description }: Props) => {
             <FormField
               control={form.control}
               name="name"
-              render={({ field }) => (
+              render={({ field: { value, onChange } }) => (
                 <FormItem>
                   <FormLabel className="text-sm font-medium text-gray-700">
                     Nama Bulan

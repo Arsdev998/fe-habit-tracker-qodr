@@ -61,6 +61,7 @@ function NotificationPage() {
       toast.success("Semua notifikasi berhasil ditandai sudah dibaca");
     } catch (error) {
       toast.error("Internal Server Error");
+      console.log(error)
     }
   };
 
@@ -70,6 +71,7 @@ function NotificationPage() {
       toast.success("Semua notif dihapus");
     } catch (error) {
       toast.error("Internal Server Error");
+      console.log(error)
     }
   };
 

@@ -46,7 +46,7 @@ function ProfilePage() {
         <div className="mt-6 bg-blue-50 p-4 rounded-md shadow-inner">
           <h2 className="text-lg font-semibold text-blue-600 mb-2">Motivasi</h2>
           <p className="text-sm text-gray-600 italic">
-            "{data?.motivation || "Motivasi belum ditambahkan."}"
+            {data?.motivation || "Motivasi belum ditambahkan."}
           </p>
         </div>
       </div>

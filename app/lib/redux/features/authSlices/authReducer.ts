@@ -44,7 +44,7 @@ const authReducer = createSlice({
         state.user = action.payload.user;
         state.loading = false;
       })
-      .addCase(getStatus.rejected, (state, action) => {
+      .addCase(getStatus.rejected, (state) => {
         state.status = "failed";
         state.loading = false;
       })
@@ -55,7 +55,7 @@ const authReducer = createSlice({
         state.status = "logout"
         state.error = null
       })
-      .addCase(logout.rejected, (state, action) => {
+      .addCase(logout.rejected, (state) => {
         state.status = "failed";
       });
   },

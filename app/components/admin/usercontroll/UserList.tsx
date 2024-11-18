@@ -17,6 +17,7 @@ import {
 import ModalConfirmDelete from "@/app/components/organism/modal/ModalConfirmDelete";
 import { MdDelete } from "react-icons/md";
 import Link from "next/link";
+import { UserType } from "@/app/lib/types";
 
 const UserList = () => {
   const { data: userData, isLoading } = useGetAllUserQuery();
@@ -51,7 +52,7 @@ const UserList = () => {
               </TableCell>
             </TableRow>
           ) : userData?.length > 0 ? (
-            userData?.map((user: any) => (
+            userData?.map((user: UserType) => (
               <TableRow key={user.id}>
                 <TableCell>{user.name}</TableCell>
                 <TableCell>{user.fullname}</TableCell>

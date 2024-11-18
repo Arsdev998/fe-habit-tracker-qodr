@@ -42,7 +42,7 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
   onHabitEdit,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [editHabitUser, { isLoading, isError, isSuccess }] =
+  const [editHabitUser, { isLoading, isSuccess }] =
     useEditHabitUserMutation();
 
   const form = useForm<AddHabitSchema>({
@@ -74,7 +74,7 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
       setIsOpen(false);
       form.reset();
     }
-  }, [isSuccess, form]);
+  }, [isSuccess, form, onHabitEdit]);
 
   const handleOpenChange = (newOpen: boolean) => {
     if (!isLoading) {

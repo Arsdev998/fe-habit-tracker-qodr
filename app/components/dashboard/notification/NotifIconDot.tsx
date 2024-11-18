@@ -21,7 +21,7 @@ function NotifIconDot() {
   );
 
   // Callback untuk handle notifikasi baru dari socket
-  const handleNewNotification = useCallback((newNotification: any) => {
+  const handleNewNotification = useCallback(() => {
     setUnreadCount((prevCount) => prevCount + 1); // Tambah count saat ada notifikasi baru
   }, []);
 
