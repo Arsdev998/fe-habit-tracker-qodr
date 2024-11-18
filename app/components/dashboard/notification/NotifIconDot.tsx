@@ -34,7 +34,6 @@ function NotifIconDot() {
     }
   }, [unreadNotif]);
 
-
   return (
     <div>
       {unreadCount === 0 ? (

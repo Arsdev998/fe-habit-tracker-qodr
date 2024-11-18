@@ -1,5 +1,6 @@
 "use client";
 
+import "./style/notif.css";
 import { useState, useEffect, useCallback } from "react";
 import { useAppSelector } from "@/app/lib/redux/hook";
 import useNotificationSocket from "@/app/components/hook/useNotification";
@@ -13,7 +14,7 @@ import { Button } from "@/components/ui/button";
 
 type Notification = {
   id: string;
-  message: string;
+  message: string; // Berisi HTML
   status: boolean;
   createdAt?: Date;
 };
@@ -35,17 +36,14 @@ function NotificationPage() {
   const [deleteAllNotif, { isLoading: deletedLoading }] =
     useDeleteManyNotificationMutation();
 
-  // Initialize notifications with data from API
   useEffect(() => {
     if (initialNotifications) {
       setNotifications(initialNotifications);
     }
   }, [initialNotifications]);
 
-  // Callback untuk menangani notifikasi baru
   const handleNewNotification = useCallback((newNotification: Notification) => {
     setNotifications((prevNotifications) => {
-      // Cek apakah notifikasi sudah ada (mencegah duplikasi)
       const notificationExists = prevNotifications.some(
         (notification) => notification.id === newNotification.id
       );
@@ -78,10 +76,9 @@ function NotificationPage() {
   const allNotificationsRead = notifications.every(
     (notif: Notification) => notif.status
   );
-  // Socket connection dengan callback untuk notifikasi baru
+
   useNotificationSocket(userId, handleNewNotification);
 
-  // Loading state
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
@@ -92,36 +89,38 @@ function NotificationPage() {
 
   return (
     <div className="p-4 max-w-2xl mx-auto bg-white shadow-md rounded-md">
-      <div className="">
-        <h2 className="text-2xl font-semibold mb-4 text-center">Notifikasi</h2>
-        {notifications.length > 0 && (
-          <div className="flex justify-between my-2">
-            <Button
-              onClick={handleDeleteAllNotification}
-              variant={"destructive"}
-              disabled={deletedLoading}
-            >
-              Hapus Semua Notif
-            </Button>
-            <Button
-              onClick={handleMarkAllNotification}
-              disabled={markLoading || allNotificationsRead}
-            >
-              Tandai Telah dibaca
-            </Button>
-          </div>
-        )}
-      </div>
-      {notifications && notifications.length > 0 ? (
+      <h2 className="text-2xl font-semibold mb-4 text-center">Notifikasi</h2>
+      {notifications.length > 0 && (
+        <div className="flex justify-between my-2">
+          <Button
+            onClick={handleDeleteAllNotification}
+            variant={"destructive"}
+            disabled={deletedLoading}
+          >
+            Hapus Semua Notif
+          </Button>
+          <Button
+            onClick={handleMarkAllNotification}
+            disabled={markLoading || allNotificationsRead}
+          >
+            Tandai Telah dibaca
+          </Button>
+        </div>
+      )}
+      {notifications.length > 0 ? (
         <div className="space-y-3">
           {notifications.map((item) => (
             <div
               key={item.id}
-              className={`transition-all duration-300 p-3 rounded-md shadow-sm ${
+              className={`tiptap transition-all duration-300 p-3 rounded-md shadow-sm ${
                 item.status ? "bg-blue-100" : "bg-red-300"
               } hover:shadow-md`}
             >
-              <p className="text-gray-700">{item.message}</p>
+              {/* Render HTML dengan dangerouslySetInnerHTML */}
+              <div
+                className="text-gray-700"
+                dangerouslySetInnerHTML={{ __html: item.message }}
+              ></div>
               {item.createdAt && (
                 <p className="text-xs text-gray-500 mt-1">
                   {new Date(item.createdAt).toLocaleString()}

@@ -26,6 +26,13 @@ export const notificationApi = createApi({
         { type: "Notification", id: "UNREAD" },
       ],
     }),
+    postNotificationToAllUser: builder.mutation({
+      query: ({ message }: { message: string }) => ({
+        url: `/notifications/sendAll/sendToAllUsers`,
+        method: "POST",
+        body: { message },
+      }),
+    }),
     getNotification: builder.query({
       query: ({ userId }: { userId: string }) => `/notifications/${userId}`,
       providesTags: (result) =>
@@ -63,11 +70,11 @@ export const notificationApi = createApi({
       invalidatesTags: [{ type: "Notification", id: "LIST" }],
     }),
     deleteManyNotification: builder.mutation({
-      query:({userId}:{userId:string})=>({
-        url:`/notifications/deletemany/${userId}`,
-        method:'DELETE'
+      query: ({ userId }: { userId: string }) => ({
+        url: `/notifications/deletemany/${userId}`,
+        method: "DELETE",
       }),
-      invalidatesTags:[{type:"Notification",id:"LIST"}]
+      invalidatesTags: [{ type: "Notification", id: "LIST" }],
     }),
   }),
 });
@@ -76,7 +83,8 @@ export const {
   useGetNotificationQuery,
   useGetUnreadNotificationQuery,
   usePostNotificationMutation,
+  usePostNotificationToAllUserMutation,
   useMarkAllNotificationsMutation,
   useDeleteNotificationsMutation,
-  useDeleteManyNotificationMutation
+  useDeleteManyNotificationMutation,
 } = notificationApi;

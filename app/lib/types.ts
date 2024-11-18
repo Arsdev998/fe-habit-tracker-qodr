@@ -27,11 +27,13 @@ export interface TilawahType {
 }
 
 export interface UserType {
+  id: string,
   name:string,
   email: string,
   password: string,
   fullName: string,
   joinDate: string,
-  role: string
+  role: string,
+  value:string
 }
 

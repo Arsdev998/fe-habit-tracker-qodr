@@ -12,7 +12,7 @@ export default function HomePage() {
     ? { backgroundImage: `url(${unsplashFoto.urls.full})` }
     : {};
   return (
-    <section style={backgroundStyle} className="min-h-full">
+    <section style={backgroundStyle} className="min-h-[91vh] h-full">
       <div className="p-2 sm:p-3 bg-zinc-800/10 h-full">
         <div className="mb-3 text-center sm:text-left bg-black bg-opacity-60  p-2 rounded-md text-white">
           <h1 className="text-2xl font-semibold ">
