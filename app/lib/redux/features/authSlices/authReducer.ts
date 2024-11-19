@@ -41,7 +41,7 @@ const authReducer = createSlice({
       })
       .addCase(getStatus.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.loading = false;
       })
       .addCase(getStatus.rejected, (state) => {
