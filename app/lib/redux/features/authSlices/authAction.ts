@@ -1,6 +1,8 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../../AxiosInstance";
 
+const url = process.env.NEXT_PUBLIC_DB_HOST;
+
 // export const login = createAsyncThunk(
 //   "auth/login",
 //   async (
@@ -27,7 +29,7 @@ export const login = createAsyncThunk(
   ) => {
     try {
       const response = await fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/auth/login`,
+        `${url}/auth/login`,
         {
           method: "POST",
           headers: {
