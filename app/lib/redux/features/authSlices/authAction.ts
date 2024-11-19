@@ -9,8 +9,7 @@ export const login = createAsyncThunk(
   ) => {
     try {
       const response = await axiosInstance.post("/auth/login", credentials);
-      window.location.href = "/";
-      return response.data;
+      return response.data.user;
     } catch (err: any) {
       if (!err?.response) {
         throw err;
