@@ -1,7 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../../AxiosInstance";
 
-const url = process.env.NEXT_PUBLIC_DB_HOST;
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -12,11 +11,10 @@ export const login = createAsyncThunk(
     try {
       const response = await axiosInstance.post("/auth/login", loginData);
       // Ambil token dari header Authorization
-      const token = response.headers["authorization"]?.split("Bearer ")[1];
+      const authToken = response.headers["authorization"]?.split("Bearer ")[1];
 
-      if (token) {
-        // Set token sebagai cookie di frontend
-        document.cookie = `jwt=${token}; path=/; max-age=86400; secure; samesite=none;`;
+      if (authToken){
+        document.cookie = `token=${authToken}; path=/; max-age=86400; secure; samesite=none;`;
         console.log("Token successfully set in cookie!");
       }
 
