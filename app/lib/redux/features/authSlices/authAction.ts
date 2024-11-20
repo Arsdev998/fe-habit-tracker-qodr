@@ -10,11 +10,11 @@ export const login = createAsyncThunk(
   ) => {
     try {
       const response = await axiosInstance.post("/auth/login", loginData);
-      const authToken = response.headers["authorization"]?.split("Bearer ")[1];
-      if (authToken) {
-        setAuthToken(authToken);
-      }
-      console.log(authToken);
+      // const authToken = response.headers["authorization"]?.split("Bearer ")[1];
+      // if (authToken) {
+      //   setAuthToken(authToken);
+      // }
+      // console.log(authToken);
       return response.data;
     } catch (err: any) {
       if (!err?.response) {
