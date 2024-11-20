@@ -28,7 +28,7 @@ import { logout } from "@/app/lib/redux/features/authSlices/authAction";
 import NotifIconDot from "../dashboard/notification/NotifIconDot";
 
 export default function SidebarApp() {
-  const user = useAppSelector((state) => state.auth.user);
+  const {user, loading} = useAppSelector((state) => state.auth);
   const pathname = usePathname();
   const { open } = useSidebarCustom();
   const dispatch = useAppDispatch();
@@ -193,6 +193,7 @@ export default function SidebarApp() {
       >
         <Button
           onClick={handleLogout}
+          disabled={loading}
           variant={"destructive"}
           className="flex  gap-x-2  outline-none font-bold text-white hover:text-red-700 p-2"
         >

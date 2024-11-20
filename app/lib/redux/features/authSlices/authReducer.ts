@@ -27,7 +27,7 @@ const authReducer = createSlice({
       })
       .addCase(login.fulfilled, (state, action) => {
         state.status = "succeeded";
-        state.user = action.payload;
+        state.user = action.payload.user;
         state.loading = false;
       })
       .addCase(login.rejected, (state, action) => {
@@ -50,13 +50,17 @@ const authReducer = createSlice({
       })
       .addCase(logout.pending, (state) => {
         state.status = "idle";
-      }).addCase(logout.fulfilled, (state)=>{
-        state.user = null
-        state.status = "logout"
-        state.error = null
+        state.loading = true;
+      })
+      .addCase(logout.fulfilled, (state) => {
+        state.user = null;
+        state.loading = false;
+        state.status = "logout";
+        state.error = null;
       })
       .addCase(logout.rejected, (state) => {
         state.status = "failed";
+        state.loading = false;
       });
   },
 });

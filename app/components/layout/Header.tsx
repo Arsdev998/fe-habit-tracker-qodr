@@ -18,12 +18,11 @@ const Header = () => {
   const dispatch = useAppDispatch();
   const pathname = usePathname();
 
-
   useEffect(() => {
     if (!user) {
       dispatch(getStatus());
     }
-  }, [user]);
+  }, [user, pathname]);
   return (
     <header className="flex sticky top-0 z-[9] bg-white items-center space-x-2 shadow-md w-full gap-3 p-3 mb-2">
       <SidebarTrigger />
@@ -35,7 +34,7 @@ const Header = () => {
                 <Link href={"/"}>Home</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
-            <BreadcrumbSeparator/>
+            <BreadcrumbSeparator />
             <BreadcrumbItem>
               <BreadcrumbPage>{pathname}</BreadcrumbPage>
             </BreadcrumbItem>

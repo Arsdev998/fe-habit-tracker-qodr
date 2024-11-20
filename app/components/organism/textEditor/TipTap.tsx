@@ -139,14 +139,14 @@ const TipTap = () => {
             checked={sendToAll}
             onCheckedChange={() => setSendToAll(true)}
           />
-          <span>Kirim ke Semua User</span>
+          <span>Kirim ke Semua Santri</span>
         </label>
         <label className="flex items-center gap-2">
           <Checkbox
             checked={!sendToAll}
             onCheckedChange={() => setSendToAll(false)}
           />
-          <span>Kirim ke User Tertentu</span>
+          <span>Kirim ke Santri Tertentu</span>
         </label>
       </div>
       {!sendToAll && (
@@ -157,7 +157,7 @@ const TipTap = () => {
             value={selectedUsers}
             onChange={(selected) => setSelectedUsers(selected as UserType[])}
             isLoading={userLoad}
-            placeholder="Pilih User"
+            placeholder="Pilih Santri"
           />
         </div>
       )}
@@ -245,7 +245,6 @@ const TipTap = () => {
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
-
           {/* Unset Link Button */}
           <button
             onClick={endLinkAndContinue}
