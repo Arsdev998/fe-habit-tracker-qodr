@@ -42,8 +42,7 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
   onHabitEdit,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
-  const [editHabitUser, { isLoading, isSuccess }] =
-    useEditHabitUserMutation();
+  const [editHabitUser, { isLoading, isSuccess }] = useEditHabitUserMutation();
 
   const form = useForm<AddHabitSchema>({
     resolver: zodResolver(addHabitSchema),
@@ -56,7 +55,6 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
   const handleEditHabit = async (data: AddHabitSchema) => {
     try {
       const maxDays = data.maxDays === undefined ? null : data.maxDays;
-
       await editHabitUser({
         habitId,
         title: data.title,
@@ -72,15 +70,17 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
       toast.success("Habit berhasil diedit");
       onHabitEdit();
       setIsOpen(false);
-      form.reset();
     }
-  }, [isSuccess, form, onHabitEdit]);
+  }, [isSuccess]);
 
   const handleOpenChange = (newOpen: boolean) => {
     if (!isLoading) {
       setIsOpen(newOpen);
       if (!newOpen) {
-        form.reset();
+        form.reset({
+          title: currentHabit,
+          maxDays: dayCount,
+        });
       }
     }
   };

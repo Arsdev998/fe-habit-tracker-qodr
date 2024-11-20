@@ -13,13 +13,12 @@ import { Month } from "@/app/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function HabitPage() {
-  const { data: months = [], isLoading: IsMonthLoading } =
-    useGetAllMonthHabitsQuery();
+  const { data: months = [], isLoading: IsMonthLoading } = useGetAllMonthHabitsQuery();
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.sub || user?.id;
   const [selectedMonthId, setSelectedMonthId] = useState<string>("");
   const [defaultTab, setDefaultTab] = useState<string>("");
-  const { data: monthHabits, refetch } = useGetMonthHabitsQuery(
+  const { data: monthHabits } = useGetMonthHabitsQuery(
     { monthId: selectedMonthId, userId },
     { skip: !selectedMonthId }
   );
@@ -40,7 +39,7 @@ function HabitPage() {
         setDefaultTab(lastMonth?.name);
       }
     }
-  }, [months,refetch, defaultTab, selectedMonthId]);
+  }, [months, defaultTab, selectedMonthId]);
 
   if (IsMonthLoading) {
     return (
@@ -80,7 +79,6 @@ function HabitPage() {
                 days={monthHabits?.days}
                 title={`${month.name} ${month.year}`}
                 selectMonthId={selectedMonthId}
-                refecthHabit={refetch}
               />
             </TabsContent>
           ))}

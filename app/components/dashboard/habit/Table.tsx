@@ -31,14 +31,12 @@ interface TableProps {
   title: string;
   days: any[];
   selectMonthId: string;
-  refecthHabit: () => void;
 }
 
 const TableMontHabit: React.FC<TableProps> = ({
   title,
   days,
   selectMonthId,
-  refecthHabit,
 }) => {
   const [isDropdownOpen, setDropdownOpen] = useState<{
     [habitId: string]: boolean;
@@ -75,7 +73,7 @@ const TableMontHabit: React.FC<TableProps> = ({
   // Fungsi untuk menghitung persentase habit berdasarkan maxDays
   const calculateHabitPercentage = (habit: any) => {
     let completedCount = 0;
-    const maxDays = habit.habit.maxDays || days.length; // Menggunakan maxDays atau default ke jumlah hari dalam bulan
+    const maxDays = habit.habit.maxDays || days.length; 
 
     days.forEach((day) => {
       const habitStatus = day.habitStatuses.find(
@@ -127,7 +125,6 @@ const TableMontHabit: React.FC<TableProps> = ({
     const checkboxKey = `${dayId}-${habitId}`;
 
     if (isLoading[checkboxKey]) return;
-
     setIsLoading((prev) => ({ ...prev, [checkboxKey]: true }));
 
     const newStatus = !currentStatus;
@@ -135,7 +132,6 @@ const TableMontHabit: React.FC<TableProps> = ({
       ...prev,
       [checkboxKey]: newStatus,
     }));
-
     try {
       const result = await updateHabitStatus({
         dayId,
@@ -198,7 +194,7 @@ const TableMontHabit: React.FC<TableProps> = ({
               monthName={title}
               monthId={selectMonthId}
               userId={userId}
-              onHabitAdded={refecthHabit}
+
             />
           </TableHead>
           {days.map((day: any, index: number) => (
@@ -250,7 +246,6 @@ const TableMontHabit: React.FC<TableProps> = ({
                               if (!open) handleModalClose();
                             }}
                             onHabitEdit={() => {
-                              refecthHabit();
                               handleModalClose();
                               setDropdownOpen((prev) => ({
                                 ...prev,
@@ -266,7 +261,6 @@ const TableMontHabit: React.FC<TableProps> = ({
                             habitId={habit.habit.id}
                             currentHabit={habit.habit.title}
                             onHabitDelete={() => {
-                              refecthHabit();
                               handleDropdownToggle(habit.habit.id, false);
                             }}
                           />

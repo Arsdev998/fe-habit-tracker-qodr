@@ -19,3 +19,7 @@ export const setAuthToken = (token: string) => {
 
   Cookies.set(COOKIE_NAME, token, CookieOptions);
 };
+
+export const removeAuthTokens = () => {
+  Cookies.remove(COOKIE_NAME, { path: "/" });
+};

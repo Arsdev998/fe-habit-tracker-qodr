@@ -38,7 +38,6 @@ function HabitList() {
                 <ModalAddHabit
                   monthId=""
                   monthName=""
-                  onHabitAdded={refetch}
                   userId=""
                 />
               </TableHead>

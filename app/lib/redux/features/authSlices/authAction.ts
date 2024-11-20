@@ -1,6 +1,6 @@
 import { createAsyncThunk } from "@reduxjs/toolkit";
 import axiosInstance from "../../../AxiosInstance";
-import { setAuthToken } from "@/app/utils/auth";
+import { removeAuthTokens, setAuthToken } from "@/app/utils/auth";
 
 export const login = createAsyncThunk(
   "auth/login",
@@ -44,6 +44,7 @@ export const logout = createAsyncThunk(
   async (_, { rejectWithValue }) => {
     try {
       const response = await axiosInstance.post("/auth/logout");
+      removeAuthTokens();
       return response.data;
     } catch (err: any) {
       if (!err?.response) {

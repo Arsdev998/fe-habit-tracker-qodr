@@ -34,14 +34,12 @@ interface ModalAddHabitProps {
   monthName: string;
   monthId: string;
   userId: string;
-  onHabitAdded: () => void;
 }
 
 const ModalAddHabit: React.FC<ModalAddHabitProps> = ({
   monthName,
   monthId,
   userId,
-  onHabitAdded,
 }) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const user = useAppSelector((state) => state.auth.user);
@@ -83,7 +81,6 @@ const ModalAddHabit: React.FC<ModalAddHabitProps> = ({
   useEffect(() => {
     if (isPostUserSucces || postAdminIsSuccess) {
       toast.success("Berhasil menambahkan Habit");
-      onHabitAdded();
       setIsOpen(false);
     }
     if (isUserPosterror || postAdminIsError) {
