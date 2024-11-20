@@ -14,6 +14,7 @@ export const login = createAsyncThunk(
       if (authToken) {
         setAuthToken(authToken);
       }
+      console.log(authToken);
       return response.data;
     } catch (err: any) {
       if (!err?.response) {

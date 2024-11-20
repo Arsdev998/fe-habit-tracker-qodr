@@ -11,7 +11,6 @@ const axiosInstance = axios.create({
 
 axiosInstance.interceptors.response.use(
   (response) => {
-    console.log("Response Headers:", response.headers);
     return response;
   },
   (error) => {
