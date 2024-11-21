@@ -1,10 +1,11 @@
+import { Suspense } from "react";
 import EvaluationList from "./EvaluationList";
 
 const EvaluationPage = () => {
   return (
-    <div>
-     <EvaluationList/>
-    </div>
+    <Suspense>
+      <EvaluationList />
+    </Suspense>
   );
 };
 
