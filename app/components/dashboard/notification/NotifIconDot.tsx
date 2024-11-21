@@ -27,10 +27,9 @@ function NotifIconDot() {
 
   useNotificationSocket(userId, handleNewNotification);
 
-  // Set unreadCount saat data unreadNotif pertama kali didapat
   useEffect(() => {
     if (unreadNotif !== undefined) {
-      setUnreadCount(unreadNotif); // Inisialisasi unread count dari API
+      setUnreadCount(unreadNotif); 
     }
   }, [unreadNotif]);
 

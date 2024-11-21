@@ -12,8 +12,8 @@ export default function HomePage() {
     ? { backgroundImage: `url(${unsplashFoto.urls.full})` }
     : {};
   return (
-    <section style={backgroundStyle} className="min-h-[91vh] h-full">
-      <div className="p-2 sm:p-3 bg-zinc-800/10 h-full">
+    <section style={backgroundStyle} className="md:min-h-[100vh] xl:min-h-[91.3vh]">
+      <div className="p-2 sm:p-3 bg-zinc-800/10">
         <div className="mb-3 text-center sm:text-left bg-black bg-opacity-60  p-2 rounded-md text-white">
           <h1 className="text-2xl font-semibold ">
             Ahlan Wasahlan, Akhi <span className="font-bold">{user?.fullname}</span>
@@ -22,7 +22,7 @@ export default function HomePage() {
             Semoga Antum selalu dalam perlindungan Allah
           </p>
         </div>
-        <div className="flex flex-col gap-6 sm:flex-row sm:justify-between">
+        <div className="flex flex-col-reverse gap-6 sm:flex-row sm:justify-between">
           <HadistSection unsplashFoto={unsplashFoto} />
           <JadwalSholat unsplashFoto={unsplashFoto} />
         </div>

@@ -22,6 +22,7 @@ import {
   useEditZiyadahMutation,
   useDeleteZiyadahMutation,
 } from "@/app/lib/redux/api/ziyadahApi";
+import { FaSpinner } from "react-icons/fa6";
 
 interface ZiyadahProps {
   monthData: Month[];
@@ -113,7 +114,9 @@ export default function Ziyadah({ monthData, userId }: ZiyadahProps) {
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell>Memuat Data</TableCell>
+                    <TableCell className="text-center" colSpan={5}>
+                      Memuat Data <FaSpinner className="animate-spin" />
+                    </TableCell>
                   </TableRow>
                 ) : murajaahMonthData?.length > 0 ? (
                   murajaahMonthData.map(

@@ -75,7 +75,7 @@ function JadwalSholat({ unsplashFoto }: Props) {
 
   return (
     <div
-      className="flex flex-col p-5 border-2 shadow-md w-[350px] h-[400px] rounded-md bg-cover bg-center text-white"
+      className="flex flex-col p-5 border-2 shadow-md w-[370px] h-[400px] rounded-md bg-cover bg-center text-white"
       style={backgroundStyle}
     >
       <div className="bg-black bg-opacity-60 p-4 rounded mb-2">

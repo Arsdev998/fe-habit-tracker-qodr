@@ -24,7 +24,7 @@ function HadistSection({ unsplashFoto }: Props) {
   return (
     <div
       style={backgroundStyle}
-      className=" text-white rounded-md bg-cover mb-4 sm:mb-0 w-[300px] sm:min-w-[650px] md:min-w-[800px] h-[400px] overflow-y-auto"
+      className=" text-white rounded-md bg-cover mb-4 sm:mb-0 w-[370px] sm:min-w-[650px] md:min-w-[800px] h-[400px] overflow-y-auto"
     >
       <div className="bg-black bg-opacity-60">
         <div className="p-4 h-50 sm:min-h-[350px] h-full">

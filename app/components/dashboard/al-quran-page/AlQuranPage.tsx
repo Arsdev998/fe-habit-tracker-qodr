@@ -37,17 +37,17 @@ const AlQuranPage = () => {
           </TabsTrigger>
         </TabsList>
         {monthLoading ? (
-          <Skeleton className="w-[200px] h-[100px]  bg-black/20" />
+          <Skeleton className="min-w-[400px] max-w-[700px] h-[300px]  bg-black/20" />
         ) : (
           <div>
             <TabsContent value="murajaah">
               <Murajaah monthData={monthData ?? []} userId={user.id} />
             </TabsContent>
             <TabsContent value="ziyadah">
-              <Ziyadah monthData={monthData ?? []} userId={user.id}/>
+              <Ziyadah monthData={monthData ?? []} userId={user.id} />
             </TabsContent>
             <TabsContent value="tilawah">
-              <Tilawah monthData={monthData ?? []} userId={user.id}/>
+              <Tilawah monthData={monthData ?? []} userId={user.id} />
             </TabsContent>
           </div>
         )}

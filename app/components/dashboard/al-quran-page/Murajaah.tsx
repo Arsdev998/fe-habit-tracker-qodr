@@ -22,6 +22,7 @@ import { MdDelete } from "react-icons/md";
 import { format } from "date-fns";
 import ModalQuran from "../../organism/modal/ModalQuran";
 import ModalConfirmDelete from "../../organism/modal/ModalConfirmDelete";
+import { FaSpinner } from "react-icons/fa6";
 interface MurajaahProps {
   monthData: Month[];
   userId: string;
@@ -111,7 +112,9 @@ export default function Murajaah({ monthData, userId }: MurajaahProps) {
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell>Memuat Data</TableCell>
+                    <TableCell className="text-center" colSpan={5}>
+                      Memuat Data <FaSpinner className="animate-spin" />
+                    </TableCell>
                   </TableRow>
                 ) : murajaahMonthData?.length > 0 ? (
                   murajaahMonthData.map(

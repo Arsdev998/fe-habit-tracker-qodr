@@ -21,6 +21,7 @@ import {
   useEditTilawahMutation,
   usePostTilawahMutation,
 } from "@/app/lib/redux/api/tilawahApi";
+import { FaSpinner } from "react-icons/fa6";
 
 interface TilawahProps {
   monthData: Month[];
@@ -113,7 +114,9 @@ export default function Tilawah({ monthData, userId }: TilawahProps) {
               <TableBody>
                 {isLoading ? (
                   <TableRow>
-                    <TableCell>Memuat Data</TableCell>
+                    <TableCell className="text-center" colSpan={5}>
+                      Memuat Data <FaSpinner className="animate-spin" />
+                    </TableCell>
                   </TableRow>
                 ) : murajaahMonthData?.length > 0 ? (
                   murajaahMonthData.map((tilawah: TilawahType, index: any) => (
