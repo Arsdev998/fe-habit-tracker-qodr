@@ -48,8 +48,8 @@ const Header = () => {
               <BreadcrumbLink asChild>
                 <Link href="/">Home</Link>
               </BreadcrumbLink>
-              <BreadcrumbSeparator />
             </BreadcrumbItem>
+              <BreadcrumbSeparator />
             {fullPath.map((path, index) => (
               <BreadcrumbItem key={index}>
                 {index < fullPath.length - 1 ? (
@@ -57,7 +57,7 @@ const Header = () => {
                     <BreadcrumbLink asChild>
                       <Link href={path.href}>{path.name}</Link>
                     </BreadcrumbLink>
-                    <BreadcrumbSeparator />
+                    {/* <BreadcrumbSeparator /> */}
                   </>
                 ) : (
                   <BreadcrumbPage
