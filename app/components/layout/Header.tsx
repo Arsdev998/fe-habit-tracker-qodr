@@ -14,7 +14,6 @@ import {
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
 
-// Fungsi untuk memformat segmen path
 const formatPathSegment = (segment: string) => {
   if (!segment) return "Home"; // Jika segmen kosong, anggap sebagai "Home"
   return segment
@@ -33,7 +32,6 @@ const Header = () => {
     }
   }, [user, pathname]);
 
-  // Proses path menjadi breadcrumb
   const pathSegments = pathname.split("/").filter(Boolean); // Pisahkan path dan hilangkan string kosong
   const fullPath = pathSegments.map((segment, index) => ({
     name: formatPathSegment(segment),

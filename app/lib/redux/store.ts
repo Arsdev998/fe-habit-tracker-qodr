@@ -9,6 +9,7 @@ import { ziyadahApi } from "./api/ziyadahApi";
 import { tilawahApi } from "./api/tilawahApi";
 import { notificationApi } from "./api/notificationApi";
 import { monthApi } from "./api/monthAPi";
+import { evaluationApi } from "./api/evaluationApi";
 
 export const store = () => {
   return configureStore({
@@ -21,6 +22,7 @@ export const store = () => {
       [tilawahApi.reducerPath]: tilawahApi.reducer,
       [notificationApi.reducerPath]: notificationApi.reducer,
       [monthApi.reducerPath]: monthApi.reducer,
+      [evaluationApi.reducerPath]: evaluationApi.reducer,
       [myquranApi.reducerPath]: myquranApi.reducer,
       [unsplashApi.reducerPath]: unsplashApi.reducer,
     },
@@ -33,13 +35,13 @@ export const store = () => {
         tilawahApi.middleware,
         notificationApi.middleware,
         monthApi.middleware,
+        evaluationApi.middleware,
         myquranApi.middleware,
         unsplashApi.middleware,
       ]);
     },
   });
 };
-
 // Infer the type of makeStore
 export type AppStore = ReturnType<typeof store>;
 // Infer the `RootState` and `AppDispatch` types from the store itself

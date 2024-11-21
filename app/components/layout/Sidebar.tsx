@@ -26,6 +26,7 @@ import { RiLogoutBoxRFill } from "react-icons/ri";
 import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hook";
 import { logout } from "@/app/lib/redux/features/authSlices/authAction";
 import NotifIconDot from "../dashboard/notification/NotifIconDot";
+import { BiSolidBookOpen } from "react-icons/bi";
 
 export default function SidebarApp() {
   const {user, loading} = useAppSelector((state) => state.auth);
@@ -62,6 +63,12 @@ export default function SidebarApp() {
       label: "Notifikasi",
       icon: <NotifIconDot />,
       active: pathname === "/notifikasi",
+    },
+    {
+      href: "/evaluation",
+      label: "Evaluasi",
+      icon: <BiSolidBookOpen />,
+      active: pathname === "/evaluation",
     },
     {
       href: "/user-profile",
