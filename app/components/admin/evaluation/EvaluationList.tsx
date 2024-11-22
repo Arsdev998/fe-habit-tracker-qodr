@@ -74,7 +74,6 @@ const EvaluationList = () => {
                   className={`${page === 1 && "cursor-not-allowed"}`}
                 />
               </PaginationItem>
-
               {Array.from({ length: totalPages }, (_, i) => (
                 <PaginationItem key={i}>
                   <PaginationLink

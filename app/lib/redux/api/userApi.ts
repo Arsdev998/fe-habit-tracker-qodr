@@ -46,14 +46,45 @@ export const userApi = createApi({
       }),
       invalidatesTags: ["User"], // Invalidasi cache saat data diubah
     }),
+    updateProfile: builder.mutation({
+      query: ({userId,name,email,fullname,motivation,}: {userId: string;name: string;email: string;fullname: string;motivation: string;}) => ({
+        url: `/user/update/${userId}`,
+        method: "PATCH",
+        body: {
+          name,
+          email,
+          fullname,
+          motivation,
+        },
+      }),
+      invalidatesTags:["User"],
+    }),
+    updatePasswordUser: builder.mutation({
+      query: ({userId,oldPassword,newPassword,confirmPassword}: {userId: string;oldPassword: string;newPassword: string;confirmPassword: string;}) => ({
+        url: `/user/updatePassword/${userId}`,
+        method: "PATCH",
+        body: {
+         oldPassword,
+         newPassword,
+         confirmPassword
+        },
+      }),
+    }),
     deletedUser: builder.mutation({
-      query: (userId: string) =>({
+      query: (userId: string) => ({
         url: `/user/delete/${userId}`,
         method: "DELETE",
-      })
-    })
+      }),
+      invalidatesTags: ["User"],
+    }),
   }),
 });
 
-export const { useGetAllUserQuery, useGetProfileQuery, usePostUserMutation , useDeletedUserMutation} =
-  userApi;
+export const {
+  useGetAllUserQuery,
+  useGetProfileQuery,
+  usePostUserMutation,
+  useUpdateProfileMutation,
+  useUpdatePasswordUserMutation,
+  useDeletedUserMutation,
+} = userApi;
