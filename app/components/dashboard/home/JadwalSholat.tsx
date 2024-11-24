@@ -1,13 +1,8 @@
 "use client";
-import {
-  useGetDateHijriahQuery,
-  useGetJadwalSholatQuery,
-  useGetTimeStampQuery,
-} from "@/app/lib/redux/api/myquranApi";
+import { useGetJadwalSholatQuery } from "@/app/lib/redux/api/myquranApi";
 import { Skeleton } from "@/components/ui/skeleton";
 import { IoLocation } from "react-icons/io5";
 import { FaCalendarAlt } from "react-icons/fa";
-import { useEffect, useState } from "react";
 
 interface Props {
   unsplashFoto: {
@@ -26,42 +21,17 @@ function JadwalSholat({ unsplashFoto }: Props) {
     cityId: bantulCityId,
     dateToday: currentDate,
   });
-  const { data: timeStamp } = useGetTimeStampQuery();
-  const { data: hijriahDate } = useGetDateHijriahQuery();
-  const hijriah = hijriahDate?.data.date;
-  const formattedDate = hijriah ? hijriah.join(", ") : "";
-  const [currentTime, setCurrentTime] = useState<Date | null>(null);
-
-  useEffect(() => {
-    if (timeStamp) {
-      const serverTime = new Date(timeStamp.data.timestamp);
-      setCurrentTime(serverTime);
-    }
-  }, [timeStamp]);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentTime((prevTime) => {
-        if (prevTime) {
-          return new Date(prevTime.getTime() + 1000); // Menambah 1 detik
-        }
-        return prevTime;
-      });
-    }, 1000);
-
-    return () => clearInterval(interval);
-  }, []);
 
   if (isLoading || !data) {
     return (
       <div>
-        <Skeleton className="bg-black/20 w-[350px] h-[400px]" />
+        <Skeleton className="bg-black/20 w-[370px] h-[400px] md:w-[800px] md:h-[150px] lg:w-[1000px] " />
       </div>
     );
   }
 
   const JadwalSholatData = [
-    { label: "Subuh", time: data.data.jadwal.subuh },
+    { label: "Shubuh", time: data.data.jadwal.subuh },
     { label: "Dhuha", time: data.data.jadwal.dhuha },
     { label: "Dzuhur", time: data.data.jadwal.dzuhur },
     { label: "Ashar", time: data.data.jadwal.ashar },
@@ -69,36 +39,25 @@ function JadwalSholat({ unsplashFoto }: Props) {
     { label: "Isya", time: data.data.jadwal.isya },
   ];
 
-  const backgroundStyle = unsplashFoto
-    ? { backgroundImage: `url(${unsplashFoto.urls.regular})` }
-    : {};
-
   return (
-    <div
-      className="flex flex-col p-5 border-2 shadow-md w-[370px] h-[400px] rounded-md bg-cover bg-center text-white"
-      style={backgroundStyle}
-    >
-      <div className="bg-black bg-opacity-60 p-4 rounded mb-2">
-        <p className="flex items-center gap-2 text-xs mb-1 ">
-          <FaCalendarAlt /> {formattedDate}
-        </p>
-        <p className="flex items-center gap-2 text-xs mb-1">
-          <IoLocation /> {data.data.daerah}, {data.data.lokasi}
-        </p>
-        <p className="italic text-[10px]">Jadwal Sholat Untuk Hari Ini</p>
+    <div className="flex dark:bg-[#303030] justify-between items-center p-5 border-2 shadow-md w-[370px] h-[400px] md:w-[800px] md:h-[150px] lg:w-[1000px] rounded-md">
+      <div className="">
+        <p className="text-xl mb-1">Jadwal Shalat</p>
+        <div className="flex">
+          {JadwalSholatData.map((item, index) => (
+            <div key={index} className="mr-2 text-center">
+              <p className="uppercase font-semibold">{item.label}</p>
+              <p className="font-light">{item.time}</p>
+            </div>
+          ))}
+        </div>
       </div>
-      <div className="flex justify-center items-center gap-1 bg-black bg-opacity-60 p-2 rounded mb-2 twxt-xl">
-        <p>{currentTime?.getHours()}:</p>
-        <p>{currentTime?.getMinutes()}:</p>
-        <p>{currentTime?.getSeconds()}</p>
-      </div>
-      <div className="bg-black bg-opacity-60 p-4 rounded">
-        {JadwalSholatData.map((item, index) => (
-          <div key={index} className="flex justify-between mb-1">
-            <p className="uppercase font-semibold">{item.label}</p>
-            <p className="font-light">{item.time} WIB</p>
-          </div>
-        ))}
+      {/* location */}
+      <div className="w-[237px]">
+        <p className="flex items-center gap-2 text-sm mb-1">
+          <IoLocation className="text-2xl" />
+          Mangunan, Dlingo, {data.data.lokasi},{data.data.daerah}
+        </p>
       </div>
     </div>
   );

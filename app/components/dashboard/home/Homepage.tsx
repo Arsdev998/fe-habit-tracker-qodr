@@ -4,6 +4,9 @@ import JadwalSholat from "@/app/components/dashboard/home/JadwalSholat";
 import HadistSection from "./HadistSection";
 import { useAppSelector } from "@/app/lib/redux/hook";
 import { useGetRandomFotoQuery } from "@/app/lib/redux/api/unsplashApi";
+import BannerWelcome from "./BannerWelcome";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import AyatSection from "./AyatSection";
 
 export default function HomePage() {
   const user = useAppSelector((state) => state.auth.user);
@@ -12,20 +15,22 @@ export default function HomePage() {
     ? { backgroundImage: `url(${unsplashFoto.urls.full})` }
     : {};
   return (
-    <section style={backgroundStyle} className="md:min-h-[100vh] xl:min-h-[91.3vh]">
-      <div className="p-2 sm:p-3 bg-zinc-800/10">
-        <div className="mb-3 text-center sm:text-left bg-black bg-opacity-60  p-2 rounded-md text-white">
-          <h1 className="text-2xl font-semibold ">
-            Ahlan Wasahlan, Akhi <span className="font-bold">{user?.fullname}</span>
-          </h1>
-          <p className="text-lg italic">
-            Semoga Antum selalu dalam perlindungan Allah
-          </p>
-        </div>
-        <div className="flex flex-col-reverse gap-6 sm:flex-row sm:justify-between">
-          <HadistSection unsplashFoto={unsplashFoto} />
-          <JadwalSholat unsplashFoto={unsplashFoto} />
-        </div>
+    <section className="flex flex-col gap-y-5 items-center rounded-md">
+      <BannerWelcome name={user?.fullname} bannerImg={backgroundStyle} />
+      <JadwalSholat unsplashFoto={unsplashFoto} />
+      <div className="flex justify-center w-[370px] min-h-[400px] md:w-[800px] md:h-[500px] lg:w-[1000px]">
+        <Tabs className="w-full" defaultValue="ayat">
+          <TabsList className="flex p-0 bg-transparent mx-auto w-[400px] mb-0">
+            <TabsTrigger value="ayat" className="w-full">Ayat Hari Ini</TabsTrigger>
+            <TabsTrigger value="hadist" className="w-full">Hadist Hari Ini</TabsTrigger>
+          </TabsList>
+          <TabsContent value="ayat" className="mt-0">
+            <AyatSection />
+          </TabsContent>
+          <TabsContent value="hadist" className="mt-0">
+            <HadistSection />
+          </TabsContent>
+        </Tabs>
       </div>
     </section>
   );

@@ -1,32 +1,24 @@
 "use client";
 import { useGetHadistRandomQuery } from "@/app/lib/redux/api/myquranApi";
 import { Skeleton } from "@/components/ui/skeleton";
+import { useTheme } from "next-themes";
 
-interface Props {
-  unsplashFoto: {
-    urls: { full: string };
-  };
-}
-function HadistSection({ unsplashFoto }: Props) {
+function HadistSection() {
   const { data, isLoading } = useGetHadistRandomQuery();
-  const backgroundStyle = unsplashFoto
-    ? { backgroundImage: `url(${unsplashFoto.urls.full})` }
-    : {};
-
+  const { theme } = useTheme();
   if (isLoading || !data) {
     return (
-      <div className="rounded-md">
-        <Skeleton className="bg-black/20 w-[300px] sm:min-w-[650px] md:min-w-[800px] h-50-h-[400px] rounded-md" />
+      <div className="rounded-md w-full h-full flex justify-center items-center">
+        <Skeleton className="bg-black/20 w-full h-[400px] rounded-md" />
       </div>
     );
   }
 
   return (
-    <div
-      style={backgroundStyle}
-      className=" text-white rounded-md bg-cover mb-4 sm:mb-0 w-[370px] sm:min-w-[650px] md:min-w-[800px] h-[400px] overflow-y-auto"
-    >
-      <div className="bg-black bg-opacity-60">
+    <div className="w-full h-[400px] rounded-md sm:min-w-[650px]  overflow-y-auto">
+      <div
+        className={`${theme === "dark" ? "bg-[#303030]" : ""} `}
+      >
         <div className="p-4 h-50 sm:min-h-[350px] h-full">
           <h2 className="text-xl font-semibold">Hadist Arbain Nawawi</h2>
           <div className="mb-2">

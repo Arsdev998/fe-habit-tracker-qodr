@@ -13,6 +13,8 @@ import {
   BreadcrumbSeparator,
 } from "@/components/ui/breadcrumb";
 import Link from "next/link";
+import { ThemeToggle } from "../organism/action/ThemeTogle";
+import { useTheme } from "next-themes";
 
 const formatPathSegment = (segment: string) => {
   if (!segment) return "Home"; // Jika segmen kosong, anggap sebagai "Home"
@@ -25,6 +27,7 @@ const Header = () => {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const pathname = usePathname();
+  const { theme } = useTheme();
 
   useEffect(() => {
     if (!user) {
@@ -39,9 +42,13 @@ const Header = () => {
   }));
 
   return (
-    <header className="flex sticky top-0 z-[9] bg-white items-center space-x-2 shadow-md w-full gap-3 p-3 mb-2">
-      <SidebarTrigger />
-      <div>
+    <header
+      className={`flex sticky ${
+        theme === "dark" ? "bg-[#0F0E0E]" : ""
+      }  top-0 z-[9999] rounded-md  items-center justify-between space-x-2 shadow-md w-full gap-3 p-2 mb-2`}
+    >
+      <div className="flex items-center">
+        <SidebarTrigger />
         <Breadcrumb>
           <BreadcrumbList>
             <BreadcrumbItem>
@@ -49,7 +56,7 @@ const Header = () => {
                 <Link href="/">Home</Link>
               </BreadcrumbLink>
             </BreadcrumbItem>
-              <BreadcrumbSeparator />
+            <BreadcrumbSeparator />
             {fullPath.map((path, index) => (
               <BreadcrumbItem key={index}>
                 {index < fullPath.length - 1 ? (
@@ -72,6 +79,7 @@ const Header = () => {
           </BreadcrumbList>
         </Breadcrumb>
       </div>
+      <ThemeToggle />
     </header>
   );
 };

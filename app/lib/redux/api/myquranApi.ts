@@ -16,10 +16,13 @@ export const myquranApi = createApi({
     getHadistRandom: builder.query<any, void>({
       query: () => `/hadits/arbain/acak`,
     }),
+    getAyatRandom: builder.query<any, void>({
+      query: () => "/quran/ayat/acak",
+    }),
     getTimeStamp: builder.query<any, void>({
       query: () => `/tools/time`,
     }),
   }),
 });
 
-export const { useGetJadwalSholatQuery ,useGetDateHijriahQuery,useGetHadistRandomQuery,useGetTimeStampQuery} = myquranApi;
+export const { useGetJadwalSholatQuery ,useGetDateHijriahQuery,useGetHadistRandomQuery, useGetAyatRandomQuery,useGetTimeStampQuery} = myquranApi;
