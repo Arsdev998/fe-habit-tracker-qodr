@@ -11,7 +11,9 @@ function layout({ children }: { children: React.ReactNode }) {
         <SidebarApp />
         <section className="w-full p-2">
           <Header />
-          <main className="p-2 dark:bg-[#0F0E0E]">{children}</main>
+          <main className="p-2 dark:bg-[#0F0E0E] md:min-h-[500px] xl:min-h-[620px]">
+            {children}
+          </main>
         </section>
         <Toaster position="top-right" richColors />
       </SidebarProvider>

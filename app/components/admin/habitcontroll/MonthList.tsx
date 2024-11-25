@@ -39,10 +39,10 @@ const MonthList = () => {
         <TableBody>
           {monthData?.map((month) => (
             <TableRow key={month.id}>
-              <TableCell>{month.name}</TableCell>
-              <TableCell>{month.year}</TableCell>
+              <TableCell className="border-r-2 px-2">{month.name}</TableCell>
+              <TableCell className="border-r-2 px-2">{month.year}</TableCell>
               <ModalConfirmDelete
-                icon={<MdDelete />}
+                icon={<MdDelete className="mx-auto text-red-500"/>}
                 isDeletingError={isError}
                 isDeletingSuccess={isSuccess}
                 isLoading={isLoading}

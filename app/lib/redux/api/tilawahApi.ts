@@ -31,6 +31,7 @@ export const tilawahApi = createApi({
           lembar,
         },
       }),
+      invalidatesTags: [{ type: "Tilawah", id: "LIST" }],
     }),
     editTilawah: builder.mutation({
       query: ({
@@ -49,12 +50,14 @@ export const tilawahApi = createApi({
           lembar,
         },
       }),
+      invalidatesTags: [{ type: "Tilawah", id: "LIST" }],
     }),
     deleteTilawah: builder.mutation({
       query: ({ tilawahId }: { tilawahId: string }) => ({
         url: `/tilawah/delete/${tilawahId}`,
         method: "DELETE",
       }),
+      invalidatesTags: [{ type: "Tilawah", id: "LIST" }],
     }),
   }),
 });

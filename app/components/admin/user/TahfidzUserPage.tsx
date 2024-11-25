@@ -11,7 +11,7 @@ import { useState } from "react";
 const TahfidzUserPage = () => {
   const { userId } = useParams();
   const isValidId = typeof userId === "string" ? userId : "";
-  const [selectedMonthId, setSelectedMonthId] = useState<string | null>(null);
+  const [selectedMonthId, setSelectedMonthId] = useState<string>("");
 
   const { data: monthData, isLoading: monthLoading } =
     useGetAllMonthHabitsQuery();
@@ -22,7 +22,7 @@ const TahfidzUserPage = () => {
         <Skeleton className="w-full h-[50px] mb-4 bg-black/20" />
       ) : (
         <Tabs defaultValue={monthData?.[0]?.id ?? ""} className="w-full mb-4">
-          <TabsList className="flex p-0 bg-transparent justify-center">
+          <TabsList className="flex items-center w-full mx-auto">
             {monthData?.map((month) => (
               <TabsTrigger
                 key={month.id}
@@ -39,7 +39,7 @@ const TahfidzUserPage = () => {
         </Tabs>
       )}
       <Tabs defaultValue="murajaah" className="border-2">
-        <TabsList>
+        <TabsList className="flex items-center w-full mx-auto">
           <TabsTrigger value="murajaah" className="border-2">
             Murajaah
           </TabsTrigger>
@@ -55,13 +55,13 @@ const TahfidzUserPage = () => {
         ) : (
           <div>
             <TabsContent value="murajaah">
-              <Murajaah monthId="" userId={isValidId} />
+              <Murajaah monthId={selectedMonthId} userId={isValidId} />
             </TabsContent>
             <TabsContent value="ziyadah">
-              <Ziyadah monthId="" userId={isValidId} />
+              <Ziyadah monthId={selectedMonthId} userId={isValidId} />
             </TabsContent>
             <TabsContent value="tilawah">
-              <Tilawah monthId="" userId={isValidId} />
+              <Tilawah monthId={selectedMonthId} userId={isValidId} />
             </TabsContent>
           </div>
         )}

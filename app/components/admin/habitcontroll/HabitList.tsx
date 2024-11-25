@@ -23,7 +23,7 @@ function HabitList() {
   };
 
   return (
-    <div className="w-[300px] md:w-[400px] border-2 p-2">
+    <div className="w-[300px] md:w-[700px] xl:w-[900px]">
       {isLoading ? (
         <Skeleton className="h-12 w-12 bg-black/20" />
       ) : (
@@ -34,30 +34,27 @@ function HabitList() {
                 List Habit
               </TableHead>
               <TableHead className="text-center font-semibold flex items-center">
-                Tambahkan{" "}
-                <ModalAddHabit
-                  monthId=""
-                  monthName=""
-                  userId=""
-                />
+                Tambahkan <ModalAddHabit monthId="" monthName="" userId="" />
               </TableHead>
             </TableRow>
             <TableRow>
               <TableHead className="border-r-2 text-center">
                 Nama Habit
               </TableHead>
-              <TableHead className="text-center">Jumlah Hari</TableHead>
-              <TableHead className="text-center">Action</TableHead>
+              <TableHead className="text-center border-r-2">Jumlah Hari</TableHead>
+              <TableHead className="text-center w-10" colSpan={2}>
+                Action
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
             {data?.map((item) => (
               <TableRow key={item.id}>
-                <TableCell>{item.title}</TableCell>
-                <TableCell>
+                <TableCell className="border-r-2 px-2">{item.title}</TableCell>
+                <TableCell className="border-r-2 px-2">
                   {item.maxDays === null ? "Setiap Hari" : item.maxDays}
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   <ModalDeleteHabit
                     habitId={item.id}
                     currentHabit={item.title}
@@ -66,7 +63,7 @@ function HabitList() {
                     }}
                   />
                 </TableCell>
-                <TableCell>
+                <TableCell className="text-center">
                   <ModalEditHabit
                     currentHabit={item.title}
                     dayCount={item.maxDays}

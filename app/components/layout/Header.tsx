@@ -43,7 +43,7 @@ const Header = () => {
 
   return (
     <header
-      className={`flex sticky dark:bg-[#0F0E0E] bg-white  top-2 z-[9999] rounded-md  items-center justify-between space-x-2 shadow-md w-full gap-3 p-2 mb-2`}
+      className={`flex sticky dark:bg-[#0F0E0E] bg-white  top-2 z-[9] rounded-md  items-center justify-between space-x-2 shadow-md w-full gap-3 p-2 mb-2`}
     >
       <div className="flex items-center">
         <SidebarTrigger />

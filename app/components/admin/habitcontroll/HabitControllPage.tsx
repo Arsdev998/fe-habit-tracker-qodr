@@ -3,7 +3,7 @@ import MonthList from "./MonthList";
 
 const HabitControllPage = () => {
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col w-full items-center">
       <div className="my-5">
         <h1 className="text-center font-bold text-xl">Kontroll Habit Dan Bulan</h1>
       </div>

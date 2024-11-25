@@ -48,9 +48,9 @@ const ModalDeleteHabit: React.FC<ModalDelteeHabitProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild className="w-full">
+      <DialogTrigger asChild >
         <Button variant={"ghost"} size={'icon'}>
-          <MdDelete className="text-red-500"/>
+          <MdDelete className="text-red-500 mx-auto"/>
         </Button>
       </DialogTrigger>
       <DialogContent className="flex flex-col justify-center items-center">

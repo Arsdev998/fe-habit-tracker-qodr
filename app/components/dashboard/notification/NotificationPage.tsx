@@ -92,7 +92,7 @@ function NotificationPage() {
   }
 
   return (
-    <div className="p-2 max-w-2xl mx-auto shadow-md rounded-md">
+    <div className="p-2 max-w-2xl mx-auto shadow-md rounded-md ">
       <h2 className="text-2xl font-semibold mb-4 text-center">Notifikasi</h2>
       {notifications.length > 0 && (
         <div className="flex justify-between my-2">

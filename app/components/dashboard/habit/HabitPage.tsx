@@ -13,7 +13,8 @@ import { Month } from "@/app/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
 
 function HabitPage() {
-  const { data: months = [], isLoading: IsMonthLoading } = useGetAllMonthHabitsQuery();
+  const { data: months = [], isLoading: IsMonthLoading } =
+    useGetAllMonthHabitsQuery();
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.sub || user?.id;
   const [selectedMonthId, setSelectedMonthId] = useState<string>("");
@@ -29,14 +30,13 @@ function HabitPage() {
     setSelectedMonthId(monthId);
   };
 
-
   useEffect(() => {
     if (months.length > 0) {
       if (!selectedMonthId) {
         setSelectedMonthId(lastMonth?.id.toString());
       }
       if (!defaultTab) {
-        setDefaultTab(lastMonth?.name);
+        setDefaultTab(`${lastMonth?.name}-${lastMonth?.year}`);
       }
     }
   }, [months, defaultTab, selectedMonthId]);
@@ -51,26 +51,24 @@ function HabitPage() {
   return (
     <div className="flex flex-col  min-w-[1200px]">
       <header className="w-full text-center mb-2">
-        <h1 className="font-bold text-3xl leading-none">
-          Habbit Tracker
-        </h1>
+        <h1 className="font-bold text-3xl leading-none">Habbit Tracker</h1>
       </header>
       {defaultTab ? (
         <Tabs defaultValue={defaultTab} className="">
-          <TabsList>
+          <TabsList className="flex items-center w-full mx-auto">
             {months?.map((month: Month) => (
               <TabsTrigger
                 key={month.id}
-                value={month.name}
+                value={`${month.name}-${month.year}`}
                 onClick={() => handleTabChange(month.id)}
               >
-                {month.name}
+                {month.name} {month.year}
               </TabsTrigger>
             ))}
           </TabsList>
 
           {months.map((month: Month) => (
-            <TabsContent key={month.id} value={month.name}>
+            <TabsContent key={month.id} value={`${month.name}-${month.year}`}>
               <TableMontHabit
                 days={monthHabits?.days}
                 title={`${month.name} ${month.year}`}

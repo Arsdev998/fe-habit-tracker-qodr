@@ -54,7 +54,7 @@ const Ziyadah = ({ monthId, userId }: ZiyadahProps) => {
   if (isLoading) {
     return (
       <div className="w-full h-full">
-        <Skeleton className="w-full bg-white h-[400px]" />
+        <Skeleton className="w-full h-[500px]" />
       </div>
     );
   }
@@ -62,7 +62,7 @@ const Ziyadah = ({ monthId, userId }: ZiyadahProps) => {
   return (
     <div className="w-full p-4">
       <h2 className="text-xl text-center mb-4">
-        Ziyadah Bulan {ziyadahData.name}
+        Ziyadah Bulan {ziyadahData?.name} {ziyadahData?.year}
       </h2>
       {isLoading ? (
         <div className="text-center">
@@ -73,15 +73,19 @@ const Ziyadah = ({ monthId, userId }: ZiyadahProps) => {
           <TableHeader>
             <TableRow>
               <TableCell className="w-10 py-2 text-center">No</TableCell>
-              <TableCell className="w-48 px-4 py-2 border">Surah/Ayat</TableCell>
-              <TableCell className="w-32 px-4 py-2 border">Tanggal</TableCell>
-              <TableCell className="w-16 text-center py-2 border" colSpan={2}>
-                Opsi
+              <TableCell className="w-48 px-4 py-2 border">
+                Surah/Ayat
               </TableCell>
+              <TableCell className="w-32 px-4 py-2 border">Tanggal</TableCell>
+              {isUser && (
+                <TableCell className="w-16 text-center py-2 border" colSpan={2}>
+                  Opsi
+                </TableCell>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {ziyadahData.ziyadah?.length > 0 ? (
+            {ziyadahData?.ziyadah?.length > 0 ? (
               ziyadahData.ziyadah.map(
                 (item: ZiyadahMurajaahType, index: number) => (
                   <TableRow key={item.id}>

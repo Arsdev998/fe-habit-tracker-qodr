@@ -72,7 +72,7 @@ const ModalAddUser = () => {
           Tambah User
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="dark:bg-[#303030]">
         <DialogHeader>
           <DialogTitle>Tambahkan User</DialogTitle>
           <DialogDescription></DialogDescription>
@@ -84,8 +84,8 @@ const ModalAddUser = () => {
               name="name"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">
-                    userName
+                  <FormLabel className="text-sm font-medium">
+                    nama
                   </FormLabel>
                   <FormControl>
                     <Input
@@ -103,7 +103,7 @@ const ModalAddUser = () => {
               name="password"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">
+                  <FormLabel className="text-sm font-medium">
                     Password
                   </FormLabel>
                   <FormControl>
@@ -122,7 +122,7 @@ const ModalAddUser = () => {
               name="fullname"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">
+                  <FormLabel className="text-sm font-medium">
                     FullName
                   </FormLabel>
                   <FormControl>
@@ -141,7 +141,7 @@ const ModalAddUser = () => {
               name="email"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">
+                  <FormLabel className="text-sm font-medium">
                     Email
                   </FormLabel>
                   <FormControl>
@@ -161,7 +161,7 @@ const ModalAddUser = () => {
               name="joinDate"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">
+                  <FormLabel className="text-sm font-medium">
                     Tanggal Masuk Qodr
                   </FormLabel>
                   <FormControl>
@@ -180,7 +180,7 @@ const ModalAddUser = () => {
               name="role"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">
+                  <FormLabel className="text-sm font-medium">
                     Role
                   </FormLabel>
                   <FormControl>
@@ -206,7 +206,7 @@ const ModalAddUser = () => {
               <Button
                 type="submit"
                 disabled={isLoading}
-                className="w-full py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition mt-4"
+                className="w-full py-2 bg-green-600 text-white rounded-lg hove transition mt-4"
               >
                 {isLoading ? "Menambahkan..." : "Tambahkan"}
               </Button>

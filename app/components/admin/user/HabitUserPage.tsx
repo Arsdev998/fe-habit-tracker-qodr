@@ -44,12 +44,11 @@ const HabitUserPage = () => {
         setSelectedMonthId(lastMonth?.id.toString());
       }
       if (!defaultTab) {
-        setDefaultTab(lastMonth?.name);
+        setDefaultTab(`${lastMonth?.name}-${lastMonth?.year}`);
       }
     }
-  }, [months,defaultTab, selectedMonthId]);
+  }, [months, defaultTab, selectedMonthId]);
 
-  // Fungsi untuk menghitung persentase habit
   const calculateHabitPercentage = (habit: any, days: any[]) => {
     let completedCount = 0;
     const maxDays = habit.habit.maxDays || days.length;
@@ -68,7 +67,6 @@ const HabitUserPage = () => {
       : "0";
   };
 
-  // Fungsi overall percentage
   const calculateOverallPercentage = (days: any[]) => {
     if (!days || days.length === 0) return "0";
 
@@ -117,7 +115,7 @@ const HabitUserPage = () => {
           <TableRow>
             <TableHead
               colSpan={days.length + 2}
-              className="text-center font-bold text-black text-[20px]"
+              className="text-center font-bold dark:text-white text-[20px]"
             >
               {title}
             </TableHead>
@@ -148,10 +146,7 @@ const HabitUserPage = () => {
                     className="text-center text-sm px-1"
                   >
                     {habitStatus?.status ? (
-                      <Checkbox
-                        checked={true}
-                        className="cursor-not-allowed"
-                      />
+                      <Checkbox checked={true} className="cursor-not-allowed" />
                     ) : (
                       <Checkbox
                         checked={false}
@@ -181,31 +176,25 @@ const HabitUserPage = () => {
 
   return (
     <div className="flex flex-col min-w-[1200px]">
-      <header className="w-full text-center border-b-2">
-        <h1 className="font-bold text-green-800 text-xl leading-none">
-          User Habit Tracker
-        </h1>
-        <h2 className="font-bold text-xl leading-2">
-          Pesantren Pelatihan Teknologi Informasi Qodr
-        </h2>
-        <h3 className="font-bold text-xl">{lastMonth?.year}</h3>
+      <header className="w-full text-center mb-2">
+        <h1 className="font-bold text-3xl leading-none">Habbit Tracker</h1>
       </header>
       {defaultTab ? (
-        <Tabs defaultValue={defaultTab} className="">
-          <TabsList>
+        <Tabs defaultValue={defaultTab} className="w-full">
+          <TabsList className="flex items-center w-full mx-auto">
             {months?.map((month: Month) => (
               <TabsTrigger
                 key={month.id}
-                value={month.name}
+                value={`${month.name}-${month.year}`}
                 onClick={() => handleTabChange(month.id)}
               >
-                {month.name}
+                {month.name} {month.year}
               </TabsTrigger>
             ))}
           </TabsList>
 
           {months.map((month: Month) => (
-            <TabsContent key={month.id} value={month.name}>
+            <TabsContent key={month.id} value={`${month.name}-${month.year}`}>
               <HabitTable
                 days={monthHabits?.days}
                 title={`${month.name} ${month.year}`}

@@ -54,11 +54,11 @@ const EvaluationList = () => {
       )}
       {isSuccess && (
         <div>
-          <ul className="space-y-2 mb-2">
+          <ul className="space-y-2 mb-2 ">
             {data?.data.map((item: any, index: number) => (
               <li
                 key={index}
-                className="p-2 border rounded shadow-md bg-gray-50 hover:bg-gray-100"
+                className="p-2 border rounded shadow-md dark:bg-[#303030]"
               >
                 <p className="font-bold text-lg">{item.about}</p>
                 <p>{item.problem}</p>

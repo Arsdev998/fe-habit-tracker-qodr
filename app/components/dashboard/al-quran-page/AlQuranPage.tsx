@@ -9,20 +9,23 @@ import { useEffect, useState } from "react";
 import { useAppSelector } from "@/app/lib/redux/hook";
 
 const AlQuranPage = () => {
-  const [selectedMonthId, setSelectedMonthId] = useState<string | null>(null);
+  const [selectedMonthId, setSelectedMonthId] = useState<string | undefined>(undefined);
   const [isClient, setIsClient] = useState(false);
+  const [defaultTab, setDefaultTab] = useState<string | undefined>(undefined);
   const user = useAppSelector((state) => state.auth.user);
+  const { data: monthData, isLoading: monthLoading } =
+    useGetAllMonthHabitsQuery();
+  const currentMonth = monthData?.slice();
+  const lastMonth = currentMonth?.[currentMonth.length - 1];
 
   useEffect(() => {
     setIsClient(true);
   }, []);
 
-  const { data: monthData, isLoading: monthLoading } =
-    useGetAllMonthHabitsQuery();
-
   useEffect(() => {
     if (monthData && monthData.length > 0) {
-      setSelectedMonthId(monthData[0].id); // Default ke bulan pertama
+      setDefaultTab(lastMonth?.id);
+      setSelectedMonthId(lastMonth?.id);
     }
   }, [monthData]);
 
@@ -38,7 +41,7 @@ const AlQuranPage = () => {
       {monthLoading ? (
         <Skeleton className="w-full h-[50px] mb-4 bg-black/20" />
       ) : (
-        <Tabs defaultValue={monthData?.[0]?.id ?? ""} className="w-full mb-4">
+        <Tabs defaultValue={lastMonth?.id} className="w-full mb-4">
           <TabsList className="flex p-0 bg-transparent justify-center">
             {monthData?.map((month) => (
               <TabsTrigger
@@ -49,7 +52,7 @@ const AlQuranPage = () => {
                 }`}
                 onClick={() => setSelectedMonthId(month.id)}
               >
-                {month.name}
+                {month.name} {month.year}
               </TabsTrigger>
             ))}
           </TabsList>

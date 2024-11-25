@@ -29,14 +29,16 @@ import { logout } from "@/app/lib/redux/features/authSlices/authAction";
 import NotifIconDot from "../dashboard/notification/NotifIconDot";
 import { BiSolidBookOpen } from "react-icons/bi";
 import { useTheme } from "next-themes";
+import { Skeleton } from "@/components/ui/skeleton";
 
 export default function SidebarApp() {
-  const {user, loading} = useAppSelector((state) => state.auth);
+  const { user, loading } = useAppSelector((state) => state.auth);
   const pathname = usePathname();
   const { open } = useSidebarCustom();
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const {theme} = useTheme()
+  const { theme, resolvedTheme } = useTheme();
+  const logoSrc = theme === "dark" ? logoWhite : logo;
   const handleLogout = () => {
     dispatch(logout());
     router.push("/login");
@@ -107,15 +109,19 @@ export default function SidebarApp() {
     },
   ];
 
+  if (!resolvedTheme) {
+    return <Skeleton className="min-h-screen w-[300px] bg-[#0F0E0E]" />;
+  }
+
   return (
     <Sidebar collapsible="icon" className="p-2 bg-transparent">
-      <SidebarHeader className="dark:bg-[#0F0E0E] p-2 py-3.5 mb-2 rounded-md">
+      <SidebarHeader className="p-2 py-3.5 mb-2 rounded-md dark:bg-[#0F0E0E]">
         <div className="flex items-center space-x-2 w-full">
-          <Image alt="Qodr Logo" src={ theme === "dark" ? logoWhite :  logo} width={70} height={100} />
+          <Image alt="Qodr Logo" src={logoSrc} width={70} height={100} />
           {open ? <h1 className="text-xl font-extrabold">PPTI QODR</h1> : null}
         </div>
       </SidebarHeader>
-      <SidebarContent className="mt-1 dark:bg-[#0F0E0E] rounded-md">
+      <SidebarContent className="mt-1 rounded-md dark:bg-[#0F0E0E]">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>

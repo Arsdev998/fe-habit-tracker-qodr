@@ -54,7 +54,7 @@ const Murajaah = ({ monthId, userId }: MurajaahProps) => {
   if (isLoading) {
     return (
       <div className="w-full h-full">
-        <Skeleton className="w-full bg-white h-[400px]" />
+        <Skeleton className="w-full h-[400px]" />
       </div>
     );
   }
@@ -62,7 +62,7 @@ const Murajaah = ({ monthId, userId }: MurajaahProps) => {
   return (
     <div className="w-full p-4">
       <h2 className="text-xl text-center mb-4">
-        Murajaah Bulan {murajaahData.name}
+        Murajaah Bulan {murajaahData?.name} {murajaahData?.year}
       </h2>
       {isLoading ? (
         <div className="text-center">
@@ -73,19 +73,25 @@ const Murajaah = ({ monthId, userId }: MurajaahProps) => {
           <TableHeader>
             <TableRow>
               <TableCell className="w-10  py-2 text-center">No</TableCell>
-              <TableCell className="w-48 px-4 py-2 border">Surah/Ayat</TableCell>
-              <TableCell className="w-32 px-4 py-2 border">Tanggal</TableCell>
-              <TableCell className="w-16 text-center py-2 border" colSpan={2}>
-                Opsi
+              <TableCell className="w-48 px-4 py-2 border">
+                Surah/Ayat
               </TableCell>
+              <TableCell className="w-32 px-4 py-2 border">Tanggal</TableCell>
+              {isUser && (
+                <TableCell className="w-16 text-center py-2 border" colSpan={2}>
+                  Opsi
+                </TableCell>
+              )}
             </TableRow>
           </TableHeader>
           <TableBody>
-            {murajaahData.murajaah?.length > 0 ? (
+            {murajaahData?.murajaah?.length > 0 ? (
               murajaahData.murajaah.map(
                 (item: ZiyadahMurajaahType, index: number) => (
                   <TableRow key={item.id}>
-                    <TableCell className="w-10 py-2 text-center border-r-2">{index + 1}</TableCell>
+                    <TableCell className="w-10 py-2 text-center border-r-2">
+                      {index + 1}
+                    </TableCell>
                     <TableCell>{item.surah}</TableCell>
                     <TableCell>
                       {" "}

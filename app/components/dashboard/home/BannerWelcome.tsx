@@ -6,6 +6,7 @@ import {
 } from "@/app/lib/redux/api/myquranApi";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
+import { format, parse } from "date-fns";
 
 interface BannerWelcomeProps {
   name: string;
@@ -19,8 +20,6 @@ const BannerWelcome = ({ name, bannerImg }: BannerWelcomeProps) => {
     useGetTimeStampQuery();
   const { data: hijriahDate, isLoading: hijriahLoading } =
     useGetDateHijriahQuery();
-
-  const hijriahFormatted = hijriahDate?.data.date.join(", "); // Format Hijriah: "Ahad, 22 Jumadil Awal 1446 H"
 
   // Update waktu berdasarkan timestamp server
   useEffect(() => {
@@ -51,6 +50,17 @@ const BannerWelcome = ({ name, bannerImg }: BannerWelcomeProps) => {
     );
   }
 
+  const rawDate = hijriahDate?.data?.date?.[2];
+
+  let formattedDate = "Tanggal tidak valid";
+  if (rawDate) {
+    try {
+      const parsedDate = parse(rawDate, "dd-MM-yyyy", new Date());
+      formattedDate = format(parsedDate, "dd MMMM yyyy");
+    } catch {
+      console.error("Invalid date format:", rawDate);
+    }
+  }
   return (
     <div
       style={bannerImg}
@@ -65,8 +75,7 @@ const BannerWelcome = ({ name, bannerImg }: BannerWelcomeProps) => {
         <div>
           <div className="text-right">
             <h2 className="text-2xl font-bold">{hijriahDate?.data?.date[0]}</h2>
-            <p>{hijriahDate?.data?.date[2]}</p>
-            <p>{hijriahDate?.data?.date[1]}</p>
+            <p>{formattedDate}</p>
             <p className="text-2xl font-bold">
               {currentTime?.getHours().toString().padStart(2, "0")}:
               {currentTime?.getMinutes().toString().padStart(2, "0")}

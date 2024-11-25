@@ -66,7 +66,7 @@ export default function Tilawah({ monthId, userId }: TilawahProps) {
   if (isLoading) {
     return (
       <div className="w-full h-full">
-        <Skeleton className="w-full bg-white h-[400px]" />
+        <Skeleton className="w-fullh-[400px]" />
       </div>
     );
   }
@@ -75,14 +75,14 @@ export default function Tilawah({ monthId, userId }: TilawahProps) {
       <div>
         <div>
           <h1 className="text-center font-bold">
-            Tilawah Bulan {tilawahData?.name}
+            Tilawah Bulan {tilawahData?.name} {tilawahData?.year}
           </h1>
         </div>
         <Table className="w-full table-fixed border-collapse">
           <TableHeader className="">
             <TableRow>
               <TableHead className="w-[5%] border-2 text-center">No</TableHead>
-              <TableHead className="border-2 w-[25%]">
+              <TableHead className="w-48  border-2 ">
                 Nama Surah/Ayat
               </TableHead>
               <TableHead className="border-2 w-[20%]">Jumlah Lembar</TableHead>
@@ -105,7 +105,9 @@ export default function Tilawah({ monthId, userId }: TilawahProps) {
                 <TableRow key={index}>
                   <TableCell className="text-center">{index + 1}</TableCell>
                   <TableCell className="text-center">{tilawah.surah}</TableCell>
-                  <TableCell className="text-center">{tilawah.lembar}</TableCell>
+                  <TableCell className="text-center">
+                    {tilawah.lembar}
+                  </TableCell>
                   {isLogin && (
                     <ModalConfirmDelete
                       resetState={deleteReset}

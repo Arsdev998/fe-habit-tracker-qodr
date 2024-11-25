@@ -57,11 +57,11 @@ const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
   };
 
   return (
-    <Dialog open={isOpen} onOpenChange={setIsOpen} >
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
         <TableCell className="border-none text-center">{icon}</TableCell>
       </DialogTrigger>
-      <DialogContent className="flex flex-col justify-center items-center w-[400px]">
+      <DialogContent className="flex flex-col justify-center items-center w-[400px] dark:bg-[#303030]">
         <DialogHeader className="font-bold text-lg">
           <DialogTitle>Konfirmasi Hapus</DialogTitle>
         </DialogHeader>
@@ -69,7 +69,11 @@ const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
           Apakah Kamu Yakin Ingin Menghapus Data Ini?
         </DialogDescription>
         <DialogFooter className="flex gap-4">
-          <Button variant={"default"} onClick={() => setIsOpen(false)} className="bg-green-500 hover:bg-green-600">
+          <Button
+            variant={"default"}
+            onClick={() => setIsOpen(false)}
+            className="bg-green-500 hover:bg-green-600"
+          >
             Batal
           </Button>
           <Button
