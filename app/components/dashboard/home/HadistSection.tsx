@@ -8,14 +8,14 @@ function HadistSection() {
   const { theme } = useTheme();
   if (isLoading || !data) {
     return (
-      <div className="rounded-md w-full h-full flex justify-center items-center">
-        <Skeleton className="bg-black/20 w-full h-[400px] rounded-md" />
+      <div className="rounded-md w-full h-full">
+        <Skeleton className="w-full bg-[#303030] h-[400px] rounded-md" />
       </div>
     );
   }
 
   return (
-    <div className="w-full h-[400px] rounded-md sm:min-w-[650px]  overflow-y-auto">
+    <div className="w-full h-[400px] rounded-md sm:min-w-[650px] shadow-md overflow-y-auto">
       <div
         className={`${theme === "dark" ? "bg-[#303030]" : ""} `}
       >

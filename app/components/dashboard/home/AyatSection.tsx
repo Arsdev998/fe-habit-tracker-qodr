@@ -5,18 +5,18 @@ import React from "react";
 
 const AyatSection = () => {
   const { data, isLoading } = useGetAyatRandomQuery();
-  const {theme} = useTheme()
+  const { theme } = useTheme();
 
   if (isLoading || !data) {
     return (
-      <div className="rounded-md w-full h-full flex justify-center items-center">
-        <Skeleton className="bg-black/20 w-full h-[400px] rounded-md" />
+      <div className="rounded-md w-full h-full">
+        <Skeleton className="bg-[#303030] w-full h-[400px] rounded-md" />
       </div>
     );
   }
 
   return (
-    <div className="w-full h-[400px] rounded-md overflow-y-auto">
+    <div className="w-full h-[400px] rounded-md shadow-md overflow-y-auto">
       <div className={`${theme === "dark" ? "bg-[#303030]" : ""} p-6 `}>
         {/* Informasi Surah */}
         <div>

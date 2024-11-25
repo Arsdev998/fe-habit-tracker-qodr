@@ -182,7 +182,7 @@ const TableMontHabit: React.FC<TableProps> = ({
         <TableRow>
           <TableHead
             colSpan={days.length + 2} // Tambah 2 untuk kolom Amalan dan Persentase
-            className="text-center font-bold text-black text-[20px]"
+            className="text-center font-bold dark:text-white text-[20px]"
           >
             {title}
           </TableHead>

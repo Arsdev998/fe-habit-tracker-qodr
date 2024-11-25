@@ -11,6 +11,8 @@ import {
 } from "@/app/lib/redux/api/notificationApi";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
+import { format } from "date-fns";
+import { Skeleton } from "@/components/ui/skeleton";
 
 type Notification = {
   id: string;
@@ -61,7 +63,7 @@ function NotificationPage() {
       toast.success("Semua notifikasi berhasil ditandai sudah dibaca");
     } catch (error) {
       toast.error("Internal Server Error");
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -71,7 +73,7 @@ function NotificationPage() {
       toast.success("Semua notif dihapus");
     } catch (error) {
       toast.error("Internal Server Error");
-      console.log(error)
+      console.log(error);
     }
   };
 
@@ -84,13 +86,13 @@ function NotificationPage() {
   if (isLoading) {
     return (
       <div className="min-h-screen flex items-center justify-center">
-        <div className="text-center text-gray-500">Loading...</div>
+        <Skeleton className="w-full h-full bg-[#303030] "/>
       </div>
     );
   }
 
   return (
-    <div className="p-4 max-w-2xl mx-auto bg-white shadow-md rounded-md">
+    <div className="p-2 max-w-2xl mx-auto shadow-md rounded-md">
       <h2 className="text-2xl font-semibold mb-4 text-center">Notifikasi</h2>
       {notifications.length > 0 && (
         <div className="flex justify-between my-2">
@@ -114,19 +116,22 @@ function NotificationPage() {
           {notifications.map((item) => (
             <div
               key={item.id}
-              className={`tiptap transition-all duration-300 p-3 rounded-md shadow-sm ${
-                item.status ? "bg-blue-100" : "bg-red-300"
+              className={`tiptap flex justify-between w-full items-center transition-all duration-300 p-3 rounded-md shadow-sm ${
+                item.status ? "bg-[#303030]" : "bg-[#8B6F74]"
               } hover:shadow-md`}
             >
               {/* Render HTML dengan dangerouslySetInnerHTML */}
               <div
-                className="text-gray-700"
+                className="max-w-[80%] overflow-hidden"
                 dangerouslySetInnerHTML={{ __html: item.message }}
               ></div>
               {item.createdAt && (
-                <p className="text-xs text-gray-500 mt-1">
-                  {new Date(item.createdAt).toLocaleString()}
-                </p>
+                <div className="text-center">
+                  <p className="text-xs">
+                    {format(new Date(item.createdAt), "dd MMMM yyyy")}
+                  </p>
+                  <p className="text-md">{format(new Date(item.createdAt), "HH:mm")}</p>
+                </div>
               )}
             </div>
           ))}

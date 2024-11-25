@@ -1,6 +1,11 @@
 "use client";
-import { useAppSelector } from "@/app/lib/redux/hook";
-import { Month, ZiyadahMurajaahType } from "@/app/lib/types";
+import {
+  useGetZiyadahQuery,
+  usePostZiyadahMutation,
+  useEditZiyadahMutation,
+  useDeleteZiyadahMutation,
+} from "@/app/lib/redux/api/ziyadahApi";
+import { format } from "date-fns";
 import {
   Table,
   TableBody,
@@ -9,198 +14,154 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { useEffect, useState } from "react";
-import { FaEdit, FaPlusSquare } from "react-icons/fa";
-import { MdDelete } from "react-icons/md";
-import { format } from "date-fns";
-import ModalQuran from "../../organism/modal/ModalQuran";
-import ModalConfirmDelete from "../../organism/modal/ModalConfirmDelete";
-import {
-  useGetZiyadahQuery,
-  usePostZiyadahMutation,
-  useEditZiyadahMutation,
-  useDeleteZiyadahMutation,
-} from "@/app/lib/redux/api/ziyadahApi";
 import { FaSpinner } from "react-icons/fa6";
+import { Skeleton } from "@/components/ui/skeleton";
+import { useAppSelector } from "@/app/lib/redux/hook";
+import ModalConfirmDelete from "../../organism/modal/ModalConfirmDelete";
+import { MdDelete } from "react-icons/md";
+import ModalQuran from "../../organism/modal/ModalQuran";
+import { FaEdit, FaPlusSquare } from "react-icons/fa";
+import { ZiyadahMurajaahType } from "@/app/lib/types";
 
 interface ZiyadahProps {
-  monthData: Month[];
+  monthId: string;
   userId: string;
 }
 
-export default function Ziyadah({ monthData, userId }: ZiyadahProps) {
+const Ziyadah = ({ monthId, userId }: ZiyadahProps) => {
   const user = useAppSelector((state) => state.auth.user);
-  const currentMonth = monthData?.slice();
-  const lastMonth = currentMonth?.[currentMonth.length - 1];
-  const [selectedMonthId, setSelectedMonthId] = useState<string>(
-    lastMonth.id.toString()
-  );
-  // ACTION TO SERVER
+  const isUser = user?.id === userId;
+  const { data: ziyadahData, isLoading } = useGetZiyadahQuery({
+    monthId,
+    userId,
+  });
+
+  // Action
   const [postZiyadah, { isLoading: isPosting, isSuccess: isPostSuccess }] =
     usePostZiyadahMutation();
-  const [editZiyadah, { isLoading: isEditing, isSuccess: isEditingSucces }] =
+  const [editZiyadah, { isLoading: isEditing, isSuccess: isEditingSuccess }] =
     useEditZiyadahMutation();
   const [
     deleteZiyadah,
     {
       isLoading: isDeleting,
-      isSuccess: IsDeletingSucces,
+      isSuccess: isDeletingSuccess,
       reset: deleteReset,
       isError: isDeletingError,
     },
   ] = useDeleteZiyadahMutation();
-  // FECTH
-  const {
-    data: murajaahData,
-    isLoading,
-    refetch,
-  } = useGetZiyadahQuery({
-    monthId: selectedMonthId,
-    userId: userId,
-  });
 
-  useEffect(() => {
-    if (isPostSuccess || isEditingSucces || IsDeletingSucces) {
-      refetch();
-      deleteReset();
-    }
-  }, [isPostSuccess, isEditingSucces, IsDeletingSucces,deleteReset, refetch]);
+  if (isLoading) {
+    return (
+      <div className="w-full h-full">
+        <Skeleton className="w-full bg-white h-[400px]" />
+      </div>
+    );
+  }
 
-  const murajaahMonthData = murajaahData?.ziyadah;
-
-  const isUser = user?.id === userId;
   return (
-    <div className="w-full min-w-[400px] max-w-[700px]">
-      <Tabs defaultValue={lastMonth.name}>
-        <TabsList>
-          {monthData?.map((item: Month) => (
-            <TabsTrigger
-              key={item.id}
-              value={item.name}
-              onClick={() => setSelectedMonthId(item.id)}
-            >
-              {item.name}
-            </TabsTrigger>
-          ))}
-        </TabsList>
-        {monthData?.map((item: Month) => (
-          <TabsContent value={item.name} key={item.id}>
-            <div className="border-2 p-2">
-              <h1 className="text-center font-bold">
-                Ziyadah Bulan {item.name}
-              </h1>
-            </div>
-            <Table className="min-w-[400px] max-w-[700px]">
-              <TableHeader className="border-2">
-                <TableRow>
-                  <TableHead className="w-[5%] border-2 text-center">
-                    No
-                  </TableHead>
-                  <TableHead className="border-2 w-[25%]">
-                    Nama Surah/Ayat
-                  </TableHead>
-                  <TableHead className="border-2 w-[20%]">Tanggal</TableHead>
-                  {isUser && (
-                    <TableHead
-                      className="border-2 w-[5%] text-center"
-                      colSpan={2}
-                    >
-                      Action
-                    </TableHead>
-                  )}
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {isLoading ? (
-                  <TableRow>
-                    <TableCell className="text-center" colSpan={5}>
-                      Memuat Data <FaSpinner className="animate-spin" />
+    <div className="w-full p-4">
+      <h2 className="text-xl text-center mb-4">
+        Ziyadah Bulan {ziyadahData.name}
+      </h2>
+      {isLoading ? (
+        <div className="text-center">
+          <FaSpinner className="animate-spin" />
+        </div>
+      ) : (
+        <Table className="w-full table-fixed border-collapse">
+          <TableHeader>
+            <TableRow>
+              <TableCell className="w-10 py-2 text-center">No</TableCell>
+              <TableCell className="w-48 px-4 py-2 border">Surah/Ayat</TableCell>
+              <TableCell className="w-32 px-4 py-2 border">Tanggal</TableCell>
+              <TableCell className="w-16 text-center py-2 border" colSpan={2}>
+                Opsi
+              </TableCell>
+            </TableRow>
+          </TableHeader>
+          <TableBody>
+            {ziyadahData.ziyadah?.length > 0 ? (
+              ziyadahData.ziyadah.map(
+                (item: ZiyadahMurajaahType, index: number) => (
+                  <TableRow key={item.id}>
+                    <TableCell className="w-10 py-2 text-center border-r-2">
+                      {index + 1}
                     </TableCell>
-                  </TableRow>
-                ) : murajaahMonthData?.length > 0 ? (
-                  murajaahMonthData.map(
-                    (ziyadah: ZiyadahMurajaahType, index: any) => (
-                      <TableRow key={index}>
-                        <TableCell className="text-center">
-                          {index + 1}
-                        </TableCell>
-                        <TableCell>{ziyadah.surah}</TableCell>
-                        <TableCell>
-                          {format(new Date(ziyadah.date), "dd MMM yyyy")}
-                        </TableCell>
-                        {isUser && (
-                          <ModalConfirmDelete
-                            resetState={deleteReset}
-                            isLoading={isDeleting}
-                            isDeletingError={isDeletingError}
-                            isDeletingSuccess={IsDeletingSucces}
-                            icon={
-                              <MdDelete className="mx-auto text-red-600 cursor-pointer" />
-                            }
-                            onConfirmDelete={() => {
-                              deleteZiyadah({ ziyadahId: ziyadah.id });
-                            }}
-                          />
-                        )}
-
-                        {isUser && (
-                          <ModalQuran
-                            icon={
-                              <FaEdit className="mx-auto text-green-600 cursor-pointer" />
-                            }
-                            date={ziyadah.date}
-                            surah={ziyadah.surah}
-                            isLoading={isEditing}
-                            isSuccess={isEditingSucces}
-                            title="Edit Ziyadah"
-                            handleSubmitQuran={(data) => {
-                              editZiyadah({
-                                ziyadahId: ziyadah.id,
-                                surah: data.surah,
-                                date: data.date,
-                              });
-                            }}
-                          />
-                        )}
-                      </TableRow>
-                    )
-                  )
-                ) : (
-                  <TableRow>
-                    <TableCell colSpan={4} className="text-center">
-                      No Data Available
+                    <TableCell>{item.surah}</TableCell>
+                    <TableCell>
+                      {format(new Date(item.date), "dd MMM yyyy")}
                     </TableCell>
+                    {isUser && (
+                      <ModalConfirmDelete
+                        resetState={deleteReset}
+                        isLoading={isDeleting}
+                        isDeletingError={isDeletingError}
+                        isDeletingSuccess={isDeletingSuccess}
+                        icon={
+                          <MdDelete className="mx-auto text-red-600 cursor-pointer" />
+                        }
+                        onConfirmDelete={() => {
+                          deleteZiyadah({ ziyadahId: item.id });
+                        }}
+                      />
+                    )}
+                    {isUser && (
+                      <ModalQuran
+                        icon={
+                          <FaEdit className="mx-auto text-green-600 cursor-pointer" />
+                        }
+                        date={item.date}
+                        surah={item.surah}
+                        isLoading={isEditing}
+                        isSuccess={isEditingSuccess}
+                        title="Edit Ziyadah"
+                        handleSubmitQuran={(data) => {
+                          editZiyadah({
+                            ziyadahId: item.id,
+                            surah: data.surah,
+                            date: data.date,
+                          });
+                        }}
+                      />
+                    )}
                   </TableRow>
-                )}
-                {isUser && (
-                  <TableRow className="text-right">
-                    <ModalQuran
-                      icon={
-                        <FaPlusSquare className="mx-auto text-green-400 text-lg" />
-                      }
-                      title="Tambahkan Ziyadah"
-                      isLoading={isPosting}
-                      surah="" // Set surah to an empty string or an appropriate value
-                      date={new Date()} // You can replace this with a timestamp or the appropriate date format
-                      isSuccess={isPostSuccess}
-                      handleSubmitQuran={(data) => {
-                        console.log(data);
-                        postZiyadah({
-                          monthId: selectedMonthId,
-                          userId: user.id,
-                          surah: data.surah,
-                          date: data.date,
-                        });
-                      }}
-                    />
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
-          </TabsContent>
-        ))}
-      </Tabs>
+                )
+              )
+            ) : (
+              <TableRow>
+                <TableCell colSpan={3} className="text-center">
+                  Tidak ada data.
+                </TableCell>
+              </TableRow>
+            )}
+            {isUser && (
+              <TableRow className="text-right">
+                <ModalQuran
+                  icon={
+                    <FaPlusSquare className="mx-auto text-green-400 text-lg" />
+                  }
+                  title="Tambahkan Ziyadah"
+                  isLoading={isPosting}
+                  surah=""
+                  date={new Date()}
+                  isSuccess={isPostSuccess}
+                  handleSubmitQuran={(data) => {
+                    postZiyadah({
+                      monthId: monthId,
+                      userId: user.id,
+                      surah: data.surah,
+                      date: data.date,
+                    });
+                  }}
+                />
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      )}
     </div>
   );
-}
+};
+
+export default Ziyadah;

@@ -25,13 +25,14 @@ function JadwalSholat({ unsplashFoto }: Props) {
   if (isLoading || !data) {
     return (
       <div>
-        <Skeleton className="bg-black/20 w-[370px] h-[400px] md:w-[800px] md:h-[150px] lg:w-[1000px] " />
+        <Skeleton className="bg-[#303030] w-[370px] h-[400px] md:w-[800px] md:h-[150px] lg:w-[1000px] " />
       </div>
     );
   }
 
   const JadwalSholatData = [
     { label: "Shubuh", time: data.data.jadwal.subuh },
+    { label: "Terbit", time: data.data.jadwal.terbit },
     { label: "Dhuha", time: data.data.jadwal.dhuha },
     { label: "Dzuhur", time: data.data.jadwal.dzuhur },
     { label: "Ashar", time: data.data.jadwal.ashar },
@@ -42,10 +43,10 @@ function JadwalSholat({ unsplashFoto }: Props) {
   return (
     <div className="flex dark:bg-[#303030] justify-between items-center p-5 border-2 shadow-md w-[370px] h-[400px] md:w-[800px] md:h-[150px] lg:w-[1000px] rounded-md">
       <div className="">
-        <p className="text-xl mb-1">Jadwal Shalat</p>
+        <p className="text-2xl mb-1 font-bold">Jadwal Shalat</p>
         <div className="flex">
           {JadwalSholatData.map((item, index) => (
-            <div key={index} className="mr-2 text-center">
+            <div key={index} className="mr-3 text-center">
               <p className="uppercase font-semibold">{item.label}</p>
               <p className="font-light">{item.time}</p>
             </div>

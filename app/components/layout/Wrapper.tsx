@@ -1,12 +1,17 @@
 "use client";
 
-import { useTheme } from "next-themes";
+import { ThemeProvider } from "@/components/ui/theme-provider";
 
 export default function Wrapper({ children }: { children: React.ReactNode }) {
-  const { theme } = useTheme();
   return (
-    <main className={`p-2 ${theme === "dark" ? "bg-[#0F0E0E]" : ""}`}>
+    <ThemeProvider
+      attribute={"class"}
+      defaultTheme="dark"
+      disableTransitionOnChange
+      enableSystem
+      enableColorScheme
+    >
       {children}
-    </main>
+    </ThemeProvider>
   );
 }

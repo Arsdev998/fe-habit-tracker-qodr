@@ -50,14 +50,10 @@ function HabitPage() {
   }
   return (
     <div className="flex flex-col  min-w-[1200px]">
-      <header className="w-full text-center border-b-2">
-        <h1 className="font-bold text-green-800 text-xl leading-none">
-          Habit Tracker
+      <header className="w-full text-center mb-2">
+        <h1 className="font-bold text-3xl leading-none">
+          Habbit Tracker
         </h1>
-        <h2 className="font-bold text-xl leading-2">
-          Pesantren Pelatihan Teknologi Informasi Qodr
-        </h2>
-        <h3 className="font-bold text-xl">{lastMonth?.year}</h3>
       </header>
       {defaultTab ? (
         <Tabs defaultValue={defaultTab} className="">

@@ -21,12 +21,14 @@ import {
 import { cn } from "@/lib/utils"; // Pastikan utils.ts sudah ada
 import Image from "next/image";
 import logo from "@/app/public/images/logo-qodr.svg";
+import logoWhite from "@/app/public/images/logo-white.svg";
 import { Button } from "@/components/ui/button";
 import { RiLogoutBoxRFill } from "react-icons/ri";
 import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hook";
 import { logout } from "@/app/lib/redux/features/authSlices/authAction";
 import NotifIconDot from "../dashboard/notification/NotifIconDot";
 import { BiSolidBookOpen } from "react-icons/bi";
+import { useTheme } from "next-themes";
 
 export default function SidebarApp() {
   const {user, loading} = useAppSelector((state) => state.auth);
@@ -34,6 +36,7 @@ export default function SidebarApp() {
   const { open } = useSidebarCustom();
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const {theme} = useTheme()
   const handleLogout = () => {
     dispatch(logout());
     router.push("/login");
@@ -105,14 +108,14 @@ export default function SidebarApp() {
   ];
 
   return (
-    <Sidebar collapsible="icon" className="border-r border-gray-200">
-      <SidebarHeader>
+    <Sidebar collapsible="icon" className="p-2 bg-transparent">
+      <SidebarHeader className="dark:bg-[#0F0E0E] p-2 py-3.5 mb-2 rounded-md">
         <div className="flex items-center space-x-2 w-full">
-          <Image alt="Qodr Logo" src={logo} width={70} height={100} />
+          <Image alt="Qodr Logo" src={ theme === "dark" ? logoWhite :  logo} width={70} height={100} />
           {open ? <h1 className="text-xl font-extrabold">PPTI QODR</h1> : null}
         </div>
       </SidebarHeader>
-      <SidebarContent className="mt-1">
+      <SidebarContent className="mt-1 dark:bg-[#0F0E0E] rounded-md">
         <SidebarGroup>
           <SidebarGroupContent>
             <SidebarMenu>
@@ -123,7 +126,7 @@ export default function SidebarApp() {
                     className={cn(
                       "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-300",
                       item.active
-                        ? "bg-primary text-primary-foreground"
+                        ? "bg-[#00B041] text-primary-foreground"
                         : "hover:bg-accent",
                       open ? "" : "justify-center px-2"
                     )}

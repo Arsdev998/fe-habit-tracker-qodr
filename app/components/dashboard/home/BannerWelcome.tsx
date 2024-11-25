@@ -4,6 +4,7 @@ import {
   useGetDateHijriahQuery,
   useGetTimeStampQuery,
 } from "@/app/lib/redux/api/myquranApi";
+import { Skeleton } from "@/components/ui/skeleton";
 import { useEffect, useState } from "react";
 
 interface BannerWelcomeProps {
@@ -14,8 +15,10 @@ interface BannerWelcomeProps {
 const BannerWelcome = ({ name, bannerImg }: BannerWelcomeProps) => {
   const [currentTime, setCurrentTime] = useState<Date | null>(null);
   const date = new Date();
-  const { data: timeStamp } = useGetTimeStampQuery();
-  const { data: hijriahDate } = useGetDateHijriahQuery();
+  const { data: timeStamp, isLoading: timeStampLoading } =
+    useGetTimeStampQuery();
+  const { data: hijriahDate, isLoading: hijriahLoading } =
+    useGetDateHijriahQuery();
 
   const hijriahFormatted = hijriahDate?.data.date.join(", "); // Format Hijriah: "Ahad, 22 Jumadil Awal 1446 H"
 
@@ -27,12 +30,11 @@ const BannerWelcome = ({ name, bannerImg }: BannerWelcomeProps) => {
     }
   }, [timeStamp]);
 
-  // Interval untuk memperbarui waktu setiap detik
   useEffect(() => {
     const interval = setInterval(() => {
       setCurrentTime((prevTime) => {
         if (prevTime) {
-          return new Date(prevTime.getTime() + 1000); // Tambahkan 1 detik
+          return new Date(prevTime.getTime() + 1000);
         }
         return prevTime;
       });
@@ -40,6 +42,14 @@ const BannerWelcome = ({ name, bannerImg }: BannerWelcomeProps) => {
 
     return () => clearInterval(interval);
   }, []);
+
+  if (timeStampLoading || hijriahLoading) {
+    return (
+      <div className="w-full">
+        <Skeleton className="bg-[#303030] w-[370px] h-[400px] md:w-[800px] md:h-[200px] lg:w-full rounded-md" />
+      </div>
+    );
+  }
 
   return (
     <div

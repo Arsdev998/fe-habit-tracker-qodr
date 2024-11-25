@@ -3,7 +3,6 @@ import { Toaster } from "sonner";
 import { SidebarProvider } from "@/components/ui/sidebar";
 import SidebarApp from "../components/layout/Sidebar";
 import Header from "../components/layout/Header";
-import Wrapper from "../components/layout/Wrapper";
 
 function layout({ children }: { children: React.ReactNode }) {
   return (
@@ -12,7 +11,7 @@ function layout({ children }: { children: React.ReactNode }) {
         <SidebarApp />
         <section className="w-full p-2">
           <Header />
-          <Wrapper>{children}</Wrapper>
+          <main className="p-2 dark:bg-[#0F0E0E]">{children}</main>
         </section>
         <Toaster position="top-right" richColors />
       </SidebarProvider>
