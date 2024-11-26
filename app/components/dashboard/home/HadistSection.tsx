@@ -1,5 +1,6 @@
 "use client";
 import { useGetHadistRandomQuery } from "@/app/lib/redux/api/myquranApi";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTheme } from "next-themes";
 
@@ -15,7 +16,7 @@ function HadistSection() {
   }
 
   return (
-    <div className="w-full h-[400px] rounded-md sm:min-w-[650px] shadow-md overflow-y-auto">
+    <ScrollArea className="w-full h-[400px] rounded-md sm:min-w-[650px] shadow-md overflow-y-auto">
       <div
         className={`${theme === "dark" ? "bg-[#303030]" : ""} `}
       >
@@ -31,7 +32,7 @@ function HadistSection() {
           <p className="text-base italic">{data.data.indo}</p>
         </div>
       </div>
-    </div>
+    </ScrollArea>
   );
 }
 

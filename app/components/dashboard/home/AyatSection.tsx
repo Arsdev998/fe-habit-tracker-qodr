@@ -1,4 +1,5 @@
 import { useGetAyatRandomQuery } from "@/app/lib/redux/api/myquranApi";
+import { ScrollArea } from "@/components/ui/scroll-area";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useTheme } from "next-themes";
 import React from "react";
@@ -16,7 +17,7 @@ const AyatSection = () => {
   }
 
   return (
-    <div className="w-full h-[400px] rounded-md shadow-md overflow-y-auto">
+    <ScrollArea className="w-full h-[400px] rounded-md shadow-md overflow-y-auto">
       <div className={`${theme === "dark" ? "bg-[#303030]" : ""} p-6 `}>
         {/* Informasi Surah */}
         <div>
@@ -56,7 +57,7 @@ const AyatSection = () => {
           </audio>
         </div>
       </div>
-    </div>
+    </ScrollArea>
   );
 };
 

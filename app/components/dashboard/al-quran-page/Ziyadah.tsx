@@ -54,13 +54,13 @@ const Ziyadah = ({ monthId, userId }: ZiyadahProps) => {
   if (isLoading) {
     return (
       <div className="w-full h-full">
-        <Skeleton className="w-full h-[500px]" />
+        <Skeleton className="w-full h-[400px]" />
       </div>
     );
   }
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full min-h-[400px] p-4">
       <h2 className="text-xl text-center mb-4">
         Ziyadah Bulan {ziyadahData?.name} {ziyadahData?.year}
       </h2>

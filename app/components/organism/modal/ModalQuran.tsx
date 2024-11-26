@@ -74,7 +74,7 @@ function ModalQuran({
           {icon}
         </TableCell>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="dark:bg-[#303030]">
         <DialogTitle>{title}</DialogTitle>
         <Form {...form}>
           <form
@@ -88,7 +88,7 @@ function ModalQuran({
               name="surah"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">
+                  <FormLabel className="text-sm font-medium">
                     Nama Surah/Ayat
                   </FormLabel>
                   <FormControl>

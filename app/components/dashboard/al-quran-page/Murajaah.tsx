@@ -60,7 +60,7 @@ const Murajaah = ({ monthId, userId }: MurajaahProps) => {
   }
 
   return (
-    <div className="w-full p-4">
+    <div className="w-full p-4 min-h-[400px]">
       <h2 className="text-xl text-center mb-4">
         Murajaah Bulan {murajaahData?.name} {murajaahData?.year}
       </h2>

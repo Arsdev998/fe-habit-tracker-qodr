@@ -66,15 +66,15 @@ export default function Tilawah({ monthId, userId }: TilawahProps) {
   if (isLoading) {
     return (
       <div className="w-full h-full">
-        <Skeleton className="w-fullh-[400px]" />
+        <Skeleton className="w-full h-[400px]" />
       </div>
     );
   }
   return (
-    <div className="p-4 w-full">
+    <div className="p-4 w-full min-h-[400px]">
       <div>
         <div>
-          <h1 className="text-center font-bold">
+          <h1 className="text-xl text-center mb-4">
             Tilawah Bulan {tilawahData?.name} {tilawahData?.year}
           </h1>
         </div>
@@ -82,7 +82,7 @@ export default function Tilawah({ monthId, userId }: TilawahProps) {
           <TableHeader className="">
             <TableRow>
               <TableHead className="w-[5%] border-2 text-center">No</TableHead>
-              <TableHead className="w-48  border-2 ">
+              <TableHead className="w-[40%]  border-2 ">
                 Nama Surah/Ayat
               </TableHead>
               <TableHead className="border-2 w-[20%]">Jumlah Lembar</TableHead>
