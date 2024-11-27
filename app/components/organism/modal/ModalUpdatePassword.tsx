@@ -66,19 +66,26 @@ const ModalUpdatePassword = ({ userId }: ModalUpdatePasswordProps) => {
       <DialogTrigger asChild>
         <Button onClick={() => setIsopen(true)}>Ubah Password</Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="dark:bg-[#1f1f1f]">
         <DialogHeader>
           <DialogTitle>Ubah Password</DialogTitle>
         </DialogHeader>
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(handleUpdatePassword)} className="space-y-2">
+          <form
+            onSubmit={form.handleSubmit(handleUpdatePassword)}
+            className="space-y-2"
+          >
             <FormField
               control={form.control}
               name="oldPassword"
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Masukan Password Saat Ini</FormLabel>
-                  <Input type="password" placeholder="Masukan Password Saat Ini" {...field} />
+                  <Input
+                    type="password"
+                    placeholder="Masukan Password Saat Ini"
+                    {...field}
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -89,7 +96,11 @@ const ModalUpdatePassword = ({ userId }: ModalUpdatePasswordProps) => {
               render={({ field }) => (
                 <FormItem>
                   <FormLabel>Password Baru</FormLabel>
-                  <Input type="password" placeholder="Masukan Password Baru" {...field} />
+                  <Input
+                    type="password"
+                    placeholder="Masukan Password Baru"
+                    {...field}
+                  />
                   <FormMessage />
                 </FormItem>
               )}
@@ -106,8 +117,8 @@ const ModalUpdatePassword = ({ userId }: ModalUpdatePasswordProps) => {
               )}
             />
             <Button type="submit" disabled={isLoading} className="w-full">
-              {isLoading ? <FaSpinner className="animate-spin mr-2" /> : ""} Update
-              Password
+              {isLoading ? <FaSpinner className="animate-spin mr-2" /> : ""}{" "}
+              Update Password
             </Button>
           </form>
         </Form>

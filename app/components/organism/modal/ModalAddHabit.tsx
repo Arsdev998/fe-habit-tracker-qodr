@@ -100,9 +100,9 @@ const ModalAddHabit: React.FC<ModalAddHabitProps> = ({
           <BsFillPlusSquareFill className="text-xl" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="w-full max-w-md p-6 bg-gray-50 rounded-lg shadow-lg">
+      <DialogContent className="w-full max-w-md p-6 dark:bg-[#1f1f1f] rounded-lg shadow-lg">
         <DialogHeader className="text-center mb-4">
-          <DialogTitle className="text-xl font-semibold text-gray-800">
+          <DialogTitle className="text-xl font-semibold">
             Tambahkan Habit di {monthName}
           </DialogTitle>
         </DialogHeader>
@@ -116,7 +116,7 @@ const ModalAddHabit: React.FC<ModalAddHabitProps> = ({
               name="title"
               render={({ field }) => (
                 <FormItem>
-                  <FormLabel className="text-sm font-medium text-gray-700">
+                  <FormLabel className="text-sm font-medium">
                     Nama Habit
                   </FormLabel>
                   <FormControl>

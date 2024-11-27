@@ -84,12 +84,15 @@ const ModalEditProfile = ({
         <DialogTrigger asChild>
           <Button onClick={() => setIsOpen(true)}>Update Profile</Button>
         </DialogTrigger>
-        <DialogContent>
+        <DialogContent className="dark:bg-[#1f1f1f]">
           <DialogHeader>
             <DialogTitle>Update Profile {name}</DialogTitle>
           </DialogHeader>
           <Form {...form}>
-            <form onSubmit={form.handleSubmit(handleUpdateProfile)} className="space-y-2">
+            <form
+              onSubmit={form.handleSubmit(handleUpdateProfile)}
+              className="space-y-2"
+            >
               <FormField
                 control={form.control}
                 name="name"

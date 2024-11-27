@@ -48,12 +48,12 @@ const ModalDeleteHabit: React.FC<ModalDelteeHabitProps> = ({
 
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
-      <DialogTrigger asChild >
-        <Button variant={"ghost"} size={'icon'}>
-          <MdDelete className="text-red-500 mx-auto"/>
+      <DialogTrigger asChild>
+        <Button variant={"ghost"} size={"icon"}>
+          <MdDelete className="text-red-500 mx-auto" />
         </Button>
       </DialogTrigger>
-      <DialogContent className="flex flex-col justify-center items-center">
+      <DialogContent className="flex flex-col justify-center items-center dark:bg-[#1f1f1f]">
         <DialogHeader className="font-bold text-lg">
           <DialogTitle>Konfirmasi Hapus Habit {currentHabit}</DialogTitle>
         </DialogHeader>
@@ -61,7 +61,11 @@ const ModalDeleteHabit: React.FC<ModalDelteeHabitProps> = ({
           <Button variant={"outline"} onClick={() => setIsOpen(false)}>
             Batal
           </Button>
-          <Button onClick={handleDeleteHabit} disabled={isLoading} variant={"destructive"}>
+          <Button
+            onClick={handleDeleteHabit}
+            disabled={isLoading}
+            variant={"destructive"}
+          >
             {isLoading ? "Menghapus" : "Hapus"}
           </Button>
         </DialogDescription>

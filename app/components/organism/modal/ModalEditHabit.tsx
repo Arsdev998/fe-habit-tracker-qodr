@@ -101,7 +101,7 @@ const ModalEditHabit: React.FC<ModalEditHabitProps> = ({
         </Button>
       </DialogTrigger>
       <DialogContent
-        className="flex flex-col  justify-center items-center w-full max-w-md"
+        className="flex flex-col  justify-center items-center w-full max-w-md dark:bg-[#1f1f1f]"
         onPointerDownOutside={(e) => {
           if (isLoading) {
             e.preventDefault();
