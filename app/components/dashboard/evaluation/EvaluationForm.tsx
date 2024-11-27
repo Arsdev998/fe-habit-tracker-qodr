@@ -17,7 +17,13 @@ import { useForm } from "react-hook-form";
 import { FaSpinner } from "react-icons/fa6";
 import { toast } from "sonner";
 
-const EvaluationForm = () => {
+interface EvaluasiProps {
+  desc: string;
+  type:string;
+  classButton:string;
+}
+
+const EvaluationForm = ({desc,type,classButton}:EvaluasiProps) => {
   const [postEvaluation, { isLoading, isSuccess }] =
     usePostEvaluationMutation();
   const form = useForm({
@@ -43,7 +49,7 @@ const EvaluationForm = () => {
     }
   };
   return (
-    <div className="max-w-[600px]">
+    <div className="max-w-[1000px]">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSendEvaluation)}
@@ -54,8 +60,8 @@ const EvaluationForm = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Tentang</FormLabel>
-                <Input {...field} className="border-2 border-black w-[300px]" />
+                <FormLabel>Topik</FormLabel>
+                <Input {...field} className="border-2 border-black dark:border-white w-[300px]" />
                 <FormMessage />
               </FormItem>
             )}
@@ -65,18 +71,17 @@ const EvaluationForm = () => {
             control={form.control}
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Problem</FormLabel>
-                <Textarea {...field} className="border-2 border-black" />
+                <FormLabel>Pesan</FormLabel>
+                <Textarea {...field}  className="border-2 min-h-[150px] border-black dark:border-white" />
                 <FormMessage />
               </FormItem>
             )}
           />
-          <div className="space-y-1">
+          <div className="flex justify-between">
             <p className="italic text-xs">
-              Gunakan Form Ini untuk memberikan kritik dan saran kepada kami
-              agar bisa membuat PPTI QODR lebih baik untuk kedepannya
+             {desc}
             </p>
-            <Button type="submit" disabled={isLoading}>
+            <Button type="submit" disabled={isLoading} className={`${classButton}`}>
               {isLoading ? (
                 <>
                   Mengirim <FaSpinner className="animate-spin" />
