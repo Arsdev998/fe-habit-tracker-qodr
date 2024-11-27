@@ -9,9 +9,9 @@ function layout({ children }: { children: React.ReactNode }) {
     <>
       <SidebarProvider>
         <SidebarApp />
-        <section className="w-full p-2">
+        <section className="w-full p-3">
           <Header />
-          <main className="p-2 dark:bg-[#0F0E0E] md:min-h-[500px] xl:min-h-[620px]">
+          <main className="p-2 rounded-md dark:bg-[#0F0E0E] md:min-h-[500px] xl:min-h-[620px]">
             {children}
           </main>
         </section>

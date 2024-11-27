@@ -30,6 +30,7 @@ import NotifIconDot from "../dashboard/notification/NotifIconDot";
 import { BiSolidBookOpen } from "react-icons/bi";
 import { useTheme } from "next-themes";
 import { Skeleton } from "@/components/ui/skeleton";
+import { MdDashboard } from "react-icons/md";
 
 export default function SidebarApp() {
   const { user, loading } = useAppSelector((state) => state.auth);
@@ -83,6 +84,12 @@ export default function SidebarApp() {
     },
   ];
   const adminNavData = [
+    {
+      href: "/admindashboard",
+      label: "Admin Dashboard",
+      icon: <MdDashboard className="h-4 w-4" />,
+      active: pathname === "/admindashboard",
+    },
     {
       href: "/admindashboard/habitcontroll",
       label: "Habit Controll",

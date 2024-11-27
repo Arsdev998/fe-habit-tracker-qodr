@@ -1,10 +1,8 @@
-import React from 'react'
+import AdminDashboardPage from '@/app/components/admin/dashboard/AdminDashboardPage'
 
 const AdminDashboard = () => {
   return (
-    <div>
-      atmin
-    </div>
+    <AdminDashboardPage/>
   )
 }
 

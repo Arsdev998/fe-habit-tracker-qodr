@@ -11,6 +11,7 @@ import { notificationApi } from "./api/notificationApi";
 import { monthApi } from "./api/monthAPi";
 import { evaluationApi } from "./api/evaluationApi";
 import { evaluationGeneralApi } from "./api/evaluationGeneralApi";
+import { admindashboardApi } from "./api/admindashboardApi";
 
 export const store = () => {
   return configureStore({
@@ -25,6 +26,7 @@ export const store = () => {
       [monthApi.reducerPath]: monthApi.reducer,
       [evaluationApi.reducerPath]: evaluationApi.reducer,
       [evaluationGeneralApi.reducerPath]: evaluationGeneralApi.reducer,
+      [admindashboardApi.reducerPath]: admindashboardApi.reducer,
       [myquranApi.reducerPath]: myquranApi.reducer,
       [unsplashApi.reducerPath]: unsplashApi.reducer,
     },
@@ -39,6 +41,7 @@ export const store = () => {
         monthApi.middleware,
         evaluationApi.middleware,
         evaluationGeneralApi.middleware,
+        admindashboardApi.middleware,
         myquranApi.middleware,
         unsplashApi.middleware,
       ]);

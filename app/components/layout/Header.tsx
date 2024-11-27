@@ -15,6 +15,7 @@ import {
 import Link from "next/link";
 import { ThemeToggle } from "../organism/action/ThemeTogle";
 import { useTheme } from "next-themes";
+import { IoIosArrowForward } from "react-icons/io";
 
 const formatPathSegment = (segment: string) => {
   if (!segment) return "Home"; // Jika segmen kosong, anggap sebagai "Home"
@@ -27,7 +28,6 @@ const Header = () => {
   const { user } = useAppSelector((state) => state.auth);
   const dispatch = useAppDispatch();
   const pathname = usePathname();
-  const { theme } = useTheme();
 
   useEffect(() => {
     if (!user) {
@@ -62,13 +62,12 @@ const Header = () => {
                     <BreadcrumbLink asChild>
                       <Link href={path.href}>{path.name}</Link>
                     </BreadcrumbLink>
-                    {/* <BreadcrumbSeparator /> */}
+                    <span className="separator">
+                      <IoIosArrowForward />
+                    </span>
                   </>
                 ) : (
-                  <BreadcrumbPage
-                    aria-current="page"
-                    className="capitalize text-gray-600"
-                  >
+                  <BreadcrumbPage aria-current="page" className="capitalize ">
                     {path.name}
                   </BreadcrumbPage>
                 )}
