@@ -1,5 +1,7 @@
 "use client";
 import { usePostEvaluationMutation } from "@/app/lib/redux/api/evaluationApi";
+import { usePostGeneralEvaluationMutation } from "@/app/lib/redux/api/evaluationGeneralApi";
+import { EvaluationGeneralType } from "@/app/lib/types";
 import { evaluationSchema } from "@/app/schema/evaluationSchema";
 import { Button } from "@/components/ui/button";
 import {
@@ -19,13 +21,16 @@ import { toast } from "sonner";
 
 interface EvaluasiProps {
   desc: string;
-  type:string;
-  classButton:string;
+  type: string;
+  classButton: string;
+  userId?: string;
 }
 
-const EvaluationForm = ({desc,type,classButton}:EvaluasiProps) => {
+const EvaluationForm = ({ desc, type, classButton ,userId}: EvaluasiProps) => {
   const [postEvaluation, { isLoading, isSuccess }] =
     usePostEvaluationMutation();
+  const [postGeneralEvaluation, { isLoading: isLoadingGeneral }] =
+    usePostGeneralEvaluationMutation();
   const form = useForm({
     resolver: zodResolver(evaluationSchema),
     defaultValues: {
@@ -34,9 +39,20 @@ const EvaluationForm = ({desc,type,classButton}:EvaluasiProps) => {
     },
   });
 
-  const handleSendEvaluation = async (data: any) => {
+  const handleSendEvaluation = async (data: EvaluationGeneralType) => {
     try {
-      await postEvaluation(data).unwrap();
+      if(data.about === "" || data.problem === ""){
+        toast.error("Topik dan Pesan tidak boleh kosong");
+      }
+      if (type === "internal") {
+        await postEvaluation(data).unwrap();
+      } else {
+        await postGeneralEvaluation({
+          about: data.about,
+          problem: data.problem,
+          userId: userId,
+        }).unwrap();
+      }
       form.reset();
       toast.success("Terima kasih atas kritik dan saran anda");
     } catch (error: any) {
@@ -61,7 +77,10 @@ const EvaluationForm = ({desc,type,classButton}:EvaluasiProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Topik</FormLabel>
-                <Input {...field} className="border-2 border-black dark:border-white w-[300px]" />
+                <Input
+                  {...field}
+                  className="border-2 border-black dark:border-white w-[300px]"
+                />
                 <FormMessage />
               </FormItem>
             )}
@@ -72,17 +91,22 @@ const EvaluationForm = ({desc,type,classButton}:EvaluasiProps) => {
             render={({ field }) => (
               <FormItem>
                 <FormLabel>Pesan</FormLabel>
-                <Textarea {...field}  className="border-2 min-h-[150px] border-black dark:border-white" />
+                <Textarea
+                  {...field}
+                  className="border-2 min-h-[150px] border-black dark:border-white"
+                />
                 <FormMessage />
               </FormItem>
             )}
           />
           <div className="flex justify-between">
-            <p className="italic text-xs">
-             {desc}
-            </p>
-            <Button type="submit" disabled={isLoading} className={`${classButton}`}>
-              {isLoading ? (
+            <p className="italic text-xs">{desc}</p>
+            <Button
+              type="submit"
+              disabled={isLoading || isLoadingGeneral}
+              className={`${classButton}`}
+            >
+              {isLoading || isLoadingGeneral ? (
                 <>
                   Mengirim <FaSpinner className="animate-spin" />
                 </>

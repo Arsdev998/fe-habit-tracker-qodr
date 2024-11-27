@@ -39,3 +39,9 @@ export interface UserType {
   value:string
 }
 
+export interface EvaluationGeneralType{
+  about: string,
+  problem: string,
+  userId?:string,
+}
+

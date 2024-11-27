@@ -16,45 +16,48 @@ function ProfilePage() {
   if (isSuccess)
     return (
       <div className="">
-        <div className="w-full max-w-md bg-white rounded-lg shadow-lg p-6">
-          <div className="flex justify-between items-center mb-4">
-            <h1 className="text-2xl font-semibold text-gray-800">Profile</h1>
-            <div className="flex gap-x-3">
-              <ModalEditProfile
-                userId={userId}
-                name={data.name}
-                fullname={data.fullname}
-                email={data.email}
-                motivation={data.motivation}
-              />
-              <ModalUpdatePassword userId={userId}/>
+        <div className="flex flex-col items-center justify-center w-full rounded-lg shadow-lg p-6">
+          <h1 className="text-2xl font-semibold text-center mb-4">Profile</h1>
+          <h2 className="text-xl font-semibold text-center mb-3">
+            {data?.fullname}
+          </h2>
+          <div className="w-full md:w-[900px]">
+            <div className="grid grid-cols-2 gap-4 w-[400px] mx-auto">
+              <div className="text-lg">
+                <p className="font-bold">Username</p>
+                <p>{data?.name}</p>
+              </div>
+              <div className="text-lg">
+                <p className="font-bold">Fullname</p>
+                <p>{data?.fullname}</p>
+              </div>
+              <div className="text-lg">
+                <p className="font-bold">Email</p>
+                <p>{data?.fullname}</p>
+              </div>
+              <div className="text-lg">
+                <p className="font-bold">Np Hp</p>
+                <p>{data?.numberPhone}</p>
+              </div>
+              <div className="text-lg">
+                <p className="font-bold">Status</p>
+                <p>{data?.role}</p>
+              </div>
+              <div className="text-lg">
+                <p className="font-bold">Tanggal Masuk</p>
+                <p>{data?.joinDate}</p>
+              </div>
             </div>
-          </div>
-          <div className="space-y-2">
-            <p className="text-lg text-gray-700">
-              <span className="font-medium">Nama:</span> {data?.name}
-            </p>
-            <p className="text-lg text-gray-700">
-              <span className="font-medium">Nama Asli:</span> {data?.fullname}
-            </p>
-            <p className="text-lg text-gray-700">
-              <span className="font-medium">Email:</span> {data?.email}
-            </p>
-            <p className="text-lg text-gray-700">
-              <span className="font-medium">Tanggal Masuk:</span>{" "}
-              {data?.joinDate}
-            </p>
-            <p className="text-lg text-gray-700">
-              <span className="font-medium">Status:</span> {data?.role}
-            </p>
-          </div>
-          <div className="mt-6 bg-blue-50 p-4 rounded-md shadow-inner">
-            <h2 className="text-lg font-semibold text-blue-600 mb-2">
-              Motivasi
-            </h2>
-            <p className="text-sm text-gray-600 italic">
-              {data?.motivation || "Motivasi belum ditambahkan."}
-            </p>
+            <div className="mt-2 p-2 rounded-md shadow-inner w-[450px] mx-auto">
+              <h2 className="text-lg font-semibold">AmBativasi</h2>
+              <p className="text-sm text-center">
+                <q>{data?.motivation || "Motivasi belum ditambahkan."}</q>
+              </p>
+            </div>
+            <div className="mt-6 p-4 rounded-md shadow-inner w-[450px] mx-auto">
+              <h2 className="text-lg font-semibold">Tech Stack</h2>
+              {data?.techStack}
+            </div>
           </div>
         </div>
       </div>

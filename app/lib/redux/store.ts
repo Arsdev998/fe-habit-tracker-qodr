@@ -10,6 +10,7 @@ import { tilawahApi } from "./api/tilawahApi";
 import { notificationApi } from "./api/notificationApi";
 import { monthApi } from "./api/monthAPi";
 import { evaluationApi } from "./api/evaluationApi";
+import { evaluationGeneralApi } from "./api/evaluationGeneralApi";
 
 export const store = () => {
   return configureStore({
@@ -23,6 +24,7 @@ export const store = () => {
       [notificationApi.reducerPath]: notificationApi.reducer,
       [monthApi.reducerPath]: monthApi.reducer,
       [evaluationApi.reducerPath]: evaluationApi.reducer,
+      [evaluationGeneralApi.reducerPath]: evaluationGeneralApi.reducer,
       [myquranApi.reducerPath]: myquranApi.reducer,
       [unsplashApi.reducerPath]: unsplashApi.reducer,
     },
@@ -36,6 +38,7 @@ export const store = () => {
         notificationApi.middleware,
         monthApi.middleware,
         evaluationApi.middleware,
+        evaluationGeneralApi.middleware,
         myquranApi.middleware,
         unsplashApi.middleware,
       ]);

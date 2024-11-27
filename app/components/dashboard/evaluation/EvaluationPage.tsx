@@ -1,6 +1,9 @@
+"use client";
+import { useAppSelector } from "@/app/lib/redux/hook";
 import EvaluationForm from "./EvaluationForm";
 
 const EvaluationPage = () => {
+  const user = useAppSelector((state) => state.auth.user);
   return (
     <div className="px-7 py-1">
       <div className="text-center">
@@ -15,7 +18,7 @@ const EvaluationPage = () => {
           <EvaluationForm
             desc="Gunakan Form Ini untuk memberikan kritik dan saran kepada kami
               agar bisa membuat PPTI QODR lebih baik untuk kedepannya"
-            type=""
+            type="internal"
             classButton="bg-green-500 hover:bg-green-600 dark:text-white"
           />
         </div>
@@ -24,8 +27,9 @@ const EvaluationPage = () => {
           <h3>Evaluasi Umum</h3>
           <EvaluationForm
             desc="Gunakan Form Ini untuk menyampaikan sesuatu kepada penghuni pondok secara umum. Setiap santri hanya bisa melakukan pengumuman maximal 3x dalam sehari!"
-            type=""
+            type="general"
             classButton="bg-red-500 hover:bg-red-600 dark:text-white"
+            userId={user?.id}
           />
         </div>
       </div>
