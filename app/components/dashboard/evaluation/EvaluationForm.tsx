@@ -65,7 +65,7 @@ const EvaluationForm = ({ desc, type, classButton ,userId}: EvaluasiProps) => {
     }
   };
   return (
-    <div className="max-w-[1000px]">
+    <div className="max-w-[500px]">
       <Form {...form}>
         <form
           onSubmit={form.handleSubmit(handleSendEvaluation)}
@@ -100,7 +100,7 @@ const EvaluationForm = ({ desc, type, classButton ,userId}: EvaluasiProps) => {
             )}
           />
           <div className="flex justify-between">
-            <p className="italic text-xs">{desc}</p>
+            <p className="italic text-xs font-normal">{desc}</p>
             <Button
               type="submit"
               disabled={isLoading || isLoadingGeneral}

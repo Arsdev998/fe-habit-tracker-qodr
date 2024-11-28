@@ -166,47 +166,46 @@ export default function SidebarApp() {
             </SidebarMenu>
           </SidebarGroupContent>
         </SidebarGroup>
-        {user?.role === "ADMIN" ||
-          (user?.role === "SUPERADMIN" && (
-            <SidebarGroup>
-              <SidebarGroupContent>
-                <SidebarGroupLabel>Admin Controller</SidebarGroupLabel>
-                <SidebarMenu>
-                  {adminNavData.map((item) => (
-                    <SidebarMenuItem key={item.label}>
-                      <Link
-                        href={item.href}
+        {user?.role === "KESANTRIAN" && (
+          <SidebarGroup>
+            <SidebarGroupContent>
+              <SidebarGroupLabel>Admin Controller</SidebarGroupLabel>
+              <SidebarMenu>
+                {adminNavData.map((item) => (
+                  <SidebarMenuItem key={item.label}>
+                    <Link
+                      href={item.href}
+                      className={cn(
+                        "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-300",
+                        item.active
+                          ? "bg-primary text-primary-foreground"
+                          : "hover:bg-accent",
+                        open ? "" : "justify-center px-2"
+                      )}
+                    >
+                      <div
                         className={cn(
-                          "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-300",
-                          item.active
-                            ? "bg-primary text-primary-foreground"
-                            : "hover:bg-accent",
-                          open ? "" : "justify-center px-2"
+                          "transition-all duration-300",
+                          !open && "min-w-4"
                         )}
                       >
-                        <div
-                          className={cn(
-                            "transition-all duration-300",
-                            !open && "min-w-4"
-                          )}
-                        >
-                          {item.icon}
-                        </div>
-                        <span
-                          className={cn(
-                            "transition-all duration-300",
-                            open ? "" : "hidden w-0"
-                          )}
-                        >
-                          {item.label}
-                        </span>
-                      </Link>
-                    </SidebarMenuItem>
-                  ))}
-                </SidebarMenu>
-              </SidebarGroupContent>
-            </SidebarGroup>
-          ))}
+                        {item.icon}
+                      </div>
+                      <span
+                        className={cn(
+                          "transition-all duration-300",
+                          open ? "" : "hidden w-0"
+                        )}
+                      >
+                        {item.label}
+                      </span>
+                    </Link>
+                  </SidebarMenuItem>
+                ))}
+              </SidebarMenu>
+            </SidebarGroupContent>
+          </SidebarGroup>
+        )}
       </SidebarContent>
       <SidebarFooter
         className={cn(
