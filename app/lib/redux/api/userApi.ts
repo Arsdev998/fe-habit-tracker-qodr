@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { UserType } from "../../types";
+import { CreateUserType, UserType } from "../../types";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -18,55 +18,41 @@ export const userApi = createApi({
       providesTags: (result, error, userId) => [{ type: "User", id: userId }],
     }),
     postUser: builder.mutation({
-      query: ({
-        name,
-        email,
-        password,
-        fullname,
-        joinDate,
-        role,
-      }: {
-        name: string;
-        email: string;
-        password: string;
-        fullname: string;
-        joinDate: string;
-        role: string;
-      }) => ({
+      query: (body: CreateUserType) => ({
         url: "/user/create",
         method: "POST",
-        body: {
-          name,
-          password,
-          email,
-          fullname,
-          joinDate,
-          role,
-        },
+        body,
       }),
-      invalidatesTags: ["User"], // Invalidasi cache saat data diubah
+      invalidatesTags: ["User"],
     }),
     updateProfile: builder.mutation({
-      query: ({userId,name,email,fullname,motivation,}: {userId: string;name: string;email: string;fullname: string;motivation: string;}) => ({
+      query: ({ body, userId }: { body: UserType; userId: string }) => ({
         url: `/user/update/${userId}`,
         method: "PATCH",
         body: {
-          name,
-          email,
-          fullname,
-          motivation,
+          body,
         },
       }),
-      invalidatesTags:["User"],
+      invalidatesTags: ["User"],
     }),
     updatePasswordUser: builder.mutation({
-      query: ({userId,oldPassword,newPassword,confirmPassword}: {userId: string;oldPassword: string;newPassword: string;confirmPassword: string;}) => ({
+      query: ({
+        userId,
+        oldPassword,
+        newPassword,
+        confirmPassword,
+      }: {
+        userId: string;
+        oldPassword: string;
+        newPassword: string;
+        confirmPassword: string;
+      }) => ({
         url: `/user/updatePassword/${userId}`,
         method: "PATCH",
         body: {
-         oldPassword,
-         newPassword,
-         confirmPassword
+          oldPassword,
+          newPassword,
+          confirmPassword,
         },
       }),
     }),

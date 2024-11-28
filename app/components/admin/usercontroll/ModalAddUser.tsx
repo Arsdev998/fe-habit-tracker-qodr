@@ -1,5 +1,6 @@
 "use client";
 import { usePostUserMutation } from "@/app/lib/redux/api/userApi";
+import { CreateUserType } from "@/app/lib/types";
 import { userSchema } from "@/app/schema/userShcema";
 import { Button } from "@/components/ui/button";
 import {
@@ -43,18 +44,14 @@ const ModalAddUser = () => {
       fullname: "",
       email: "",
       joinDate: "",
+      major: "",
+      numberPhone: "",
+      techStack: "",
       role: "SANTRI",
     },
   });
 
-  const handleSubmitUser = async (data: {
-    name: string;
-    password: string;
-    fullname: string;
-    joinDate: string;
-    email: string;
-    role: string;
-  }) => {
+  const handleSubmitUser = async (data: CreateUserType) => {
     try {
       await postUser(data).unwrap();
       toast.success("User berhasil ditambahkan");
@@ -72,136 +69,190 @@ const ModalAddUser = () => {
           Tambah User
         </Button>
       </DialogTrigger>
-      <DialogContent className="dark:bg-[#303030]">
+      <DialogContent className="dark:bg-[#303030] max-w-[900px]">
         <DialogHeader>
           <DialogTitle>Tambahkan User</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <Form {...form}>
           <form onSubmit={form.handleSubmit(handleSubmitUser)}>
-            <FormField
-              control={form.control}
-              name="name"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">
-                    nama
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      {...field}
-                      className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs text-red-600" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="password"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">
-                    Password
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="password"
-                      {...field}
-                      className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs text-red-600" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="fullname"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">
-                    FullName
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      {...field}
-                      className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs text-red-600" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="email"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">
-                    Email
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="email"
-                      {...field}
-                      className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs text-red-600" />
-                </FormItem>
-              )}
-            />
-
-            <FormField
-              control={form.control}
-              name="joinDate"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">
-                    Tanggal Masuk Qodr
-                  </FormLabel>
-                  <FormControl>
-                    <Input
-                      type="text"
-                      {...field}
-                      className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
-                    />
-                  </FormControl>
-                  <FormMessage className="text-xs text-red-600" />
-                </FormItem>
-              )}
-            />
-            <FormField
-              control={form.control}
-              name="role"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel className="text-sm font-medium">
-                    Role
-                  </FormLabel>
-                  <FormControl>
-                    <Select
-                      value={field.value} // Gunakan value dari field
-                      onValueChange={(value) => field.onChange(value)} // Perbarui state
-                    >
-                      <SelectTrigger>
-                        <SelectValue placeholder="Pilih Role" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="SANTRI">SANTRI</SelectItem>
-                        <SelectItem value="ADMIN">ADMIN</SelectItem>
-                        <SelectItem value="SUPERADMIN">SUPER ADMIN</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </FormControl>
-                  <FormMessage className="text-xs text-red-600" />
-                </FormItem>
-              )}
-            />
+            <div className="grid grid-cols-2 gap-4">
+              <FormField
+                control={form.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">nama</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-600" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="password"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">
+                      Password
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="password"
+                        {...field}
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-600" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="fullname"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">
+                      FullName
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-600" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="email"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">Email</FormLabel>
+                    <FormControl>
+                      <Input
+                        type="email"
+                        {...field}
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-600" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="joinDate"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">
+                      Tanggal Masuk Qodr
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-600" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="major"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">
+                      Jurusan
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-600" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="numberPhone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">
+                      Nomor Telepon
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-600" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="techStack"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">
+                      Tech Stack
+                    </FormLabel>
+                    <FormControl>
+                      <Input
+                        type="text"
+                        {...field}
+                        className="border border-gray-300 rounded-lg px-3 py-2 focus:ring-green-500 focus:border-green-500"
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-600" />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="role"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel className="text-sm font-medium">Role</FormLabel>
+                    <FormControl>
+                      <Select
+                        value={field.value} // Gunakan value dari field
+                        onValueChange={(value) => field.onChange(value)} // Perbarui state
+                      >
+                        <SelectTrigger>
+                          <SelectValue placeholder="Pilih Role" />
+                        </SelectTrigger>
+                        <SelectContent>
+                          <SelectItem value="SANTRI">SANTRI</SelectItem>
+                          <SelectItem value="ADMIN">ADMIN</SelectItem>
+                          <SelectItem value="SUPERADMIN">
+                            SUPER ADMIN
+                          </SelectItem>
+                        </SelectContent>
+                      </Select>
+                    </FormControl>
+                    <FormMessage className="text-xs text-red-600" />
+                  </FormItem>
+                )}
+              />
+            </div>
             <DialogFooter>
               <Button
                 type="submit"

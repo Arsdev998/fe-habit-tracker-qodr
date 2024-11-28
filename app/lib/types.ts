@@ -35,8 +35,22 @@ export interface UserType {
   password: string,
   fullname: string,
   joinDate: string,
+  major: string,
+  numberPhone: string,
+  techStack: string
   role: string,
-  value:string
+}
+
+export interface CreateUserType {
+  name: string;
+  email: string;
+  password: string;
+  fullname: string;
+  joinDate: string;
+  major: string;
+  numberPhone: string;
+  techStack: string;
+  role: string;
 }
 
 export interface EvaluationGeneralType{

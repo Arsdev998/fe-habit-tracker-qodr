@@ -71,7 +71,7 @@ const ModalAddHabit: React.FC<ModalAddHabitProps> = ({
     const title = data.title;
     const maxDays = data.maxDays === undefined ? null : data.maxDays;
     console.log(data);
-    if (user.role === "ADMIN" || user.role === "SUPERADMIN") {
+    if (user.role === "KESANTRIAN") {
       await postHabitByAdmin({ title, maxDays }).unwrap();
     } else {
       await postHabitUser({ monthId, userId, title, maxDays }).unwrap();
