@@ -18,9 +18,23 @@ function ProfilePage() {
       <div className="">
         <div className="flex flex-col items-center justify-center w-full rounded-lg shadow-lg p-6">
           <h1 className="text-2xl font-semibold text-center mb-4">Profile</h1>
-          <h2 className="text-xl font-semibold text-center mb-3">
-            {data?.fullname}
-          </h2>
+          <div className="flex justify-between">
+            <h2 className="text-xl font-semibold text-center mb-3">
+              {data?.fullname}
+            </h2>
+            <div className="">
+              <ModalEditProfile
+                email={data.email}
+                fullname={data.fullname}
+                motivation={data.motivation}
+                name={data.name}
+                userId={data.id}
+                numberPhone={data.numberPhone}
+                tecthStack={data.techStack}
+              />
+              <ModalUpdatePassword userId={data.id} />
+            </div>
+          </div>
           <div className="w-full md:w-[900px]">
             <div className="grid grid-cols-2 gap-4 w-[400px] mx-auto">
               <div className="text-lg">

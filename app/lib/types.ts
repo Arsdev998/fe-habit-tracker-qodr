@@ -29,16 +29,12 @@ export interface TilawahType {
 }
 
 export interface UserType {
-  id: string,
-  name:string,
-  email: string,
-  password: string,
-  fullname: string,
-  joinDate: string,
-  major: string,
-  numberPhone: string,
-  techStack: string
-  role: string,
+  name: string;
+  email: string;
+  fullname: string;
+  motivation:string;
+  numberPhone: string;
+  techStack: string;
 }
 
 export interface CreateUserType {

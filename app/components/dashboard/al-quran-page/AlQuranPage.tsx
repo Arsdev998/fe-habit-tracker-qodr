@@ -58,7 +58,7 @@ const AlQuranPage = () => {
           </TabsList>
         </Tabs>
       )}
-      <Tabs defaultValue="murajaah" className="w-[950px]">
+      <Tabs defaultValue="murajaah" className="md:w-[950px]">
         <TabsList className="flex justify-center space-x-2 p-0 bg-transparent">
           <TabsTrigger value="murajaah" className="px-4">
             Murajaah

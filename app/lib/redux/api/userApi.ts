@@ -29,9 +29,7 @@ export const userApi = createApi({
       query: ({ body, userId }: { body: UserType; userId: string }) => ({
         url: `/user/update/${userId}`,
         method: "PATCH",
-        body: {
-          body,
-        },
+        body,
       }),
       invalidatesTags: ["User"],
     }),

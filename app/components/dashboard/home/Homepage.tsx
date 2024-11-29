@@ -20,7 +20,7 @@ export default function HomePage() {
       <JadwalSholat unsplashFoto={unsplashFoto} />
       <div className="flex justify-center w-[370px] min-h-[400px] md:w-[800px] md:h-[500px] lg:w-[1000px]">
         <Tabs className="w-full" defaultValue="ayat">
-          <TabsList className="flex p-0 bg-transparent mx-auto w-[400px] mb-0">
+          <TabsList className="flex p-0 bg-transparent mx-auto md:w-[400px] mb-0">
             <TabsTrigger value="ayat" className="w-full">Ayat Hari Ini</TabsTrigger>
             <TabsTrigger value="hadist" className="w-full">Hadist Hari Ini</TabsTrigger>
           </TabsList>

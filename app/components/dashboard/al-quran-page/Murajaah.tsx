@@ -60,7 +60,7 @@ const Murajaah = ({ monthId, userId }: MurajaahProps) => {
   }
 
   return (
-    <div className="w-full p-4 min-h-[400px]">
+    <div className="w-full md:p-2 min-h-[400px]">
       <h2 className="text-xl text-center mb-4">
         Murajaah Bulan {murajaahData?.name} {murajaahData?.year}
       </h2>
@@ -72,11 +72,11 @@ const Murajaah = ({ monthId, userId }: MurajaahProps) => {
         <Table className="w-full table-fixed border-collapse">
           <TableHeader>
             <TableRow>
-              <TableCell className="w-10  py-2 text-center">No</TableCell>
-              <TableCell className="w-48 px-4 py-2 border">
+              <TableCell className="md:w-10  py-2 text-center">No</TableCell>
+              <TableCell className="md:w-48 px-4 py-2 border">
                 Surah/Ayat
               </TableCell>
-              <TableCell className="w-32 px-4 py-2 border">Tanggal</TableCell>
+              <TableCell className="md:w-32 px-4 py-2 border">Tanggal</TableCell>
               {isUser && (
                 <TableCell className="w-16 text-center py-2 border" colSpan={2}>
                   Opsi

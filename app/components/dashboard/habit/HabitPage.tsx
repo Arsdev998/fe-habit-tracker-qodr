@@ -11,6 +11,8 @@ import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { useAppSelector } from "@/app/lib/redux/hook";
 import { Month } from "@/app/lib/types";
 import { Skeleton } from "@/components/ui/skeleton";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
+import { useSidebarCustom } from "@/components/ui/sidebar";
 
 function HabitPage() {
   const { data: months = [], isLoading: IsMonthLoading } =
@@ -25,6 +27,7 @@ function HabitPage() {
   );
   const currentMonth = months?.slice();
   const lastMonth = currentMonth?.[currentMonth.length - 1];
+  const { open } = useSidebarCustom();
 
   const handleTabChange = (monthId: string) => {
     setSelectedMonthId(monthId);
@@ -49,7 +52,7 @@ function HabitPage() {
     );
   }
   return (
-    <div className="flex flex-col  min-w-[1200px]">
+    <div className="flex flex-col w-full md:min-w-[1200px]">
       <header className="w-full text-center mb-2">
         <h1 className="font-bold text-3xl leading-none">Habbit Tracker</h1>
       </header>
@@ -69,11 +72,18 @@ function HabitPage() {
 
           {months.map((month: Month) => (
             <TabsContent key={month.id} value={`${month.name}-${month.year}`}>
-              <TableMontHabit
-                days={monthHabits?.days}
-                title={`${month.name} ${month.year}`}
-                selectMonthId={selectedMonthId}
-              />
+              <ScrollArea
+                className={` ${
+                  open ? "max-w-[350px] md:max-w-[1200px]" : "max-w-[350px] md:max-w-[1450px]"
+                }`}
+              >
+                <TableMontHabit
+                  days={monthHabits?.days}
+                  title={`${month.name} ${month.year}`}
+                  selectMonthId={selectedMonthId}
+                />
+                <ScrollBar orientation="horizontal" />
+              </ScrollArea>
             </TabsContent>
           ))}
         </Tabs>

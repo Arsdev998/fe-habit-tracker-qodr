@@ -30,6 +30,8 @@ interface ModalEditProfileProps {
   fullname: string;
   email: string;
   motivation: string;
+  numberPhone:string;
+  tecthStack: string;
   userId: string; // Tetap digunakan untuk properti komponen
 }
 
@@ -38,6 +40,8 @@ interface FormData {
   name: string;
   fullname: string;
   email: string;
+  numberPhone: string;
+  techStack:string;
   motivation: string;
 }
 
@@ -46,6 +50,8 @@ const ModalEditProfile = ({
   fullname,
   email,
   motivation,
+  numberPhone,
+  tecthStack,
   userId,
 }: ModalEditProfileProps) => {
   const [isOpen, setIsOpen] = useState<boolean>(false);
@@ -55,6 +61,8 @@ const ModalEditProfile = ({
       name: name,
       fullname: fullname,
       email: email,
+      numberPhone:numberPhone,
+      techStack: tecthStack,
       motivation: motivation,
     },
   });
@@ -66,10 +74,14 @@ const ModalEditProfile = ({
       // Lakukan update profile menggunakan userId
       await updateProfile({
         userId,
-        name: data.name,
-        fullname: data.fullname,
-        email: data.email,
-        motivation: data.motivation,
+        body:{
+          name: data.name,
+          fullname: data.fullname,
+          email: data.email,
+          numberPhone:data.numberPhone,
+          techStack:data.techStack,
+          motivation: data.motivation,
+        }
       }).unwrap();
       toast.success("Profile berhasil diupdate");
       setIsOpen(false);
@@ -121,6 +133,28 @@ const ModalEditProfile = ({
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Email:</FormLabel>
+                    <Input {...field} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="numberPhone"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>No Hp:</FormLabel>
+                    <Input {...field} />
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+              <FormField
+                control={form.control}
+                name="techStack"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Tech Stack:</FormLabel>
                     <Input {...field} />
                     <FormMessage />
                   </FormItem>

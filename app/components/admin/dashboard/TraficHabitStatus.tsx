@@ -22,7 +22,7 @@ export function HabitStatusTrafficChart() {
   if (isLoading) return <Skeleton className="w-full h-full bg-black/20" />;
   return (
     <div className="w-full max-w-4xl mx-auto p-4">
-      <h2 className="text-xl font-bold mb-4">Habit Status Traffic</h2>
+      <h2 className="text-xl font-medium mb-4 text-center">Habit Traffic Bulan Ini</h2>
       <ChartContainer config={chartConfig} className="min-h-[300px] w-full">
         <BarChart
           data={data}

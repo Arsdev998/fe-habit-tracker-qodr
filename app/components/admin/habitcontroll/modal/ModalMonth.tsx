@@ -67,9 +67,9 @@ const ModalMonth = ({ title, description }: Props) => {
           <FaCalendarPlus />
         </Button>
       </DialogTrigger>
-      <DialogContent>
+      <DialogContent className="dark:bg-[#050505]">
         <DialogHeader>
-          <DialogTitle>{title}</DialogTitle>
+          <DialogTitle className="text-center">{title}</DialogTitle>
           <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
         <Form {...form}>

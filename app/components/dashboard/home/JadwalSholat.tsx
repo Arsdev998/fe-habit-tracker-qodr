@@ -41,10 +41,10 @@ function JadwalSholat({ unsplashFoto }: Props) {
   ];
 
   return (
-    <div className="flex dark:bg-[#303030] justify-between items-center p-5 border-2 shadow-md w-[370px] h-[400px] md:w-[800px] md:h-[150px] lg:w-[1000px] rounded-md">
+    <div className="flex flex-col md:flex-row dark:bg-[#303030] justify-around md:justify-between items-center p-2 md:p-5 border-2 shadow-md w-[370px] h-[400px] md:w-[800px] md:h-[150px] lg:w-[1000px] rounded-md">
       <div className="">
-        <p className="text-2xl mb-1 font-bold">Jadwal Shalat</p>
-        <div className="flex">
+        <p className="text-center md:text-start text-2xl mb-4 font-bold md:mb-1">Jadwal Shalat</p>
+        <div className="grid grid-cols-3  gap-5 items-center md:flex md:flex-row md:gap-0">
           {JadwalSholatData.map((item, index) => (
             <div key={index} className="mr-3 text-center">
               <p className="uppercase font-semibold">{item.label}</p>
@@ -54,7 +54,7 @@ function JadwalSholat({ unsplashFoto }: Props) {
         </div>
       </div>
       {/* location */}
-      <div className="w-[237px]">
+      <div className="mx-auto w-[300px] md:w-[237px]">
         <p className="flex items-center gap-2 text-sm mb-1">
           <IoLocation className="text-2xl" />
           Mangunan, Dlingo, {data.data.lokasi},{data.data.daerah}

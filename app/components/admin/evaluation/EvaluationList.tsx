@@ -44,6 +44,14 @@ const EvaluationList = () => {
     setPage(selectedPage);
   };
 
+  if (data?.data.length === 0) {
+    return (
+      <div className="">
+        <h1 className="text-center">Belum Ada Evaluasi</h1>
+      </div>
+    );
+  }
+
   return (
     <div className="p-4">
       {isLoading && <Skeleton className="w-full h-[600px] bg-black/20" />}

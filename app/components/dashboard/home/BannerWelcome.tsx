@@ -66,17 +66,17 @@ const BannerWelcome = ({ name, bannerImg }: BannerWelcomeProps) => {
       style={bannerImg}
       className="bg-center bg-cover w-full h-[200px] rounded-md overflow-hidden text-white "
     >
-      <div className="flex items-center justify-between px-10 h-full mb-3 sm:text-left bg-black bg-opacity-60 ">
+      <div className="flex items-center justify-between px-4 md:px-10 h-full mb-3 sm:text-left bg-black bg-opacity-60 ">
         <div>
-          <h1 className="text-2xl font-semibold">
+          <h1 className="text-lg md:text-2xl font-semibold">
             Ahlan Wasahlan, Akhi <span className="font-bold">{name}</span>
           </h1>
         </div>
         <div>
           <div className="text-right">
-            <h2 className="text-2xl font-bold">{hijriahDate?.data?.date[0]}</h2>
-            <p>{formattedDate}</p>
-            <p className="text-2xl font-bold">
+            <h2 className="text-lg md:text-2xl font-bold">{hijriahDate?.data?.date[0]}</h2>
+            <p className="text-xs md:text-lg">{formattedDate}</p>
+            <p className="text-lg md:text-2xl font-bold">
               {currentTime?.getHours().toString().padStart(2, "0")}:
               {currentTime?.getMinutes().toString().padStart(2, "0")}
             </p>
