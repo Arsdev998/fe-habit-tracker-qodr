@@ -31,12 +31,12 @@ import { FaList, FaSpinner } from "react-icons/fa6";
 import { useGetAllUserQuery } from "@/app/lib/redux/api/userApi";
 import { Checkbox } from "@/components/ui/checkbox";
 import Select from "react-select";
-import { UserType } from "@/app/lib/types";
+import { UserDataType } from "@/app/lib/types";
 
 const TipTap = () => {
   const [linkUrl, setLinkUrl] = useState<string>("");
   const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false); // Manage dropdown state
-  const [selectedUsers, setSelectedUsers] = useState<UserType[]>([]);
+  const [selectedUsers, setSelectedUsers] = useState<UserDataType[]>([]);
   const [sendToAll, setSendToAll] = useState<boolean>(false);
   const [postNotif, { isLoading }] = usePostNotificationToAllUserMutation();
   const [postNotifUser, { isLoading: isLoadingUser }] = usePostNotificationMutation();
@@ -104,7 +104,7 @@ const TipTap = () => {
   }
 
   const content = editor.getHTML();
-  const userOption = users?.map((user: UserType) => ({
+  const userOption = users?.map((user: UserDataType) => ({
     value: user.id,
     label: user.name,
   }));
@@ -155,7 +155,7 @@ const TipTap = () => {
             isMulti
             options={userOption}
             value={selectedUsers}
-            onChange={(selected) => setSelectedUsers(selected as UserType[])}
+            onChange={(selected) => setSelectedUsers(selected as UserDataType[])}
             isLoading={userLoad}
             placeholder="Pilih Santri"
           />

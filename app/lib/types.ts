@@ -47,6 +47,7 @@ export interface UserDataType {
   techStack: string;
   joinDate:string;
   role:string;
+  value:string;
 }
 
 export interface CreateUserType {
