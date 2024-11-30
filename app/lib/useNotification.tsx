@@ -1,53 +1,46 @@
 import { useEffect, useRef, useCallback } from "react";
 import { io, Socket } from "socket.io-client";
 
+interface NotificationSocketHook {
+  socket: Socket | null;
+  isConnected: boolean;
+}
+
 const useNotificationSocket = (
   userId: string | undefined,
   onNewNotification: (notification: any) => void
-) => {
+): NotificationSocketHook => {
   const socketRef = useRef<Socket | null>(null);
 
   const connectSocket = useCallback(() => {
-    if (!userId) return;
+    // Exit early if no userId
+    if (!userId) return null;
 
-    // Clean up existing connection if any
+    // Disconnect existing socket
     if (socketRef.current) {
       socketRef.current.disconnect();
       socketRef.current.removeAllListeners();
     }
 
-    // Create new connection matching backend configuration
-    const socket = io(process.env.NEXT_PUBLIC_SOCKET_HOST, {
-      transports: ["polling", "websocket"],
-      withCredentials: true,
-      reconnection: true,
-      reconnectionAttempts: 5,
-      reconnectionDelay: 5000,
-      query: { userId },
-      autoConnect: true,
-    });
+    // Create new socket connection
+    const socket = io(
+      `${process.env.NEXT_PUBLIC_SOCKET_HOST}/notification` || "",
+      {
+        transports: ["websocket", "polling"],
+        withCredentials: true,
+        reconnection: true,
+        reconnectionAttempts: 5,
+        reconnectionDelay: 5000,
+        query: { userId },
+        autoConnect: true,
+      }
+    );
 
-    socketRef.current = socket;
-
-    // Event handlers matching backend events
+    // Socket event handlers
     socket.on("connect", () => {
-      console.log("Socket connected with ID:", socket.id);
-    });
-
-    socket.on("connect_success", (data) => {
-      console.log("Connection successful:", data);
-    });
-
-    socket.on("joinedRoom", (data) => {
-      console.log("Successfully joined room:", data);
-    });
-
-    socket.on("disconnect", (reason) => {
-      console.log("Socket disconnected:", reason);
-    });
-
-    socket.on("connect_error", (error) => {
-      console.error("Socket connection error:", error.message);
+      console.log("Socket connected. ID:", socket.id);
+      // Optional: Join user-specific room
+      socket.emit("joinRoom", `user-${userId}`);
     });
 
     socket.on("notification", (notification) => {
@@ -55,20 +48,29 @@ const useNotificationSocket = (
       onNewNotification(notification);
     });
 
-    // Cleanup function
+    socket.on("connect_error", (error) => {
+      console.error("Socket connection error:", error);
+    });
+
+    socket.on("disconnect", (reason) => {
+      console.log("Socket disconnected:", reason);
+    });
+
+    socketRef.current = socket;
+
+    // Return cleanup function
     return () => {
-      if (socket) {
-        socket.removeAllListeners();
-        socket.disconnect();
-      }
+      socket.removeAllListeners();
+      socket.disconnect();
     };
   }, [userId, onNewNotification]);
 
-  // Initialize socket connection
+  // Socket connection effect
   useEffect(() => {
     const cleanup = connectSocket();
+
     return () => {
-      if (cleanup) cleanup();
+      cleanup?.();
     };
   }, [connectSocket]);
 

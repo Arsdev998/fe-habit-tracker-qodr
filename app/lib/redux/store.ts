@@ -1,5 +1,6 @@
 import { configureStore } from "@reduxjs/toolkit";
 import authReducer from "./features/authSlices/authReducer";
+import notificationReducer from './features/notifSlice';
 import { habitApi } from "./api/habitApi";
 import { userApi } from "./api/userApi";
 import { murajaahApi } from "./api/murajaahApi";
@@ -17,6 +18,7 @@ export const store = () => {
   return configureStore({
     reducer: {
       auth: authReducer, // tambahkan reducer Anda di sini
+      notification: notificationReducer,
       [habitApi.reducerPath]: habitApi.reducer,
       [userApi.reducerPath]: userApi.reducer,
       [murajaahApi.reducerPath]: murajaahApi.reducer,

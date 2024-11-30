@@ -12,7 +12,7 @@ const EvaluationPage = () => {
           Tuliskan kritik dan saran antum untuk kebaikan bersama{" "}
         </p>
       </div>
-      <div className="flex items-center justify-around  py-2">
+      <div className="flex flex-col md:flex-row items-center justify-around  py-2">
         <div className="">
           <h2 className="text-xl font-bold">Evaluasi Internal</h2>
           <EvaluationForm
@@ -22,8 +22,7 @@ const EvaluationPage = () => {
             classButton="bg-[#D62202] hover:bg-red-600 dark:text-white"
           />
         </div>
-        <hr className="max-w-[1000px]" />
-        <div className="text-xl font-bold">
+        <div className="text-xl font-bold border-t-2 md:border-none mt-2 md:mt-0">
           <h3>Evaluasi Umum</h3>
           <EvaluationForm
             desc="Gunakan Form Ini untuk menyampaikan sesuatu kepada penghuni pondok secara umum. Setiap santri hanya bisa melakukan pengumuman maximal 3x dalam sehari!"

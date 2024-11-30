@@ -158,9 +158,12 @@ const TipTap = () => {
             isMulti
             options={userOption}
             value={selectedUsers}
-            onChange={(selected) => setSelectedUsers(selected as UserDataType[])}
+            onChange={(selected) =>
+              setSelectedUsers(selected as UserDataType[])
+            }
             isLoading={userLoad}
             placeholder="Pilih Santri"
+            className="dark:text-black"
           />
         </div>
       )}
@@ -171,8 +174,8 @@ const TipTap = () => {
             onClick={() => editor.chain().focus().toggleBold().run()}
             className={`px-2 py-1 border rounded-md text-sm font-medium transition-all duration-300 ${
               editor.isActive("bold")
-                ? "bg-gray-300"
-                : "bg-gray-100 hover:bg-gray-200"
+                ? "bg-gray-300 dark:bg-gray-600"
+                : "bg-gray-100 hover:bg-gray-200 dark:bg-gray-900"
             }`}
           >
             <FaBold />
@@ -181,8 +184,8 @@ const TipTap = () => {
             onClick={() => editor.chain().focus().toggleItalic().run()}
             className={`px-2 py-1 border rounded-md text-sm font-medium transition-all duration-300 ${
               editor.isActive("italic")
-                ? "is-active"
-                : "bg-gray-100 hover:bg-gray-200"
+                ? "bg-gray-300 dark:bg-gray-600"
+                : "bg-gray-100 hover:bg-gray-200 dark:bg-gray-900"
             }`}
           >
             <FaItalic />
@@ -214,7 +217,7 @@ const TipTap = () => {
               editor.chain().focus().toggleHeading({ level: 3 }).run()
             }
             className={`px-2 py-1 border rounded-md text-sm font-medium transition-all duration-300${
-              editor.isActive("heading", { level: 3 }) ? "is-active" : ""
+              editor.isActive("heading", { level: 3 }) ? "" : ""
             }
             `}
           >
@@ -264,15 +267,18 @@ const TipTap = () => {
           </button>
         </div>
         {/* Editor */}
-        <div className="border rounded-md p-2 bg-white shadow-md mb-2">
+        <div className="border rounded-md p-2 shadow-md mb-2">
           <EditorContent
             editor={editor}
-            className="prose prose-sm sm:prose lg:prose-xl focus:outline-none"
+            className="prose prose-sm sm:prose lg:prose-xl focus:outline-none min-h-[200px]"
           />
         </div>
         {/* submit */}
         <div className="">
-          <Button onClick={onSubmit} disabled={isLoading || isLoadingUser || editor.isEmpty}>
+          <Button
+            onClick={onSubmit}
+            disabled={isLoading || isLoadingUser || editor.isEmpty}
+          >
             {isLoading || isLoadingUser ? (
               <div className="flex items-center justify-center">
                 <FaSpinner className="mr-2 animate-spin" />

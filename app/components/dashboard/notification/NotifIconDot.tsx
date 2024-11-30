@@ -2,44 +2,57 @@
 
 import { MdNotificationsActive, MdNotifications } from "react-icons/md";
 import { useGetUnreadNotificationQuery } from "@/app/lib/redux/api/notificationApi";
-import { useAppSelector } from "@/app/lib/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hook";
 import { useCallback, useEffect, useState } from "react";
 import useNotificationSocket from "@/app/lib/useNotification";
+import { incrementUnreadCount, setUnreadCount } from "@/app/lib/redux/features/notifSlice";
 
 function NotifIconDot() {
   const user = useAppSelector((state) => state.auth.user);
+  const unreadCount = useAppSelector((state) => state.notification.unreadCount);
   const userId = user?.id;
-
-  // State untuk menyimpan jumlah unread notifications
-  const [unreadCount, setUnreadCount] = useState(0);
-
-  const { data: unreadNotif } = useGetUnreadNotificationQuery(
+  const dispatch = useAppDispatch();
+  // State to store unread notifications count
+  // Fetch unread notifications query
+  const { data: initialUnreadNotif } = useGetUnreadNotificationQuery(
     { userId },
     {
       skip: !userId,
-    }
+      refetchOnMountOrArgChange: true,
+    },
   );
 
-  // Callback untuk handle notifikasi baru dari socket
-  const handleNewNotification = useCallback(() => {
-    setUnreadCount((prevCount) => prevCount + 1); // Tambah count saat ada notifikasi baru
+  // Callback to handle new notifications from socket
+  const handleNewNotification = useCallback((notification: any) => {
+    // Increment the unread count immediately
+   dispatch(incrementUnreadCount());
+
+    // Optional: Log the notification
+    console.log("New notification received:", notification);
   }, []);
 
-  useNotificationSocket(userId, handleNewNotification);
+  // Use the notification socket hook
+  const { isConnected } = useNotificationSocket(userId, handleNewNotification);
 
+  // Update unread count when initial data is fetched
   useEffect(() => {
-    if (unreadNotif !== undefined) {
-      setUnreadCount(unreadNotif);
+    if (initialUnreadNotif !== undefined) {
+      dispatch(setUnreadCount(initialUnreadNotif));
     }
-  }, [unreadNotif]);
+  }, [initialUnreadNotif]);
 
   return (
-    <div>
+    <div className="relative">
+      {/* Socket connection status indicator */}
+      {!isConnected && (
+        <div className="absolute -top-2 -right-2 w-2 h-2 bg-yellow-500 rounded-full animate-pulse" />
+      )}
+
       {unreadCount === 0 ? (
         <MdNotifications className="text-xl" />
       ) : (
         <div className="relative">
-          <span className="absolute top-0 right-0 inline-flex items-center justify-center w-3 h-3 text-xs font-semibold text-white bg-red-500 rounded-full">
+          <span className="absolute -top-1 -right-1 inline-flex items-center justify-center w-4 h-4 text-xs font-semibold text-white bg-red-500 rounded-full">
             {unreadCount}
           </span>
           <MdNotificationsActive className="text-xl" />

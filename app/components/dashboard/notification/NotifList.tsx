@@ -2,7 +2,7 @@
 
 import "./style/notif.css";
 import { useState, useEffect, useCallback } from "react";
-import { useAppSelector } from "@/app/lib/redux/hook";
+import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hook";
 import useNotificationSocket from "@/app/lib/useNotification";
 import {
   useDeleteManyNotificationMutation,
@@ -22,6 +22,7 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
+import { clearUnreadCount } from "@/app/lib/redux/features/notifSlice";
 
 type Notification = {
   id: number;
@@ -56,6 +57,7 @@ type PaginationMeta = {
 function NotifList() {
   const user = useAppSelector((state) => state.auth.user);
   const userId = user?.id;
+  const dispatch = useAppDispatch()
   const searchParams = useSearchParams();
   const router = useRouter();
   const initialPage = parseInt(searchParams.get("page") || "1", 10);
@@ -69,7 +71,6 @@ function NotifList() {
     totalPages: 0,
   });
 
-  const [deleteManyNotif] = useDeleteManyNotificationMutation();
   const [markAllNotif] = useMarkAllNotificationsMutation();
   const { data: initialNotifications, isLoading } = useGetNotificationQuery(
     { page: page.toString(), limit: limit.toString() },
@@ -80,7 +81,7 @@ function NotifList() {
      setNotifications((prev) => [notification, ...prev]); // Tambahkan ke notifikasi sebelumnya
    };
 
-   const { socket, isConnected } = useNotificationSocket(
+   const { isConnected } = useNotificationSocket(
      userId,
      onNewNotification
    );
@@ -121,11 +122,14 @@ function NotifList() {
   const handleMarkAllNotification = async () => {
     try {
       await markAllNotif({ userId }).unwrap();
+      dispatch(clearUnreadCount());
       toast.success("Semua notifikasi berhasil ditandai sudah dibaca");
     } catch (error) {
       toast.error("Internal Server Error");
     }
   };
+
+  useNotificationSocket(userId, handleMarkAllNotification);
 
   const totalPages = initialNotifications?.meta.totalPages || 1;
   useEffect(() => {
