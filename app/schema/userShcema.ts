@@ -12,7 +12,7 @@ export const userSchema = z.object({
   fullname: z
     .string()
     .min(1, { message: "Fullname is required" })
-    .max(20, { message: "Fullname is too long" }),
+    .max(30, { message: "Fullname is too long" }),
   email: z.string().email({ message: "Invalid email address" }),
   joinDate: z.string().max(20, { message: "Join Date is too long" }).optional(),
   major: z.string().max(20, { message: "Major is too long" }).optional(),

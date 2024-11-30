@@ -31,6 +31,7 @@ import { BiSolidBookOpen } from "react-icons/bi";
 import { useTheme } from "next-themes";
 import { Skeleton } from "@/components/ui/skeleton";
 import { MdDashboard } from "react-icons/md";
+import { BsJournals } from "react-icons/bs";
 
 export default function SidebarApp() {
   const { user, loading } = useAppSelector((state) => state.auth);
@@ -63,6 +64,12 @@ export default function SidebarApp() {
       label: "Al-Qur'an",
       icon: <FaQuran className="h-4 w-4" />,
       active: pathname === "/al-quran",
+    },
+    {
+      href: "/jurnal",
+      label: "Jurnal Harian",
+      icon: <BsJournals className="h-4 w-4" />,
+      active: pathname === "/jurnal",
     },
     {
       href: "/notifikasi",

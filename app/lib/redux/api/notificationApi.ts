@@ -34,17 +34,8 @@ export const notificationApi = createApi({
       }),
     }),
     getNotification: builder.query({
-      query: ({ userId }: { userId: string }) => `/notifications/${userId}`,
-      providesTags: (result) =>
-        result
-          ? [
-              ...result.map(({ id }: Notification) => ({
-                type: "Notification",
-                id,
-              })), // Tag berdasarkan ID notifikasi
-              { type: "Notification", id: "LIST" }, // Tag untuk daftar notifikasi
-            ]
-          : [{ type: "Notification", id: "LIST" }],
+      query: ({ page,limit }: { page: string, limit: string }) => `/notifications/get/all?page=${page}&limit=${limit}`,
+      providesTags: [{ type: "Notification", id: "LIST" }],
     }),
     getUnreadNotification: builder.query({
       query: ({ userId }: { userId: string }) =>
