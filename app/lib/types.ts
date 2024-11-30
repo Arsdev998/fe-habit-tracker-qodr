@@ -37,6 +37,18 @@ export interface UserType {
   techStack: string;
 }
 
+export interface UserDataType {
+  id:string;
+  name: string;
+  email: string;
+  fullname: string;
+  motivation:string;
+  numberPhone: string;
+  techStack: string;
+  joinDate:string;
+  role:string;
+}
+
 export interface CreateUserType {
   name: string;
   email: string;
