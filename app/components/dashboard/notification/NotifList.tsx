@@ -3,7 +3,7 @@
 import "./style/notif.css";
 import { useState, useEffect, useCallback } from "react";
 import { useAppSelector } from "@/app/lib/redux/hook";
-import useNotificationSocket from "@/app/components/hook/useNotification";
+import useNotificationSocket from "@/app/lib/useNotification";
 import {
   useDeleteManyNotificationMutation,
   useGetNotificationQuery,
@@ -14,8 +14,15 @@ import { Button } from "@/components/ui/button";
 import { format } from "date-fns";
 import { Skeleton } from "@/components/ui/skeleton";
 import { useRouter, useSearchParams } from "next/navigation";
+import {
+  Pagination,
+  PaginationContent,
+  PaginationItem,
+  PaginationLink,
+  PaginationNext,
+  PaginationPrevious,
+} from "@/components/ui/pagination";
 
-// Perbarui type untuk mendukung struktur data baru
 type Notification = {
   id: number;
   type: "notification" | "evaluation";
@@ -61,30 +68,39 @@ function NotifList() {
     total: 0,
     totalPages: 0,
   });
-  //APII
+
   const [deleteManyNotif] = useDeleteManyNotificationMutation();
   const [markAllNotif] = useMarkAllNotificationsMutation();
   const { data: initialNotifications, isLoading } = useGetNotificationQuery(
     { page: page.toString(), limit: limit.toString() },
-    {
-      refetchOnMountOrArgChange: true,
-    }
+    { refetchOnMountOrArgChange: true }
   );
 
+   const onNewNotification = (notification: Notification) => {
+     setNotifications((prev) => [notification, ...prev]); // Tambahkan ke notifikasi sebelumnya
+   };
+
+   const { socket, isConnected } = useNotificationSocket(
+     userId,
+     onNewNotification
+   );
+
+   useEffect(() => {
+     if (isConnected) {
+       console.log("Socket connected for notifications.");
+     }
+   }, [isConnected]);
+
   useEffect(() => {
-    // Tambahkan pengecekan untuk berbagai struktur data
     if (initialNotifications) {
       const notificationData = Array.isArray(initialNotifications)
         ? initialNotifications
         : initialNotifications.data || [];
-
       setNotifications(notificationData);
 
-      // Cek dan set metadata
       if (initialNotifications.meta) {
         setMeta(initialNotifications.meta);
       } else {
-        // Fallback metadata jika tidak ada
         setMeta({
           page: page,
           limit: limit,
@@ -95,36 +111,57 @@ function NotifList() {
     }
   }, [initialNotifications, page, limit]);
 
+  useEffect(() => {
+    if (isConnected) {
+      console.log("Socket connected for notifications.");
+    }
+  }, [isConnected]);
+
+
   const handleMarkAllNotification = async () => {
     try {
       await markAllNotif({ userId }).unwrap();
       toast.success("Semua notifikasi berhasil ditandai sudah dibaca");
     } catch (error) {
       toast.error("Internal Server Error");
-      console.log(error);
     }
   };
 
-  const ins = notifications[2]?.readByUsers?.some(
-    (read) => read.userId == userId
-  );
+  const totalPages = initialNotifications?.meta.totalPages || 1;
+  useEffect(() => {
+    router.replace(`?page=${page}`);
+  }, [page, router]);
 
-  console.log(ins);
+  const handleNextPage = () => {
+    if (page < totalPages) {
+      setPage((prev) => prev + 1);
+    }
+  };
+
+  const handlePreviousPage = () => {
+    if (page > 1) {
+      setPage((prev) => prev - 1);
+    }
+  };
+
+  const handlePageClick = (selectedPage: number) => {
+    setPage(selectedPage);
+  };
 
   return (
-    <div className="p-2 max-w-2xl mx-auto shadow-md rounded-md ">
-      <h2 className="text-2xl font-semibold mb-4 text-center">Notifikasi</h2>
-      <Button onClick={handleMarkAllNotification}>
-        Tandai semua sudah dibaca
-      </Button>
-      {/* Tambahkan logging untuk debugging */}
+    <div className="p-2 max-w-2xl mx-auto shadow-md rounded-md">
+      <div className="mb-4">
+        <h2 className="text-2xl font-semibold text-center">Notifikasi</h2>
+        <Button onClick={handleMarkAllNotification} variant="outline">
+          Tandai semua sudah dibaca
+        </Button>
+      </div>
       {isLoading && <div>Loading...</div>}
       {!isLoading && notifications.length === 0 && (
         <div className="text-center py-8 text-gray-400">
           Tidak ada notifikasi
         </div>
       )}
-
       {notifications.length > 0 && (
         <div className="space-y-3">
           {notifications.map((item, index: number) => {
@@ -134,43 +171,36 @@ function NotifList() {
             return (
               <div
                 key={index}
-                className={`tiptap flex justify-between w-full items-center transition-all duration-300 p-3 rounded-md shadow-sm ${
-                  item.status === false || isRead === false
+                className={`flex justify-between items-center p-3 rounded-md shadow-sm ${
+                   item.status === false || isRead === false  
                     ? "bg-[#8B6F74]"
                     : "bg-[#303030]"
-                } 
-               hover:shadow-md`}
+                }`}
               >
-                {/* Render content */}
                 <div className="flex flex-col">
                   {item.type === "notification" ? (
-                    <div className="">
+                    <div>
                       <p className="font-semibold">
                         {item.userSend?.fullname} | {item.userSend?.role}
                       </p>
                       <div
-                        className="max-w-[95%] overflow-hidden"
                         dangerouslySetInnerHTML={{ __html: item.message || "" }}
                       />
                     </div>
                   ) : (
-                    <div className="max-w-[90%] overflow-hidden">
+                    <div>
                       <p className="font-semibold">
                         {item.user?.fullname} | {item.user?.role}
                       </p>
-                      <p className="font-medium">{item.about}</p>
+                      <p>{item.about}</p>
                       <p>{item.problem}</p>
                     </div>
                   )}
                 </div>
                 {item.createdAt && (
                   <div className="text-center">
-                    <p className="text-xs">
-                      {format(new Date(item.createdAt), "dd MMMM yyyy")}
-                    </p>
-                    <p className="text-md">
-                      {format(new Date(item.createdAt), "HH:mm")}
-                    </p>
+                    <p>{format(new Date(item.createdAt), "dd MMM yyyy")}</p>
+                    <p>{format(new Date(item.createdAt), "HH:mm")}</p>
                   </div>
                 )}
               </div>
@@ -178,6 +208,32 @@ function NotifList() {
           })}
         </div>
       )}
+      <Pagination>
+        <PaginationContent>
+          <PaginationItem>
+            <PaginationPrevious
+              onClick={handlePreviousPage}
+              // disabled={page === 1}
+            />
+          </PaginationItem>
+          {Array.from({ length: totalPages }, (_, i) => (
+            <PaginationItem key={i}>
+              <PaginationLink
+                isActive={page === i + 1}
+                onClick={() => handlePageClick(i + 1)}
+              >
+                {i + 1}
+              </PaginationLink>
+            </PaginationItem>
+          ))}
+          <PaginationItem>
+            <PaginationNext
+              onClick={handleNextPage}
+              // disabled={page === totalPages}
+            />
+          </PaginationItem>
+        </PaginationContent>
+      </Pagination>
     </div>
   );
 }

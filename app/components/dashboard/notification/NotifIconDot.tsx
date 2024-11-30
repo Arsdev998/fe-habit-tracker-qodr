@@ -4,7 +4,7 @@ import { MdNotificationsActive, MdNotifications } from "react-icons/md";
 import { useGetUnreadNotificationQuery } from "@/app/lib/redux/api/notificationApi";
 import { useAppSelector } from "@/app/lib/redux/hook";
 import { useCallback, useEffect, useState } from "react";
-import useNotificationSocket from "@/app/components/hook/useNotification";
+import useNotificationSocket from "@/app/lib/useNotification";
 
 function NotifIconDot() {
   const user = useAppSelector((state) => state.auth.user);
@@ -29,7 +29,7 @@ function NotifIconDot() {
 
   useEffect(() => {
     if (unreadNotif !== undefined) {
-      setUnreadCount(unreadNotif); 
+      setUnreadCount(unreadNotif);
     }
   }, [unreadNotif]);
 

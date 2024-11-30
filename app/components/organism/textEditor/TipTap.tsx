@@ -109,27 +109,30 @@ const TipTap = () => {
     label: user.name,
   }));
 
-  const onSubmit = async () => {
-    try {
-      if (sendToAll) {
-        await postNotif({
-          message: content,
-        });
-      } else {
-        const promisess = selectedUsers.map(async (user) => {
-          postNotifUser({
-            userId: user.value,
-            message: content,
-          });
-        });
-        await Promise.all(promisess);
-      }
-      editor.commands.clearContent(); 
-      toast.success("Notifikasi terkirim");
-    } catch (error) {
-      toast.error("Internal Server Error");
-    }
-  };
+ const onSubmit = async () => {
+   try {
+     if (sendToAll) {
+       const newNotif = await postNotif({
+         message: content,
+       }).unwrap();
+       // Emit event ke server untuk memberitahukan notifikasi baru
+     } else {
+       const promisess = selectedUsers.map(async (user) => {
+         const newNotif = await postNotifUser({
+           userId: user.value,
+           message: content,
+         }).unwrap();
+         // Emit event per user
+       });
+       await Promise.all(promisess);
+     }
+
+     editor.commands.clearContent();
+     toast.success("Notifikasi terkirim");
+   } catch (error) {
+     toast.error("Internal Server Error");
+   }
+ };
 
   return (
     <section>
