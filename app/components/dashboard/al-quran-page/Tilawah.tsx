@@ -66,12 +66,12 @@ export default function Tilawah({ monthId, userId }: TilawahProps) {
   if (isLoading) {
     return (
       <div className="w-full h-full">
-        <Skeleton className="w-full h-[400px]" />
+        <Skeleton className="w-full min-w-[1200px] h-[400px]" />
       </div>
     );
   }
   return (
-    <div className="p-4 w-full min-h-[400px]">
+    <div className="w-full min-h-[400px]">
       <div>
         <div>
           <h1 className="text-xl text-center mb-4">
@@ -81,14 +81,18 @@ export default function Tilawah({ monthId, userId }: TilawahProps) {
         <Table className="w-full table-fixed border-collapse">
           <TableHeader className="">
             <TableRow>
-              <TableHead className="w-[5%] border-2 text-center">No</TableHead>
-              <TableHead className="w-[40%]  border-2 ">
+              <TableHead className="w-7 md:w-10  py-2 text-center border-r-2">
+                No
+              </TableHead>
+              <TableHead className="w-36 md:w-48 px-4 py-2 border-r-2">
                 Nama Surah/Ayat
               </TableHead>
-              <TableHead className="border-2 w-[20%]">Jumlah Lembar</TableHead>
+              <TableHead className="w-26 md:w-32 px-4 py-2 border text-center">
+                Jumlah Lembar
+              </TableHead>
               {isLogin && (
-                <TableHead className="border-2 w-[5%] text-center" colSpan={2}>
-                  Action
+                <TableHead className="border-2 text-center w-16" colSpan={2}>
+                  Opsi
                 </TableHead>
               )}
             </TableRow>
@@ -103,9 +107,13 @@ export default function Tilawah({ monthId, userId }: TilawahProps) {
             ) : tilawahMonthData?.length > 0 ? (
               tilawahMonthData.map((tilawah: TilawahType, index: any) => (
                 <TableRow key={index}>
-                  <TableCell className="text-center">{index + 1}</TableCell>
-                  <TableCell className="text-center">{tilawah.surah}</TableCell>
-                  <TableCell className="text-center">
+                  <TableCell className="text-center border-r-2 ">
+                    {index + 1}
+                  </TableCell>
+                  <TableCell className="text-center border-r-2">
+                    {tilawah.surah}
+                  </TableCell>
+                  <TableCell className="text-center border-r-2">
                     {tilawah.lembar}
                   </TableCell>
                   {isLogin && (

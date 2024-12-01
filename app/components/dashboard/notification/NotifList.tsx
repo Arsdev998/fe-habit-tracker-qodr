@@ -23,6 +23,7 @@ import {
   PaginationPrevious,
 } from "@/components/ui/pagination";
 import { clearUnreadCount } from "@/app/lib/redux/features/notifSlice";
+import Loading from "./Loading";
 
 type Notification = {
   id: number;
@@ -160,7 +161,7 @@ function NotifList() {
           Tandai semua sudah dibaca
         </Button>
       </div>
-      {isLoading && <div>Loading...</div>}
+      {isLoading && <Loading/>}
       {!isLoading && notifications.length === 0 && (
         <div className="text-center py-8 text-gray-400">
           Tidak ada notifikasi
@@ -178,7 +179,7 @@ function NotifList() {
                 className={`flex justify-between items-center p-3 rounded-md shadow-sm ${
                    item.status === false || isRead === false  
                     ? "bg-[#8B6F74]"
-                    : "bg-[#303030]"
+                    : "bg-gray-400 dark:bg-[#303030]"
                 }`}
               >
                 <div className="flex flex-col">

@@ -54,13 +54,13 @@ const Ziyadah = ({ monthId, userId }: ZiyadahProps) => {
   if (isLoading) {
     return (
       <div className="w-full h-full">
-        <Skeleton className="w-full h-[400px]" />
+        <Skeleton className="w-full min-w-[1200px] h-[400px]" />
       </div>
     );
   }
 
   return (
-    <div className="w-full min-h-[400px] p-4">
+    <div className="w-full min-h-[400px]">
       <h2 className="text-xl text-center mb-4">
         Ziyadah Bulan {ziyadahData?.name} {ziyadahData?.year}
       </h2>
@@ -72,11 +72,15 @@ const Ziyadah = ({ monthId, userId }: ZiyadahProps) => {
         <Table className="w-full table-fixed border-collapse">
           <TableHeader>
             <TableRow>
-              <TableCell className="w-10 py-2 text-center">No</TableCell>
-              <TableCell className="w-48 px-4 py-2 border">
+              <TableCell className="w-7 md:w-10  py-2 text-center">
+                No
+              </TableCell>
+              <TableCell className="w-35 md:w-48 px-4 py-2 border text-center">
                 Surah/Ayat
               </TableCell>
-              <TableCell className="w-32 px-4 py-2 border">Tanggal</TableCell>
+              <TableCell className="w-26 md:w-32 px-4 py-2 border text-center">
+                Tanggal
+              </TableCell>
               {isUser && (
                 <TableCell className="w-16 text-center py-2 border" colSpan={2}>
                   Opsi
@@ -92,8 +96,10 @@ const Ziyadah = ({ monthId, userId }: ZiyadahProps) => {
                     <TableCell className="w-10 py-2 text-center border-r-2">
                       {index + 1}
                     </TableCell>
-                    <TableCell>{item.surah}</TableCell>
-                    <TableCell>
+                    <TableCell className="px-2 border-r-2 text-center">
+                      {item.surah}
+                    </TableCell>
+                    <TableCell className="px-2 border-r-2 text-center">
                       {format(new Date(item.date), "dd MMM yyyy")}
                     </TableCell>
                     {isUser && (

@@ -13,17 +13,19 @@ import { monthApi } from "./api/monthAPi";
 import { evaluationApi } from "./api/evaluationApi";
 import { evaluationGeneralApi } from "./api/evaluationGeneralApi";
 import { admindashboardApi } from "./api/admindashboardApi";
+import { jurnalApi } from "./api/jurnalApi";
 
 export const store = () => {
   return configureStore({
     reducer: {
-      auth: authReducer, // tambahkan reducer Anda di sini
+      auth: authReducer, 
       notification: notificationReducer,
       [habitApi.reducerPath]: habitApi.reducer,
       [userApi.reducerPath]: userApi.reducer,
       [murajaahApi.reducerPath]: murajaahApi.reducer,
       [ziyadahApi.reducerPath]: ziyadahApi.reducer,
       [tilawahApi.reducerPath]: tilawahApi.reducer,
+      [jurnalApi.reducerPath]: jurnalApi.reducer,
       [notificationApi.reducerPath]: notificationApi.reducer,
       [monthApi.reducerPath]: monthApi.reducer,
       [evaluationApi.reducerPath]: evaluationApi.reducer,
@@ -39,6 +41,7 @@ export const store = () => {
         murajaahApi.middleware,
         ziyadahApi.middleware,
         tilawahApi.middleware,
+        jurnalApi.middleware,
         notificationApi.middleware,
         monthApi.middleware,
         evaluationApi.middleware,

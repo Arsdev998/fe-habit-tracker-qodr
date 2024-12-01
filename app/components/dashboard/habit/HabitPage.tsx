@@ -47,7 +47,7 @@ function HabitPage() {
   if (IsMonthLoading) {
     return (
       <div>
-        <Skeleton className="w-full h-full min-w-[1000px] bg-black/15" />
+        <Skeleton className="w-full h-full min-w-[1000px] bg-black/15 dark:bg-[#303030]" />
       </div>
     );
   }

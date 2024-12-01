@@ -12,9 +12,9 @@ const EvaluationPage = () => {
           Tuliskan kritik dan saran antum untuk kebaikan bersama{" "}
         </p>
       </div>
-      <div className="flex flex-col md:flex-row items-center justify-around  py-2">
-        <div className="">
-          <h2 className="text-xl font-bold">Evaluasi Internal</h2>
+      <div className="flex flex-col md:flex-row items-center justify-around">
+        <div className="text-xl font-bold">
+          <h2>Evaluasi Internal</h2>
           <EvaluationForm
             desc="Gunakan Form Ini untuk memberikan kritik dan saran kepada kami
               agar bisa membuat PPTI QODR lebih baik untuk kedepannya"

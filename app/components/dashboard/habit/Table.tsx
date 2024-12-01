@@ -65,7 +65,7 @@ const TableMontHabit: React.FC<TableProps> = ({
   if (!days || days.length === 0) {
     return (
       <div>
-        <Skeleton className="w-full min-w-[1200px] h-80 bg-black/10" />
+        <Skeleton className="w-full min-w-[1200px] h-80 md:min-h-[500px] bg-black/10 dark:dark:bg-[#303030]" />
       </div>
     );
   }

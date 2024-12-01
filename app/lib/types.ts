@@ -22,6 +22,12 @@ export interface ZiyadahMurajaahType {
   lembar: number;
 }
 
+export interface jurnalType {
+  id: string;
+  activity: string;
+  date: Date;
+}
+
 export interface TilawahType {
   id: string;
   surah: string;

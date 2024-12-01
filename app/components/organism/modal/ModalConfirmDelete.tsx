@@ -59,7 +59,7 @@ const ModalConfirmDelete: React.FC<ModalConfirmDelteProps> = ({
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <TableCell className="border-none text-center">{icon}</TableCell>
+        <TableCell className="border-none text-center border-r-2">{icon}</TableCell>
       </DialogTrigger>
       <DialogContent className="flex flex-col justify-center items-center w-[400px] dark:bg-[#303030]">
         <DialogHeader className="font-bold text-lg">
