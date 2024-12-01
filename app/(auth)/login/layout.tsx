@@ -1,3 +1,4 @@
+import ThemeWrapperProvider from "@/app/components/layout/Wrapper";
 import "@/app/globals.css";
 
 export const metadata = {
@@ -13,7 +14,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="antialiased" suppressHydrationWarning={true}>
-        {children}
+        <ThemeWrapperProvider>{children}</ThemeWrapperProvider>
       </body>
     </html>
   );

@@ -22,18 +22,24 @@ const formatPathSegment = (segment: string) => {
   return segment
     .replace(/-/g, " ") // Ganti "-" dengan spasi
     .replace(/\b\w/g, (char) => char.toUpperCase()); // Ubah huruf pertama setiap kata menjadi huruf besar
-};
-
-const Header = () => {
-  const { user } = useAppSelector((state) => state.auth);
-  const dispatch = useAppDispatch();
-  const pathname = usePathname();
+  };
+  
+  const Header = () => {
+    const { user } = useAppSelector((state) => state.auth);
+    const dispatch = useAppDispatch();
+    const pathname = usePathname();
+    const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     if (!user) {
       dispatch(getStatus());
     }
   }, [user, pathname]);
+
+  
+  useEffect(() => {
+    console.log("Current resolved theme:", resolvedTheme); // Debugging
+  }, [resolvedTheme]);
 
   const pathSegments = pathname.split("/").filter(Boolean); // Pisahkan path dan hilangkan string kosong
   const fullPath = pathSegments.map((segment, index) => ({

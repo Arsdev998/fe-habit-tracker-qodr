@@ -12,7 +12,7 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { useRouter } from "next/navigation";
 import { login } from "@/app/lib/redux/features/authSlices/authAction";
 import { useAppDispatch, useAppSelector } from "@/app/lib/redux/hook";
@@ -25,12 +25,14 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { useTheme } from "next-themes";
 
 export default function LoginForm() {
   const dispatch = useAppDispatch();
   const { error, loading, status } = useAppSelector((state) => state.auth);
   const router = useRouter();
-
+  const { resolvedTheme } = useTheme();
+  
   const form = useForm({
     resolver: zodResolver(loginSchema),
     defaultValues: {
@@ -46,6 +48,11 @@ export default function LoginForm() {
       console.log("error");
     }
   };
+
+
+   useEffect(() => {
+     console.log("Current resolved theme:", resolvedTheme); // Debugging
+   }, [resolvedTheme]);
 
   useEffect(() => {
     if (status === "succeeded") {

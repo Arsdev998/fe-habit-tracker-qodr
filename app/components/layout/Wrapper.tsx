@@ -3,7 +3,7 @@
 import { ThemeProvider } from "@/components/ui/theme-provider";
 import { useEffect, useState } from "react";
 
-export default function Wrapper({ children }: { children: React.ReactNode }) {
+export default function ThemeWrapperProvider({ children }: { children: React.ReactNode }) {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
@@ -18,7 +18,8 @@ export default function Wrapper({ children }: { children: React.ReactNode }) {
     <ThemeProvider
       attribute="class"
       defaultTheme="dark"
-      enableSystem={false} 
+      enableSystem
+      themes={["light", "dark", "system"]}
     >
       {children}
     </ThemeProvider>

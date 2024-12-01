@@ -14,7 +14,7 @@ export const monthSchema = z.object({
     "September",
     "Oktober",
     "November",
-    "Desember",
+    "December",
   ]),
   year: z.coerce
     .number()

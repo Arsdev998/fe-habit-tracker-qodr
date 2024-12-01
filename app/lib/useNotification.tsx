@@ -21,6 +21,7 @@ const useNotificationSocket = (
       socketRef.current.disconnect();
       socketRef.current.removeAllListeners();
     }
+    console.log(process.env.NEXT_PUBLIC_SOCKET_HOST);
 
     // Create new socket connection
     const socket = io(
