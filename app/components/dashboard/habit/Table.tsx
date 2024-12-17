@@ -98,20 +98,18 @@ const TableMontHabit: React.FC<TableProps> = ({
     days.forEach((day) => {
       day.habitStatuses.forEach((habitStatus: any) => {
         const checkboxKey = `${day.id}-${habitStatus.habit.id}`;
-        const maxDays = habitStatus.habit.maxDays || days.length; // Menggunakan maxDays atau jumlah hari dalam bulan
+        const maxDays = habitStatus.habit.maxDays || days.length; 
 
         if (localStatus[checkboxKey]) {
-          totalCompletedDays++; // Tambah jika checkbox dicentang
+          totalCompletedDays++; 
         }
 
-        // Jumlahkan total target days hanya satu kali untuk setiap habit di bulan tersebut
         if (day.date === days[0].date) {
           totalTargetDays += maxDays;
         }
       });
     });
 
-    // Hitung persentase keseluruhan dengan membatasi nilai hingga 100%
     return totalTargetDays > 0
       ? Math.min((totalCompletedDays / totalTargetDays) * 100, 100).toFixed(1)
       : "0";
@@ -141,7 +139,6 @@ const TableMontHabit: React.FC<TableProps> = ({
       }).unwrap();
 
       if (result?.message === "Status updated successfully") {
-        // Status berhasil diupdate
       } else {
         setLocalStatus((prev) => ({
           ...prev,
@@ -181,7 +178,7 @@ const TableMontHabit: React.FC<TableProps> = ({
       <TableHeader>
         <TableRow>
           <TableHead
-            colSpan={days.length + 2} // Tambah 2 untuk kolom Amalan dan Persentase
+            colSpan={days.length + 2}
             className="text-center font-bold dark:text-white text-[20px]"
           >
             {title}

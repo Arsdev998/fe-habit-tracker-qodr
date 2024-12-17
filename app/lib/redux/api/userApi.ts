@@ -1,5 +1,5 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
-import { CreateUserType, UserType } from "../../types";
+import { CreateUserType, UserDataType, UserType } from "../../types";
 
 export const userApi = createApi({
   reducerPath: "userApi",
@@ -13,7 +13,7 @@ export const userApi = createApi({
       query: () => "/user/getAll",
       providesTags: ["User"], // Tambahkan ini jika data di-cache
     }),
-    getProfile: builder.query<any, string>({
+    getProfile: builder.query<UserDataType, string>({
       query: (userId: string) => `/user/getById/${userId}`,
       providesTags: (result, error, userId) => [{ type: "User", id: userId }],
     }),
@@ -28,6 +28,14 @@ export const userApi = createApi({
     updateProfile: builder.mutation({
       query: ({ body, userId }: { body: UserType; userId: string }) => ({
         url: `/user/update/${userId}`,
+        method: "PATCH",
+        body,
+      }),
+      invalidatesTags: ["User"],
+    }),
+    editUser: builder.mutation({
+      query: ({ body, userId }: { body: CreateUserType; userId: string }) => ({
+        url: `/user/edit/${userId}`,
         method: "PATCH",
         body,
       }),
@@ -69,6 +77,7 @@ export const {
   useGetProfileQuery,
   usePostUserMutation,
   useUpdateProfileMutation,
+  useEditUserMutation,
   useUpdatePasswordUserMutation,
   useDeletedUserMutation,
 } = userApi;

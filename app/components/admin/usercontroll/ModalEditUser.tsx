@@ -1,5 +1,5 @@
 "use client";
-import { usePostUserMutation } from "@/app/lib/redux/api/userApi";
+import { useEditUserMutation} from "@/app/lib/redux/api/userApi";
 import { CreateUserType } from "@/app/lib/types";
 import { userSchema } from "@/app/schema/userShcema";
 import { Button } from "@/components/ui/button";
@@ -28,32 +28,46 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import { TableCell } from "@/components/ui/table";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { MdEdit } from "react-icons/md";
 import { toast } from "sonner";
 
-const ModalAddUser = () => {
-  const [postUser, { isLoading }] = usePostUserMutation();
+interface ModalEditUserProps{
+  userId: string;
+  name: string;
+  fullname: string;
+  email: string;
+  joinDate: string;
+  major: string;
+  numberPhone: string;
+  techStack: string;
+  role: string;
+}
+
+const ModalEditUser = ({userId , name,email,fullname,joinDate,major,numberPhone,techStack,role}: ModalEditUserProps) => {
+  const [editUser, { isLoading }] = useEditUserMutation();
   const [isOpen, setIsOpen] = useState<boolean>(false);
   const form = useForm({
     resolver: zodResolver(userSchema),
     defaultValues: {
-      name: "",
-      password: "",
-      fullname: "",
-      email: "",
-      joinDate: "",
-      major: "",
-      numberPhone: "",
-      techStack: "",
-      role: "SANTRI",
+      name: name,
+      password: '',
+      fullname: fullname,
+      email: email,
+      joinDate: joinDate,
+      major: major,
+      numberPhone: numberPhone,
+      techStack: techStack,
+      role: role,
     },
   });
 
   const handleSubmitUser = async (data: CreateUserType) => {
     try {
-      await postUser(data).unwrap();
+      await editUser({body:data,userId:userId}).unwrap();
       toast.success("User berhasil ditambahkan");
       setIsOpen(false);
     } catch (error) {
@@ -65,13 +79,13 @@ const ModalAddUser = () => {
   return (
     <Dialog open={isOpen} onOpenChange={setIsOpen}>
       <DialogTrigger asChild>
-        <Button onClick={() => setIsOpen(true)} className="bg-green-400">
-          Tambah User
-        </Button>
+        <TableCell onClick={() => setIsOpen(true)} className="cursor-pointer text-center">
+          <MdEdit className="hover:text-green-500 duration-150 mx-auto"/>
+        </TableCell>
       </DialogTrigger>
       <DialogContent className="dark:bg-[#303030] max-w-[900px]">
         <DialogHeader>
-          <DialogTitle>Tambahkan User</DialogTitle>
+          <DialogTitle>Edit User</DialogTitle>
           <DialogDescription></DialogDescription>
         </DialogHeader>
         <Form {...form}>
@@ -269,4 +283,4 @@ const ModalAddUser = () => {
   );
 };
 
-export default ModalAddUser;
+export default ModalEditUser;

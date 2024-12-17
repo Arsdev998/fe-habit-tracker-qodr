@@ -168,7 +168,7 @@ function NotifList() {
         </div>
       )}
       {notifications.length > 0 && (
-        <div className="space-y-3">
+        <div className="space-y-3 mb-3">
           {notifications.map((item, index: number) => {
             const isRead = item.readByUsers?.some(
               (read) => read.userId === userId
@@ -218,7 +218,7 @@ function NotifList() {
           <PaginationItem>
             <PaginationPrevious
               onClick={handlePreviousPage}
-              // disabled={page === 1}
+              className={`${page === 1 ? "cursor-not-allowed " : ""}`}
             />
           </PaginationItem>
           {Array.from({ length: totalPages }, (_, i) => (
@@ -234,7 +234,7 @@ function NotifList() {
           <PaginationItem>
             <PaginationNext
               onClick={handleNextPage}
-              // disabled={page === totalPages}
+              className={`${page === totalPages ? "cursor-not-allowed " : ""}`}
             />
           </PaginationItem>
         </PaginationContent>

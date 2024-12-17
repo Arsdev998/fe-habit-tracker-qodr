@@ -5,7 +5,7 @@ import {
   useGetAllUserQuery,
 } from "@/app/lib/redux/api/userApi";
 import { Skeleton } from "@/components/ui/skeleton";
-import { FaUser } from "react-icons/fa6";
+import { FaEye } from "react-icons/fa6";
 import {
   Table,
   TableBody,
@@ -18,6 +18,8 @@ import ModalConfirmDelete from "@/app/components/organism/modal/ModalConfirmDele
 import { MdDelete } from "react-icons/md";
 import Link from "next/link";
 import { UserDataType } from "@/app/lib/types";
+import ModalEditUser from "./ModalEditUser";
+import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 
 const UserList = () => {
   const { data: userData, isLoading } = useGetAllUserQuery();
@@ -33,7 +35,8 @@ const UserList = () => {
 
   return (
     <div className="min-w-[300px] md:min-w-[800px] max-w-[1200px]">
-      <Table>
+      <ScrollArea className="max-w-[350px] md:max-w-[1450px]">
+      <Table className="">
         <TableHeader>
           <TableRow>
             <TableHead>Username</TableHead>
@@ -41,7 +44,7 @@ const UserList = () => {
             <TableHead>Email</TableHead>
             <TableHead>Role</TableHead>
             <TableHead>Tanggal Masuk</TableHead>
-            <TableHead colSpan={2}>Action</TableHead>
+            <TableHead colSpan={3} className="text-center">Action</TableHead>
           </TableRow>
         </TableHeader>
         <TableBody>
@@ -54,11 +57,11 @@ const UserList = () => {
           ) : userData?.length > 0 ? (
             userData?.map((user: UserDataType) => (
               <TableRow key={user.id}>
-                <TableCell>{user.name}</TableCell>
-                <TableCell>{user.fullname}</TableCell>
-                <TableCell>{user.email}</TableCell>
-                <TableCell>{user.role}</TableCell>
-                <TableCell>{user.joinDate}</TableCell>
+                <TableCell className="p-2">{user.name}</TableCell>
+                <TableCell className="p-2">{user.fullname}</TableCell>
+                <TableCell className="p-2">{user.email}</TableCell>
+                <TableCell className="p-2">{user.role}</TableCell>
+                <TableCell className="p-2">{user.joinDate}</TableCell>
                 <ModalConfirmDelete
                   icon={
                     <MdDelete className="text-red-500 cursor-pointer mx-auto" />
@@ -69,18 +72,31 @@ const UserList = () => {
                   onConfirmDelete={() => deletedUser(user.id)}
                   resetState={deletedUserReset}
                 />
-                <TableCell>
+                <TableCell className="text-center">
                   <Link href={`/admindashboard/user/${user.id}`}>
-                    <FaUser />
+                    <FaEye className="mx-auto hover:text-green-500 duration-150"/>
                   </Link>
                 </TableCell>
+                
+                <ModalEditUser
+                 userId={user.id} 
+                 email={user.email} 
+                 fullname={user.fullname} 
+                 joinDate={user.joinDate}
+                 major={user.email}
+                 name={user.name}
+                 numberPhone={user.numberPhone}
+                 role={user.role}
+                 techStack={user.techStack}/>
               </TableRow>
             ))
           ) : (
             <TableRow>Belum ada User</TableRow>
           )}
         </TableBody>
-      </Table>
+       </Table>
+        <ScrollBar orientation="horizontal" />
+      </ScrollArea>
     </div>
   );
 };

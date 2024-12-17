@@ -12,7 +12,7 @@ const EvaluationPage = () => {
           Tuliskan kritik dan saran antum untuk kebaikan bersama{" "}
         </p>
       </div>
-      <div className="flex flex-col md:flex-row justify-around">
+      <div className="flex flex-col md:flex-row md:justify-center md:gap-x-10">
         <div className="text-xl font-bold">
           <h2>Evaluasi Internal</h2>
           <EvaluationForm

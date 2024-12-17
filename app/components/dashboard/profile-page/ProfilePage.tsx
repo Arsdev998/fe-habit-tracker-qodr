@@ -1,4 +1,4 @@
-"use cleint";
+"use client";
 import { useGetProfileQuery } from "@/app/lib/redux/api/userApi";
 import { useAppSelector } from "@/app/lib/redux/hook";
 import React from "react";
@@ -11,18 +11,15 @@ function ProfilePage() {
   const userId = user?.sub || user?.id;
   const { data, isLoading, isSuccess } = useGetProfileQuery(userId);
 
-  if (isLoading) return <Skeleton className="w-full h-full bg-black/20" />;
+  if (isLoading) return <Skeleton className="w-full h-screen bg-gray-200" />;
 
   if (isSuccess)
     return (
-      <div className="">
-        <div className="flex flex-col items-center justify-center w-full rounded-lg shadow-lg p-6">
-          <h1 className="text-2xl font-semibold text-center mb-4">Profile</h1>
-          <div className="flex justify-between">
-            <h2 className="text-xl font-semibold text-center mb-3">
-              {data?.fullname}
-            </h2>
-            <div className="">
+      <div className="container mx-auto px-4 py-8">
+        <div className=" rounded-lg shadow-lg p-6 max-w-2xl mx-auto">
+          <div className="flex justify-between items-center mb-6">
+            <h1 className="text-2xl font-bold ">Profil {data.role}</h1>
+            <div className="flex space-x-2">
               <ModalEditProfile
                 email={data.email}
                 fullname={data.fullname}
@@ -35,47 +32,46 @@ function ProfilePage() {
               <ModalUpdatePassword userId={data.id} />
             </div>
           </div>
-          <div className="w-full md:w-[900px]">
-            <div className="grid grid-cols-2 gap-4 w-[400px] mx-auto">
-              <div className="text-lg">
-                <p className="font-bold">Username</p>
-                <p>{data?.name}</p>
-              </div>
-              <div className="text-lg">
-                <p className="font-bold">Fullname</p>
-                <p>{data?.fullname}</p>
-              </div>
-              <div className="text-lg">
-                <p className="font-bold">Email</p>
-                <p>{data?.fullname}</p>
-              </div>
-              <div className="text-lg">
-                <p className="font-bold">Np Hp</p>
-                <p>{data?.numberPhone}</p>
-              </div>
-              <div className="text-lg">
-                <p className="font-bold">Status</p>
-                <p>{data?.role}</p>
-              </div>
-              <div className="text-lg">
-                <p className="font-bold">Tanggal Masuk</p>
-                <p>{data?.joinDate}</p>
-              </div>
+
+          <div className="grid md:grid-cols-2 gap-6">
+            <div className="space-y-4">
+              <ProfileDetail label="Username" value={data?.name} />
+              <ProfileDetail label="Nama Lengkap" value={data?.fullname} />
+              <ProfileDetail label="Email" value={data?.email} />
             </div>
-            <div className="mt-2 p-2 rounded-md shadow-inner w-[450px] mx-auto">
-              <h2 className="text-lg font-semibold">AmBativasi</h2>
-              <p className="text-sm text-center">
-                <q>{data?.motivation || "Motivasi belum ditambahkan."}</q>
-              </p>
+            <div className="space-y-4">
+              <ProfileDetail label="No. Hp" value={data?.numberPhone} />
+              <ProfileDetail label="Status" value={data?.role} />
+              <ProfileDetail label="Tanggal Masuk" value={data?.joinDate} />
             </div>
-            <div className="mt-6 p-4 rounded-md shadow-inner w-[450px] mx-auto">
-              <h2 className="text-lg font-semibold">Tech Stack</h2>
-              {data?.techStack}
+          </div>
+
+          <div className="mt-6 p-4 rounded-lg shadow-inner">
+            <h2 className="text-lg font-semibold mb-2 text-center">Motivasi</h2>
+            <blockquote className="text-sm text-center italic">
+              {data?.motivation || "Motivasi belum ditambahkan."}
+            </blockquote>
+          </div>
+
+          <div className="mt-6 p-4 rounded-lg shadow-inner">
+            <h2 className="text-lg font-semibold mb-2 text-center">Tech Stack</h2>
+            <div className="text-center text-sm">
+              {data?.techStack || "Belum ada tech stack yang ditambahkan."}
             </div>
           </div>
         </div>
       </div>
     );
+}
+
+// Komponen pembantu untuk detail profil
+function ProfileDetail({ label, value }: { label: string; value?: string }) {
+  return (
+    <div className="p-3 rounded-md">
+      <p className="text-sm font-semibold mb-1">{label}</p>
+      <p className="">{value || "-"}</p>
+    </div>
+  );
 }
 
 export default ProfilePage;

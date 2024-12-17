@@ -24,7 +24,7 @@ export const userSchema = z.object({
     .string()
     .max(100, { message: "Tech Stack is too long" })
     .optional(),
-  role: z.enum(["SANTRI", "ADMIN", "SUPERADMIN"]).default("SANTRI"),
+  role: z.enum(["SANTRI", "PENGURUS", "KESANTRIAN"]).default("SANTRI"),
 });
 
 export type UserSchema = z.infer<typeof userSchema>;
