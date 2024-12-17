@@ -17,7 +17,7 @@ const EvaluationPage = () => {
           <h2>Evaluasi Internal</h2>
           <EvaluationForm
             desc="Gunakan Form Ini untuk memberikan kritik dan saran kepada kami
-              agar bisa membuat PPTI QODR lebih baik untuk kedepannya"
+              agar bisa membuat PPTI QODR lebih baik untuk kedepannya, Ini Bersifat Anonymous."
             type="internal"
             classButton="bg-[#D62202] hover:bg-red-600 dark:text-white"
           />
@@ -25,7 +25,7 @@ const EvaluationPage = () => {
         <div className="text-xl font-bold border-t-2 md:border-none mt-2 md:mt-0">
           <h3>Evaluasi Umum</h3>
           <EvaluationForm
-            desc="Gunakan Form Ini untuk menyampaikan sesuatu kepada penghuni pondok secara umum. Setiap santri hanya bisa melakukan pengumuman maximal 3x dalam sehari!"
+            desc="Gunakan Form Ini untuk menyampaikan sesuatu kepada penghuni pondok secara umum. Setiap santri hanya bisa melakukan pengumuman maximal 1x dalam sehari!"
             type="general"
             classButton="bg-[#D62202] hover:bg-red-600 dark:text-white"
             userId={user?.id}

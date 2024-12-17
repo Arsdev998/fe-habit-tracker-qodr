@@ -128,12 +128,14 @@ export default function SidebarApp() {
   }
 
   return (
-    <Sidebar collapsible="icon" className="p-2 bg-transparent">
+    <Sidebar collapsible="icon" className="p-2  bg-transparent">
       <SidebarHeader className="p-2 py-3.5 mb-2 rounded-md dark:bg-[#0F0E0E]">
+      <Link href={'/'}>
         <div className="flex items-center space-x-2 w-full">
           <Image alt="Qodr Logo" src={logoSrc} width={70} height={100} />
           {open ? <h1 className="text-xl font-extrabold">PPTI QODR</h1> : null}
         </div>
+      </Link>
       </SidebarHeader>
       <SidebarContent className="mt-1 rounded-md dark:bg-[#0F0E0E]">
         <SidebarGroup>
@@ -144,11 +146,11 @@ export default function SidebarApp() {
                   <Link
                     href={item.href}
                     className={cn(
-                      "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-300",
-                      item.active
-                        ? "bg-[#00B041] text-primary-foreground"
+                      "flex items-center gap-3 rounded-lg px-2 py-2 text-sm transition-all duration-300",
+                      item.active 
+                        ? "bg-[#00B041] text-primary-foreground rounded-full py-2"
                         : "hover:bg-accent",
-                      open ? "" : "justify-center px-2"
+                      open ? "" : "justify-center px-1"
                     )}
                   >
                     <div
@@ -185,7 +187,7 @@ export default function SidebarApp() {
                       className={cn(
                         "flex items-center gap-3 rounded-lg px-3 py-2 text-sm transition-all duration-300",
                         item.active
-                          ? "bg-primary text-primary-foreground"
+                          ? "bg-[#00B041] text-primary-foreground rounded-full"
                           : "hover:bg-accent",
                         open ? "" : "justify-center px-2"
                       )}
